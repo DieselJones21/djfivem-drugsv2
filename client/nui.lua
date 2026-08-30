@@ -47,7 +47,7 @@ function NUI.CloseSell()
 end
 
 RegisterNUICallback('close', function(_, cb)
-    NUI.CloseAll()
+    NUI.SetFocus(false)
     cb('ok')
 end)
 
@@ -65,6 +65,14 @@ RegisterNUICallback('boostAction', function(data, cb)
         TriggerServerEvent('djdrugsv2:server:stopBoost', data.kind)
     end
     cb('ok')
+
+    -- Refresh boost state in the panel after server processes the action
+    SetTimeout(500, function()
+        local state = lib.callback.await('djdrugsv2:server:getBoostState', false)
+        if state then
+            NUI.UpdateBoost(state)
+        end
+    end)
 end)
 
 RegisterNetEvent('djdrugsv2:client:boostUpdated', function(state)

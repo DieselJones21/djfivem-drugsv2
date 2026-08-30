@@ -490,6 +490,18 @@ body {
     gap: 8px;
 }
 
+@media (max-width: 720px) {
+    .panel {
+        width: 95vw;
+    }
+    .boost-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .boost-card.boost-both {
+        grid-column: span 2;
+    }
+}
+
 .boost-card {
     display: flex;
     flex-direction: column;

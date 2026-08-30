@@ -1,3 +1,7 @@
+if (typeof GetParentResourceName !== 'function') {
+    window.GetParentResourceName = () => 'djfivem-drugsv2';
+}
+
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
@@ -24,7 +28,16 @@ function post(action, data = {}) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
-    });
+    }).catch(() => {});
+}
+
+function escapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 function showPanel(id) {
@@ -41,10 +54,12 @@ function hideAllPanels() {
     currentPanel = null;
 }
 
-function closeUI() {
+function closeUI(notifyLua = true) {
     hideAllPanels();
     $('#sell-mini').classList.add('hidden');
-    post('close');
+    if (notifyLua) {
+        post('close');
+    }
 }
 
 /* ── Leaderboard ── */
@@ -62,7 +77,7 @@ function renderLeaderboard(data) {
         $('#lb-progress-label').textContent = 'Max rank — 305 Kingpin';
         $('#lb-progress-fill').style.width = '100%';
     } else if (me.nextSold != null && me.sold != null) {
-        const prev = me.nextSold - (me.remaining || 0);
+        const prev = me.currentSold != null ? me.currentSold : 0;
         const span = me.nextSold - prev;
         const pct = span > 0 ? Math.min(100, ((me.sold - prev) / span) * 100) : 0;
         $('#lb-progress-label').textContent = `${(me.remaining || 0).toLocaleString()} more units to ${me.nextLabel || 'next rank'}`;
@@ -81,14 +96,14 @@ function renderLeaderboard(data) {
         const div = document.createElement('div');
         div.className = 'lb-row' + (i === 0 ? ' lb-gold' : '');
         div.innerHTML = `
-            <div class="lb-place">${row.place}</div>
+            <div class="lb-place">${escapeHtml(row.place)}</div>
             <div class="lb-info">
-                <div class="lb-name">${row.name}</div>
-                <div class="lb-rank-label">${row.label}</div>
+                <div class="lb-name">${escapeHtml(row.name)}</div>
+                <div class="lb-rank-label">${escapeHtml(row.label)}</div>
             </div>
             <div class="lb-stats">
-                <div class="lb-sold">${(row.sold || 0).toLocaleString()} sold</div>
-                <div class="lb-earned">${formatMoney(row.earned)}</div>
+                <div class="lb-sold">${escapeHtml((row.sold || 0).toLocaleString())} sold</div>
+                <div class="lb-earned">${escapeHtml(formatMoney(row.earned))}</div>
             </div>
         `;
         list.appendChild(div);
@@ -183,13 +198,24 @@ window.addEventListener('message', (event) => {
             $('#sell-mini').classList.add('hidden');
             break;
         case 'closeAll':
-            closeUI();
+            closeUI(false);
             break;
     }
 });
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeUI();
+    if (e.key !== 'Escape') return;
+
+    if (currentPanel) {
+        closeUI(true);
+        return;
+    }
+
+    const sellMini = $('#sell-mini');
+    if (sellMini && !sellMini.classList.contains('hidden')) {
+        post('sellAction', { action: 'decline' });
+        sellMini.classList.add('hidden');
+    }
 });
 
 $$('[data-close]').forEach((btn) => {
