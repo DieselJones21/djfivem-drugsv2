@@ -1,0 +1,601 @@
+:root {
+    --bg: #0a0a0f;
+    --panel: rgba(18, 18, 28, 0.92);
+    --panel-border: rgba(255, 0, 127, 0.25);
+    --pink: #ff007f;
+    --pink-glow: rgba(255, 0, 127, 0.45);
+    --pink-soft: rgba(255, 0, 127, 0.15);
+    --text: #f0f0f5;
+    --text-dim: rgba(240, 240, 245, 0.55);
+    --card: rgba(255, 255, 255, 0.04);
+    --radius: 14px;
+    --radius-sm: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: transparent;
+    color: var(--text);
+    overflow: hidden;
+    user-select: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    pointer-events: none;
+}
+
+#app .panel,
+#app .sell-mini,
+#app .boost-hud {
+    pointer-events: auto;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* ── Boost HUD ── */
+.boost-hud {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+}
+
+.boost-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 999px;
+    box-shadow: 0 0 20px var(--pink-soft), inset 0 0 20px rgba(255, 0, 127, 0.05);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.boost-pill .boost-time {
+    color: var(--pink);
+    font-weight: 600;
+}
+
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px var(--pink-soft); }
+    50% { box-shadow: 0 0 25px var(--pink-glow); }
+}
+
+/* ── Mini Sell UI ── */
+.sell-mini {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width: 320px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--pink-soft);
+    overflow: hidden;
+    z-index: 200;
+    animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.sell-mini-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.2), transparent);
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff007f, #ff66b2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+}
+
+.sell-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--pink);
+    padding: 3px 8px;
+    border: 1px solid var(--pink);
+    border-radius: 999px;
+}
+
+.sell-mini-body {
+    padding: 16px;
+    text-align: center;
+}
+
+.sell-drug-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.sell-qty {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.sell-total {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    text-shadow: 0 0 20px var(--pink-glow);
+}
+
+.sell-range {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+}
+
+.sell-mini-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 0 12px 12px;
+}
+
+.btn {
+    padding: 10px 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-accept {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #ff007f, #cc0066);
+    color: white;
+    box-shadow: 0 4px 20px var(--pink-glow);
+}
+
+.btn-accept:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 25px var(--pink-glow);
+}
+
+.btn-haggle-soft, .btn-haggle-hard {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--panel-border);
+}
+
+.btn-haggle-soft:hover, .btn-haggle-hard:hover {
+    border-color: var(--pink);
+    background: var(--pink-soft);
+}
+
+.btn-decline {
+    grid-column: 1 / -1;
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-decline:hover {
+    color: #ff4444;
+    border-color: rgba(255, 68, 68, 0.4);
+}
+
+/* ── Full Panels ── */
+.panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 680px;
+    max-height: 85vh;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px var(--pink-soft);
+    overflow: hidden;
+    z-index: 300;
+    animation: panel-in 0.25s ease-out;
+}
+
+@keyframes panel-in {
+    from { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.panel-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 20%, rgba(255, 0, 127, 0.08), transparent 50%);
+    pointer-events: none;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--panel-border);
+    position: relative;
+}
+
+.header-left { flex: 1; }
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff007f, #ff66b2, #ff007f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-shadow: 0 0 30px var(--pink-glow);
+}
+
+.subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    text-align: right;
+    margin-right: 16px;
+}
+
+.player-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.player-rank {
+    font-size: 11px;
+    color: var(--pink);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.close-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text-dim);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.close-btn:hover {
+    color: var(--pink);
+    border-color: var(--pink);
+}
+
+/* Stats Row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 16px 24px;
+}
+
+#boost-panel .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-card {
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    opacity: 0.5;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.stat-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--pink);
+    padding: 2px 8px;
+    border: 1px solid var(--panel-border);
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+}
+
+/* Panel Body */
+.panel-body {
+    padding: 0 24px 16px;
+    max-height: 45vh;
+    overflow-y: auto;
+}
+
+.panel-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+    background: var(--pink);
+    border-radius: 4px;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 1.5px;
+    margin: 12px 0 10px;
+}
+
+/* Leaderboard */
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.lb-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.15s;
+}
+
+.lb-row:hover {
+    border-color: var(--panel-border);
+}
+
+.lb-row.lb-gold {
+    border-color: rgba(255, 215, 0, 0.3);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.lb-place {
+    width: 32px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--pink);
+}
+
+.lb-row.lb-gold .lb-place {
+    color: #ffd700;
+}
+
+.lb-info {
+    flex: 1;
+}
+
+.lb-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.lb-rank-label {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+.lb-stats {
+    text-align: right;
+    font-size: 12px;
+}
+
+.lb-sold {
+    font-weight: 700;
+}
+
+.lb-earned {
+    color: var(--text-dim);
+    font-size: 11px;
+}
+
+.progress-section {
+    margin-top: 16px;
+    padding: 14px;
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.progress-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff007f, #ff66b2);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px var(--pink-glow);
+}
+
+/* Boost Panel */
+.boost-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.boost-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 8px;
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    color: var(--text);
+}
+
+.boost-card:hover {
+    border-color: var(--pink);
+    background: var(--pink-soft);
+    box-shadow: 0 0 15px var(--pink-soft);
+}
+
+.boost-card.boost-both {
+    grid-column: span 2;
+}
+
+.boost-mult {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pink);
+}
+
+.boost-kind {
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.duration-row {
+    display: flex;
+    gap: 8px;
+}
+
+.duration-btn {
+    flex: 1;
+    padding: 10px;
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.duration-btn.active,
+.duration-btn:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+    background: var(--pink-soft);
+}
+
+.stop-row {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-stop {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    border-radius: var(--radius-sm);
+    color: #ff6666;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-stop:hover {
+    background: rgba(255, 68, 68, 0.1);
+    border-color: #ff4444;
+}
+
+.btn-stop-all {
+    border-color: rgba(255, 68, 68, 0.5);
+    font-weight: 700;
+}
+
+.panel-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 24px;
+    border-top: 1px solid var(--panel-border);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-dim);
+    font-size: 13px;
+}
