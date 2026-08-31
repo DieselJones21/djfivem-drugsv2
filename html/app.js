@@ -5,7 +5,7 @@ if (typeof GetParentResourceName !== 'function') {
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
-let selectedDuration = 1800;
+let selectedDuration = 3600;
 let currentPanel = null;
 let sellBusy = false;
 let boostTick = null;
@@ -93,7 +93,7 @@ function renderLeaderboard(data) {
     $('#lb-earned').textContent = formatMoney(me.earned);
 
     if (me.maxed) {
-        $('#lb-progress-label').textContent = 'Max rank — 305 Kingpin';
+        $('#lb-progress-label').textContent = 'Max rank — Envy Kingpin';
         $('#lb-progress-fill').style.width = '100%';
     } else if (me.nextSold != null && me.sold != null) {
         const prev = me.currentSold != null ? me.currentSold : 0;
@@ -107,13 +107,15 @@ function renderLeaderboard(data) {
     list.innerHTML = '';
 
     if (!data.top || data.top.length === 0) {
-        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first trapper on the board.</div>';
+        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first Envy trapper on the board.</div>';
         return;
     }
 
     data.top.forEach((row, i) => {
         const div = document.createElement('div');
-        div.className = 'lb-row' + (i === 0 ? ' lb-gold' : '');
+        const podium = i === 0 ? ' lb-gold' : i === 1 ? ' lb-silver' : i === 2 ? ' lb-bronze' : '';
+        const mine = row.name === name ? ' lb-me' : '';
+        div.className = 'lb-row' + podium + mine;
         div.innerHTML = `
             <div class="lb-place">${escapeHtml(row.place)}</div>
             <div class="lb-info">
@@ -134,16 +136,21 @@ function paintBoost() {
     const sell = boostState && boostState.sell;
     const harvest = boostState && boostState.harvest;
 
+    const sellStatus = $('#boost-sell-status');
+    const harvestStatus = $('#boost-harvest-status');
+
     if (sell) {
         $('#boost-sell-mult').textContent = `${sell.multiplier}x`;
         $('#boost-sell-remaining').textContent = formatTime(sell.remaining);
         $('#boost-sell-pill').classList.remove('hidden');
         $('#boost-sell-text').textContent = `SELL ${sell.multiplier}x`;
         $('#boost-sell-time').textContent = formatTime(sell.remaining);
+        if (sellStatus) sellStatus.classList.add('is-live');
     } else {
         $('#boost-sell-mult').textContent = 'OFF';
         $('#boost-sell-remaining').textContent = 'Inactive';
         $('#boost-sell-pill').classList.add('hidden');
+        if (sellStatus) sellStatus.classList.remove('is-live');
     }
 
     if (harvest) {
@@ -152,10 +159,12 @@ function paintBoost() {
         $('#boost-harvest-pill').classList.remove('hidden');
         $('#boost-harvest-text').textContent = `HARVEST ${harvest.multiplier}x`;
         $('#boost-harvest-time').textContent = formatTime(harvest.remaining);
+        if (harvestStatus) harvestStatus.classList.add('is-live');
     } else {
         $('#boost-harvest-mult').textContent = 'OFF';
         $('#boost-harvest-remaining').textContent = 'Inactive';
         $('#boost-harvest-pill').classList.add('hidden');
+        if (harvestStatus) harvestStatus.classList.remove('is-live');
     }
 
     const hud = $('#boost-hud');
@@ -206,11 +215,13 @@ function renderBoostState(state) {
 function renderSellMini(offer) {
     if (!offer) {
         $('#sell-mini').classList.add('hidden');
+        $('#sell-mini').classList.remove('is-boosted');
         setSellBusy(false);
         return;
     }
 
     setSellBusy(false);
+    $('#sell-mini').classList.toggle('is-boosted', (offer.boostMultiplier || 1) > 1);
     $('#sell-drug-name').textContent = offer.label || 'Product';
     $('#sell-qty').textContent = `${offer.quantity}x @ ${formatMoney(offer.priceEach)} each`;
     $('#sell-total').textContent = formatMoney(offer.total);
@@ -236,6 +247,7 @@ function renderSellMini(offer) {
 
 function hideSellMini() {
     $('#sell-mini').classList.add('hidden');
+    $('#sell-mini').classList.remove('is-boosted');
     setSellBusy(false);
 }
 

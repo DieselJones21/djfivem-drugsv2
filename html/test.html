@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>THE 305 Drugs — UI Test Harness</title>
+    <title>Envy Roleplay — UI Test Harness</title>
     <style>
-        body { margin: 0; background: #1a1a2e; font-family: sans-serif; }
+        body { margin: 0; background: #05080a; font-family: sans-serif; }
         #harness {
             position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
-            background: #111; color: #fff; padding: 10px 16px;
+            background: #0a1012; color: #fff; padding: 10px 16px;
             display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-            border-bottom: 2px solid #ff007f;
+            border-bottom: 2px solid #00f5ff;
         }
         #harness button {
-            padding: 6px 14px; border: 1px solid #ff007f; background: transparent;
-            color: #ff007f; border-radius: 6px; cursor: pointer; font-size: 12px;
+            padding: 6px 14px; border: 1px solid #00f5ff; background: transparent;
+            color: #00f5ff; border-radius: 6px; cursor: pointer; font-size: 12px;
         }
-        #harness button:hover { background: rgba(255,0,127,0.15); }
-        #harness .active { background: #ff007f; color: #fff; }
+        #harness button:hover { background: rgba(0,245,255,0.15); }
+        #harness .active { background: #00f5ff; color: #041014; }
         #log {
             position: fixed; bottom: 0; left: 0; right: 0; max-height: 120px;
             overflow-y: auto; background: rgba(0,0,0,0.85); color: #0f0;
@@ -29,7 +29,7 @@
 </head>
 <body>
     <div id="harness">
-        <strong>UI Test Harness</strong>
+        <strong>Envy Roleplay — UI Test Harness</strong>
         <button onclick="testLeaderboard()">Leaderboard</button>
         <button onclick="testLeaderboardEmpty()">Leaderboard (empty)</button>
         <button onclick="testBoostPanel()">Boost Panel</button>
@@ -58,7 +58,7 @@
         const mockBoard = {
             mine: { name: 'Alex Reyes', label: 'Vice Hustler', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'Ocean Plug', nextSold: 800, maxed: false },
             top: [
-                { place: 1, name: 'Carlos M.', label: '305 Kingpin', sold: 5200, earned: 2400000 },
+                { place: 1, name: 'Carlos M.', label: 'Envy Kingpin', sold: 5200, earned: 2400000 },
                 { place: 2, name: 'Maria S.', label: 'Neon Trap Star', sold: 3100, earned: 980000 },
                 { place: 3, name: 'Alex Reyes', label: 'Vice Hustler', sold: 412, earned: 185000 },
             ],

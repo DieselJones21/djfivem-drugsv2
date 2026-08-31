@@ -1,4 +1,4 @@
-# THE 305 — Drug Locations Reference
+# Envy Roleplay — Drug Locations Reference
 
 All props use ground snapping (`PlaceObjectOnGroundProperly` + `GetGroundZFor_3dCoord`).
 Harvest fields use **multiple props** — walk around the area to collect each ingredient.
@@ -75,7 +75,7 @@ Harvest fields use **multiple props** — walk around the area to collect each i
 | Command | Description |
 |---|---|
 | `/trap` | Start/stop street selling (mini NUI deal panel) |
-| `/drugboard` | Open Miami-themed leaderboard |
+| `/drugboard` | Open Envy-themed sell leaderboard |
 | `/drugboost` | Admin boost event panel (requires `djdrugsv2.boost` ACE) |
 
 ## Server Config

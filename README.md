@@ -1,8 +1,8 @@
 # djfivem-drugsv2
 
-Miami-themed drug economy for FiveM (QBX + ox_inventory). Harvest ingredients from scattered props across the map, process at benches, and sell via `/trap` street dealing.
+Drug economy for FiveM (QBX + ox_inventory) themed for **Envy Roleplay**. Harvest ingredients from scattered props across the map, process at benches, and sell via `/trap` street dealing.
 
-**THE 305** aesthetic — dark UI with neon pink accents matching your shop theme.
+**Envy Roleplay** aesthetic — dark glass UI with electric cyan and chrome accents matching the server wordmark.
 
 ## Features
 
@@ -10,7 +10,7 @@ Miami-themed drug economy for FiveM (QBX + ox_inventory). Harvest ingredients fr
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and mini sell deal panel
 - **Multi-prop harvest fields** — walk around areas to collect ingredients (not single spots)
 - **Ground-snapped props** — all harvest props and processing benches level on the ground
-- **32 ox_inventory items** with custom neon Miami icons
+- **32 ox_inventory items** with custom cyan/chrome icons
 - **Sell ranks & leaderboard** with KVP persistence
 - **Admin boost events** (2x/3x/4x sell + harvest)
 - **Anti-exploit** server validation (proximity, cooldowns, token-based sales)
@@ -51,7 +51,7 @@ ensure djfivem-drugsv2
 | Command | Description |
 |---------|-------------|
 | `/trap` | Start/stop street selling (opens mini deal NUI) |
-| `/drugboard` | Open Miami-themed sell leaderboard |
+| `/drugboard` | Open Envy-themed sell leaderboard |
 | `/drugboost` | Admin boost event panel |
 
 ## Crafting
@@ -62,12 +62,12 @@ Flow: Harvest scattered props → Process at bench → `/trap` to sell
 
 ## UI
 
-The custom NUI matches a Miami Vice / neon pink shop aesthetic:
-- Dark glassmorphism panels with pink glow accents
-- Official **The 305** chrome/pink wordmark on leaderboard, boost, sell, and HUD
-- Scenic 305 badge in panel footers
+The custom NUI matches the Envy Roleplay cyan/chrome wordmark:
+- Dark glassmorphism panels with electric cyan glow and chrome highlights
+- Official **Envy Roleplay** logo on leaderboard, boost, sell, and HUD
+- Podium styling (gold / silver / bronze) and a highlighted “you” row
 - Leaderboard with rank progress bar and player avatar
-- Boost admin panel with multiplier cards and a live HUD countdown
+- Boost admin panel with multiplier cards, live status, and a HUD countdown
 - Compact street deal panel (mouse focus for Accept / Haggle / Walk Away)
 
 ## Tests

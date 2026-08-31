@@ -4,7 +4,7 @@ lua54 'yes'
 
 name 'djfivem-drugsv2'
 author 'DieselJones21'
-description 'Miami-themed harvest → process → /trap sell drug economy v2 (QBX + ox_inventory + custom NUI)'
+description 'Envy Roleplay harvest → process → /trap sell drug economy v2 (QBX + ox_inventory + custom NUI)'
 version '2.0.0'
 
 shared_scripts {

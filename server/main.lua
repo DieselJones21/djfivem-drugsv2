@@ -8,7 +8,7 @@ Server = {
 
 function Server.Notify(src, description, nType)
     TriggerClientEvent('ox_lib:notify', src, {
-        title = Config.Brand or 'THE 305',
+        title = Config.Brand or 'Envy Roleplay',
         description = description,
         type = nType or 'inform',
     })

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Miami-themed neon inventory icons for ox_inventory (128x128)."""
+"""Generate Envy Roleplay cyan/chrome inventory icons for ox_inventory (128x128)."""
 
 import os
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -7,15 +7,16 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 OUT_DIR = os.path.join(os.path.dirname(__file__), 'images')
 SIZE = 128
 
-BG = (10, 10, 16)
-PINK = (255, 0, 127)
-PINK_LIGHT = (255, 102, 178)
-GOLD = (255, 210, 70)
+BG = (6, 12, 14)
+PINK = (0, 245, 255)
+PINK_LIGHT = (127, 246, 255)
+GOLD = (255, 213, 106)
 GREEN = (40, 210, 130)
 PURPLE = (170, 80, 220)
 CYAN = (0, 210, 230)
 WHITE = (245, 245, 250)
 ORANGE = (255, 140, 60)
+CHROME = (212, 221, 228)
 
 ITEMS = {
     'neon_crystals': (PINK, 'CRY', 'crystal'),
@@ -34,7 +35,7 @@ ITEMS = {
     'drive_crystals': (PINK, 'DRV', 'crystal'),
     'neon_powder': (PINK, 'PWD', 'sack'),
     'press_capsules': (WHITE, 'CAP', 'pill'),
-    'vice_stamps': (GOLD, 'STMP', 'stamp'),
+    'vice_stamps': (CHROME, 'STMP', 'stamp'),
     'rush_powder': (PINK, 'RUSH', 'sack'),
     'neon_candy': (PINK_LIGHT, 'CNDY', 'pill'),
     'tropical_concentrate': (CYAN, 'CON', 'bottle'),
