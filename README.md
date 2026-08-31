@@ -64,7 +64,8 @@ Flow: Harvest scattered props → Process at bench → `/trap` to sell
 
 The custom NUI matches a Miami Vice / neon pink shop aesthetic:
 - Dark glassmorphism panels with pink glow accents
-- "THE 305" branding throughout
+- Official **The 305** chrome/pink wordmark on leaderboard, boost, sell, and HUD
+- Scenic 305 badge in panel footers
 - Leaderboard with rank progress bar and player avatar
 - Boost admin panel with multiplier cards and a live HUD countdown
 - Compact street deal panel (mouse focus for Accept / Haggle / Walk Away)

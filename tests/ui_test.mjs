@@ -13,7 +13,12 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const ROOT = join(__dirname, '..');
 const HTML_DIR = join(ROOT, 'html');
 
-const MIME = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css' };
+const MIME = {
+    '.html': 'text/html',
+    '.js': 'application/javascript',
+    '.css': 'text/css',
+    '.png': 'image/png',
+};
 
 function startServer(port = 8765) {
     return new Promise((resolve) => {
@@ -100,6 +105,9 @@ async function main() {
     // Leaderboard
     await send('openLeaderboard', mockBoard);
     assert(await frame.locator('#leaderboard').isVisible(), 'Leaderboard panel visible');
+    assert(await frame.locator('#leaderboard .logo-img').isVisible(), 'Leaderboard uses The 305 logo');
+    const logoOk = await frame.locator('#leaderboard .logo-img').evaluate((img) => img.complete && img.naturalWidth > 0);
+    assert(logoOk, 'Leaderboard logo image loaded');
     assert((await frame.locator('#lb-player-name').textContent()) === 'Alex Reyes', 'Player name rendered');
     assert((await frame.locator('#lb-avatar').textContent()) === 'AR', 'Avatar initials rendered');
     assert((await frame.locator('#lb-rank').textContent()) === '#3', 'Rank place rendered');
@@ -123,6 +131,7 @@ async function main() {
     // Boost panel
     await send('openBoost', mockBoost);
     assert(await frame.locator('#boost-panel').isVisible(), 'Boost panel visible');
+    assert(await frame.locator('#boost-panel .logo-img').isVisible(), 'Boost panel uses The 305 logo');
     assert((await frame.locator('#boost-sell-mult').textContent()) === '3x', 'Sell boost multiplier shown');
 
     // Boost HUD
@@ -137,6 +146,7 @@ async function main() {
     // Sell mini
     await send('openSell', mockOffer);
     assert(await frame.locator('#sell-mini').isVisible(), 'Sell mini visible');
+    assert(await frame.locator('#sell-mini .logo-img-mini').isVisible(), 'Sell mini uses The 305 logo');
     assert((await frame.locator('#sell-total').textContent()) === '$2,160', 'Sell total formatted correctly');
     assert((await frame.locator('#sell-attempts').textContent()).includes('2 haggle'), 'Haggle attempts shown');
     assert(await frame.locator('#sell-haggle-soft').isVisible(), 'Haggle buttons visible');

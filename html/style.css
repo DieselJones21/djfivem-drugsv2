@@ -112,13 +112,42 @@ body {
     border-bottom: 1px solid var(--panel-border);
 }
 
-.logo-text {
-    font-size: 18px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ff007f, #ff66b2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 1px;
+.logo-img {
+    display: block;
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(255, 0, 127, 0.55));
+}
+
+.logo-img-mini {
+    display: block;
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.5));
+}
+
+.logo-img-hud {
+    display: block;
+    height: 16px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 127, 0.6));
+}
+
+.logo-img-scene {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.35);
+}
+
+.footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .sell-badge {
@@ -246,6 +275,19 @@ body {
     animation: panel-in 0.25s ease-out;
 }
 
+.panel::after {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: 36px;
+    width: 160px;
+    height: 160px;
+    background: url('img/logo-305-scene.png') center / cover no-repeat;
+    opacity: 0.12;
+    pointer-events: none;
+    filter: saturate(1.2);
+}
+
 @keyframes panel-in {
     from { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
     to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -264,22 +306,12 @@ body {
 .panel-header {
     display: flex;
     align-items: center;
-    padding: 20px 24px;
+    padding: 14px 24px;
     border-bottom: 1px solid var(--panel-border);
     position: relative;
 }
 
 .header-left { flex: 1; }
-
-.logo {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ff007f, #ff66b2, #ff007f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-    text-shadow: 0 0 30px var(--pink-glow);
-}
 
 .subtitle {
     font-size: 12px;
