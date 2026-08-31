@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE 305 Drugs</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="app">
+        <!-- Boost HUD (always visible when active) -->
+        <div id="boost-hud" class="boost-hud hidden">
+            <div class="boost-pill" id="boost-sell-pill">
+                <img class="logo-img-hud" src="img/logo-305-hud.png" alt="" />
+                <span class="boost-icon">⚡</span>
+                <span id="boost-sell-text">SELL 2x</span>
+                <span id="boost-sell-time" class="boost-time">30m</span>
+            </div>
+            <div class="boost-pill" id="boost-harvest-pill">
+                <span class="boost-icon">🌿</span>
+                <span id="boost-harvest-text">HARVEST 2x</span>
+                <span id="boost-harvest-time" class="boost-time">30m</span>
+            </div>
+        </div>
+
+        <!-- Mini Sell UI -->
+        <div id="sell-mini" class="sell-mini hidden">
+            <div class="sell-mini-header">
+                <img class="logo-img-mini" src="img/logo-305-mini.png" alt="The 305" />
+                <span class="sell-badge">STREET DEAL</span>
+            </div>
+            <div class="sell-mini-body">
+                <div class="sell-drug-name" id="sell-drug-name">305 Heat</div>
+                <div class="sell-qty" id="sell-qty">2x @ $650 each</div>
+                <div class="sell-total" id="sell-total">$1,300</div>
+                <div class="sell-range" id="sell-range">Range $550–$900</div>
+                <div class="sell-attempts" id="sell-attempts"></div>
+            </div>
+            <div class="sell-mini-actions">
+                <button class="btn btn-accept" id="sell-accept">Accept Deal</button>
+                <button class="btn btn-haggle-soft" id="sell-haggle-soft">Ask More</button>
+                <button class="btn btn-haggle-hard" id="sell-haggle-hard">Push Hard</button>
+                <button class="btn btn-decline" id="sell-decline">Walk Away</button>
+            </div>
+        </div>
+
+        <!-- Leaderboard Panel -->
+        <div id="leaderboard" class="panel hidden">
+            <div class="panel-glow"></div>
+            <header class="panel-header">
+                <div class="header-left">
+                    <img class="logo-img" src="img/logo-305-header.png" alt="The 305" />
+                    <div class="subtitle">Drug Leaderboard</div>
+                </div>
+                <div class="header-right">
+                    <div class="player-meta">
+                        <div class="player-name" id="lb-player-name">Player</div>
+                        <div class="player-rank" id="lb-player-rank">Street Runner</div>
+                    </div>
+                    <div class="player-avatar" id="lb-avatar">AR</div>
+                </div>
+                <button class="close-btn" data-close="leaderboard">✕</button>
+            </header>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">Your Rank</div>
+                    <div class="stat-value" id="lb-rank">#—</div>
+                    <div class="stat-tag">Rank</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Units Sold</div>
+                    <div class="stat-value" id="lb-sold">0</div>
+                    <div class="stat-tag">Sold</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Earned</div>
+                    <div class="stat-value" id="lb-earned">$0</div>
+                    <div class="stat-tag">Earned</div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="section-title">TOP TRAPPERS</div>
+                <div class="leaderboard-list" id="lb-list"></div>
+                <div class="progress-section">
+                    <div class="progress-label" id="lb-progress-label">250 more units to Vice Hustler</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="lb-progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="panel-footer">
+                <span class="footer-brand">
+                    <img class="logo-img-scene" src="img/logo-305-scene.png" alt="" />
+                    THE 305 DRUGS
+                </span>
+                <span>ESC to close</span>
+            </footer>
+        </div>
+
+        <!-- Boost Admin Panel -->
+        <div id="boost-panel" class="panel hidden">
+            <div class="panel-glow"></div>
+            <header class="panel-header">
+                <div class="header-left">
+                    <img class="logo-img" src="img/logo-305-header.png" alt="The 305" />
+                    <div class="subtitle">Boost Events</div>
+                </div>
+                <button class="close-btn" data-close="boost-panel">✕</button>
+            </header>
+
+            <div class="stats-row">
+                <div class="stat-card" id="boost-sell-status">
+                    <div class="stat-label">Sell Boost</div>
+                    <div class="stat-value" id="boost-sell-mult">OFF</div>
+                    <div class="stat-tag" id="boost-sell-remaining">Inactive</div>
+                </div>
+                <div class="stat-card" id="boost-harvest-status">
+                    <div class="stat-label">Harvest Boost</div>
+                    <div class="stat-value" id="boost-harvest-mult">OFF</div>
+                    <div class="stat-tag" id="boost-harvest-remaining">Inactive</div>
+                </div>
+            </div>
+
+            <div class="panel-body boost-body">
+                <div class="section-title">START BOOST</div>
+                <div class="boost-grid">
+                    <button class="boost-card" data-action="start" data-kind="sell" data-mult="2">
+                        <span class="boost-mult">2x</span>
+                        <span class="boost-kind">Sell Prices</span>
+                    </button>
+                    <button class="boost-card" data-action="start" data-kind="sell" data-mult="3">
+                        <span class="boost-mult">3x</span>
+                        <span class="boost-kind">Sell Prices</span>
+                    </button>
+                    <button class="boost-card" data-action="start" data-kind="sell" data-mult="4">
+                        <span class="boost-mult">4x</span>
+                        <span class="boost-kind">Sell Prices</span>
+                    </button>
+                    <button class="boost-card" data-action="start" data-kind="harvest" data-mult="2">
+                        <span class="boost-mult">2x</span>
+                        <span class="boost-kind">Harvest Yields</span>
+                    </button>
+                    <button class="boost-card" data-action="start" data-kind="harvest" data-mult="3">
+                        <span class="boost-mult">3x</span>
+                        <span class="boost-kind">Harvest Yields</span>
+                    </button>
+                    <button class="boost-card" data-action="start" data-kind="harvest" data-mult="4">
+                        <span class="boost-mult">4x</span>
+                        <span class="boost-kind">Harvest Yields</span>
+                    </button>
+                    <button class="boost-card boost-both" data-action="start" data-kind="both" data-mult="2">
+                        <span class="boost-mult">2x</span>
+                        <span class="boost-kind">Sell + Harvest</span>
+                    </button>
+                    <button class="boost-card boost-both" data-action="start" data-kind="both" data-mult="3">
+                        <span class="boost-mult">3x</span>
+                        <span class="boost-kind">Sell + Harvest</span>
+                    </button>
+                    <button class="boost-card boost-both" data-action="start" data-kind="both" data-mult="4">
+                        <span class="boost-mult">4x</span>
+                        <span class="boost-kind">Sell + Harvest</span>
+                    </button>
+                </div>
+
+                <div class="section-title">DURATION</div>
+                <div class="duration-row" id="duration-row">
+                    <button class="duration-btn active" data-seconds="1800">30 min</button>
+                    <button class="duration-btn" data-seconds="3600">1 hour</button>
+                    <button class="duration-btn" data-seconds="7200">2 hours</button>
+                    <button class="duration-btn" data-seconds="14400">4 hours</button>
+                </div>
+
+                <div class="section-title">STOP BOOSTS</div>
+                <div class="stop-row">
+                    <button class="btn btn-stop" data-action="stop" data-kind="sell">Stop Sell</button>
+                    <button class="btn btn-stop" data-action="stop" data-kind="harvest">Stop Harvest</button>
+                    <button class="btn btn-stop btn-stop-all" data-action="stop" data-kind="both">Stop All</button>
+                </div>
+            </div>
+
+            <footer class="panel-footer">
+                <span class="footer-brand">
+                    <img class="logo-img-scene" src="img/logo-305-scene.png" alt="" />
+                    THE 305 DRUGS — ADMIN
+                </span>
+                <span>ESC to close</span>
+            </footer>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

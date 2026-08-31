@@ -1,0 +1,23 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "Miami-themed drug economy for FiveM (QBX + ox_inventory). Harvest ingredients from scattered props across the map, process at benches, and sell via `/trap` street dealing.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test:ui": "node tests/ui_test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DieselJones21/djfivem-drugsv2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DieselJones21/djfivem-drugsv2/issues"
+  },
+  "homepage": "https://github.com/DieselJones21/djfivem-drugsv2#readme"
+}

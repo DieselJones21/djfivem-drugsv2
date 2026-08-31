@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>THE 305 Drugs — UI Test Harness</title>
+    <style>
+        body { margin: 0; background: #1a1a2e; font-family: sans-serif; }
+        #harness {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            background: #111; color: #fff; padding: 10px 16px;
+            display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+            border-bottom: 2px solid #ff007f;
+        }
+        #harness button {
+            padding: 6px 14px; border: 1px solid #ff007f; background: transparent;
+            color: #ff007f; border-radius: 6px; cursor: pointer; font-size: 12px;
+        }
+        #harness button:hover { background: rgba(255,0,127,0.15); }
+        #harness .active { background: #ff007f; color: #fff; }
+        #log {
+            position: fixed; bottom: 0; left: 0; right: 0; max-height: 120px;
+            overflow-y: auto; background: rgba(0,0,0,0.85); color: #0f0;
+            font-family: monospace; font-size: 11px; padding: 8px; z-index: 9999;
+        }
+        #log .fail { color: #f44; }
+        #log .pass { color: #4f4; }
+        iframe { position: fixed; top: 50px; left: 0; width: 100vw; height: calc(100vh - 170px); border: none; }
+    </style>
+</head>
+<body>
+    <div id="harness">
+        <strong>UI Test Harness</strong>
+        <button onclick="testLeaderboard()">Leaderboard</button>
+        <button onclick="testLeaderboardEmpty()">Leaderboard (empty)</button>
+        <button onclick="testBoostPanel()">Boost Panel</button>
+        <button onclick="testBoostActive()">Boost HUD Active</button>
+        <button onclick="testSellMini()">Sell Mini</button>
+        <button onclick="testSellNoHaggle()">Sell (no haggle)</button>
+        <button onclick="testCloseAll()">Close All</button>
+        <button onclick="runAutoTests()">Run Auto Tests</button>
+    </div>
+    <iframe id="nui" src="index.html"></iframe>
+    <div id="log"></div>
+    <script>
+        const log = (msg, ok) => {
+            const el = document.createElement('div');
+            el.className = ok === false ? 'fail' : ok === true ? 'pass' : '';
+            el.textContent = msg;
+            document.getElementById('log').prepend(el);
+        };
+
+        const frame = () => document.getElementById('nui').contentWindow;
+
+        function send(action, data) {
+            frame().postMessage({ action, data }, '*');
+        }
+
+        const mockBoard = {
+            mine: { name: 'Alex Reyes', label: 'Vice Hustler', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'Ocean Plug', nextSold: 800, maxed: false },
+            top: [
+                { place: 1, name: 'Carlos M.', label: '305 Kingpin', sold: 5200, earned: 2400000 },
+                { place: 2, name: 'Maria S.', label: 'Neon Trap Star', sold: 3100, earned: 980000 },
+                { place: 3, name: 'Alex Reyes', label: 'Vice Hustler', sold: 412, earned: 185000 },
+            ],
+            totalSellers: 3,
+        };
+
+        const mockBoost = {
+            sell: { multiplier: 3, remaining: 1847, startedBy: 'Admin' },
+            harvest: { multiplier: 2, remaining: 900, startedBy: 'Admin' },
+        };
+
+        const mockOffer = {
+            label: '305 Heat', quantity: 3, priceEach: 720, total: 2160,
+            minPrice: 550, maxPrice: 900, attempts: 0, maxAttempts: 2,
+            haggleEnabled: true, boostMultiplier: 2,
+        };
+
+        function testLeaderboard() { send('openLeaderboard', mockBoard); }
+        function testLeaderboardEmpty() { send('openLeaderboard', { mine: mockBoard.mine, top: [], totalSellers: 0 }); }
+        function testBoostPanel() { send('openBoost', { sell: null, harvest: null }); }
+        function testBoostActive() { send('updateBoost', mockBoost); }
+        function testSellMini() { send('openSell', mockOffer); }
+        function testSellNoHaggle() { send('openSell', { ...mockOffer, haggleEnabled: false, attempts: 2 }); }
+        function testCloseAll() { send('closeAll'); }
+
+        async function runAutoTests() {
+            document.getElementById('log').innerHTML = '';
+            const f = frame();
+            const doc = f.document;
+            const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+            let pass = 0, fail = 0;
+
+            const assert = (cond, msg) => {
+                if (cond) { pass++; log('PASS: ' + msg, true); }
+                else { fail++; log('FAIL: ' + msg, false); }
+            };
+
+            // Mock fetch for NUI callbacks
+            const calls = [];
+            f.fetch = async (url, opts) => {
+                calls.push({ url, body: JSON.parse(opts.body) });
+                return { ok: true };
+            };
+            // Mock GetParentResourceName
+            f.GetParentResourceName = () => 'djfivem-drugsv2';
+
+            await sleep(300);
+
+            // Test 1: Leaderboard renders
+            send('openLeaderboard', mockBoard);
+            await sleep(200);
+            assert(!doc.getElementById('leaderboard').classList.contains('hidden'), 'Leaderboard panel visible');
+            assert(doc.getElementById('lb-player-name').textContent === 'Alex Reyes', 'Player name set');
+            assert(doc.getElementById('lb-rank').textContent === '#3', 'Rank place set');
+            assert(doc.querySelectorAll('.lb-row').length === 3, '3 leaderboard rows rendered');
+            assert(parseFloat(doc.getElementById('lb-progress-fill').style.width) > 0, 'Progress bar has width');
+
+            // Test 2: Empty leaderboard
+            send('openLeaderboard', { mine: mockBoard.mine, top: [], totalSellers: 0 });
+            await sleep(100);
+            assert(doc.querySelector('.empty-state') !== null, 'Empty state shown');
+
+            // Test 3: Boost panel
+            send('openBoost', mockBoost);
+            await sleep(100);
+            assert(!doc.getElementById('boost-panel').classList.contains('hidden'), 'Boost panel visible');
+            assert(doc.getElementById('boost-sell-mult').textContent === '3x', 'Sell boost multiplier shown');
+
+            // Test 4: Boost HUD
+            send('updateBoost', mockBoost);
+            await sleep(100);
+            assert(!doc.getElementById('boost-hud').classList.contains('hidden'), 'Boost HUD visible');
+            assert(!doc.getElementById('boost-sell-pill').classList.contains('hidden'), 'Sell pill visible');
+
+            // Test 5: Sell mini
+            send('openSell', mockOffer);
+            await sleep(100);
+            assert(!doc.getElementById('sell-mini').classList.contains('hidden'), 'Sell mini visible');
+            assert(doc.getElementById('sell-total').textContent === '$2,160', 'Sell total formatted');
+            assert(doc.getElementById('sell-haggle-soft').style.display !== 'none', 'Haggle buttons visible');
+
+            // Test 6: Sell no haggle
+            send('openSell', { ...mockOffer, haggleEnabled: false });
+            await sleep(100);
+            assert(doc.getElementById('sell-haggle-soft').style.display === 'none', 'Haggle hidden when disabled');
+
+            // Test 7: Accept button posts callback
+            calls.length = 0;
+            doc.getElementById('sell-accept').click();
+            await sleep(100);
+            assert(calls.some(c => c.url.includes('sellAction') && c.body.action === 'accept'), 'Accept posts sellAction');
+
+            // Test 8: Boost start posts callback
+            calls.length = 0;
+            doc.querySelector('.boost-card[data-kind="sell"][data-mult="3"]').click();
+            await sleep(100);
+            assert(calls.some(c => c.url.includes('boostAction') && c.body.multiplier === 3), 'Boost start posts boostAction');
+
+            // Test 9: Duration selection
+            doc.querySelector('.duration-btn[data-seconds="7200"]').click();
+            calls.length = 0;
+            doc.querySelector('.boost-card[data-kind="harvest"][data-mult="2"]').click();
+            await sleep(100);
+            assert(calls[0]?.body.duration === 7200, 'Selected duration sent with boost');
+
+            // Test 10: Close button
+            send('openLeaderboard', mockBoard);
+            await sleep(100);
+            calls.length = 0;
+            doc.querySelector('[data-close]').click();
+            await sleep(100);
+            assert(doc.getElementById('leaderboard').classList.contains('hidden'), 'Close hides panel');
+            assert(calls.some(c => c.url.includes('close')), 'Close posts NUI callback');
+
+            // Test 11: ESC key
+            send('openBoost', {});
+            await sleep(100);
+            f.document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+            await sleep(100);
+            assert(doc.getElementById('boost-panel').classList.contains('hidden'), 'ESC closes panel');
+
+            // Test 12: closeAll no infinite loop
+            let closeCount = 0;
+            const origFetch = f.fetch;
+            f.fetch = async (url) => { if (url.includes('close')) closeCount++; return { ok: true }; };
+            send('closeAll');
+            await sleep(200);
+            assert(closeCount <= 1, 'closeAll does not loop (count=' + closeCount + ')');
+            f.fetch = origFetch;
+
+            log(`\n=== ${pass} passed, ${fail} failed ===`, fail === 0);
+        }
+    </script>
+</body>
+</html>
