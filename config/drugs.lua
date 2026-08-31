@@ -41,7 +41,7 @@ Config.Drugs = {
                 clip = 'fullcut_cycle_v6_cokecutter',
             },
             output = { item = 'heat_305', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 8, label = '305 Heat Lab' },
+            blip = { enabled = false, sprite = 499, color = 3, label = '305 Heat Lab' },
         },
         sell = {
             enabled = true,
@@ -88,7 +88,7 @@ Config.Drugs = {
                 clip = 'fixing_a_ped',
             },
             output = { item = 'south_beach_kush', amount = 7 },
-            blip = { enabled = false, sprite = 469, color = 8, label = 'Beach Kush Bench' },
+            blip = { enabled = false, sprite = 469, color = 3, label = 'Beach Kush Bench' },
         },
         sell = {
             enabled = true,
@@ -233,7 +233,7 @@ Config.Drugs = {
                 clip = 'fixing_a_ped',
             },
             output = { item = 'ocean_drive_rolls', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 8, label = 'Ocean Drive Press' },
+            blip = { enabled = false, sprite = 51, color = 3, label = 'Ocean Drive Press' },
         },
         sell = {
             enabled = true,
@@ -281,7 +281,7 @@ Config.Drugs = {
                 clip = 'fixing_a_ped',
             },
             output = { item = 'neon_rush', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 8, label = 'Neon Rush Lab' },
+            blip = { enabled = false, sprite = 499, color = 3, label = 'Neon Rush Lab' },
         },
         sell = {
             enabled = true,

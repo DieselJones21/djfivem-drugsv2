@@ -10,7 +10,7 @@ Client = {
 
 function Client.Notify(description, nType)
     lib.notify({
-        title = Config.Brand or 'THE 305',
+        title = Config.Brand or 'Envy Roleplay',
         description = description,
         type = nType or 'inform',
     })
@@ -46,7 +46,7 @@ function Client.AddBlip(coords, data)
     SetBlipSprite(blip, data.sprite or 1)
     SetBlipDisplay(blip, 4)
     SetBlipScale(blip, data.scale or 0.7)
-    SetBlipColour(blip, data.color or 8)
+    SetBlipColour(blip, data.color or 3)
     SetBlipAsShortRange(blip, true)
     BeginTextCommandSetBlipName('STRING')
     AddTextComponentSubstringPlayerName(data.label or 'Drug Spot')
@@ -168,5 +168,5 @@ CreateThread(function()
     Harvest.Init()
     Process.Init()
     Sell.Init()
-    Utils.Debug('client ready (qbx) — v2 Miami theme')
+    Utils.Debug('client ready (qbx) — Envy Roleplay theme')
 end)

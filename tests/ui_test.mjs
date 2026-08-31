@@ -85,7 +85,7 @@ async function main() {
     const mockBoard = {
         mine: { name: 'Alex Reyes', label: 'Vice Hustler', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'Ocean Plug', nextSold: 800, maxed: false },
         top: [
-            { place: 1, name: 'Carlos M.', label: '305 Kingpin', sold: 5200, earned: 2400000 },
+            { place: 1, name: 'Carlos M.', label: 'Envy Kingpin', sold: 5200, earned: 2400000 },
             { place: 2, name: 'Maria S.', label: 'Neon Trap Star', sold: 3100, earned: 980000 },
         ],
         totalSellers: 2,
@@ -105,7 +105,7 @@ async function main() {
     // Leaderboard
     await send('openLeaderboard', mockBoard);
     assert(await frame.locator('#leaderboard').isVisible(), 'Leaderboard panel visible');
-    assert(await frame.locator('#leaderboard .logo-img').isVisible(), 'Leaderboard uses The 305 logo');
+    assert(await frame.locator('#leaderboard .logo-img').isVisible(), 'Leaderboard uses Envy Roleplay logo');
     const logoOk = await frame.locator('#leaderboard .logo-img').evaluate((img) => img.complete && img.naturalWidth > 0);
     assert(logoOk, 'Leaderboard logo image loaded');
     assert((await frame.locator('#lb-player-name').textContent()) === 'Alex Reyes', 'Player name rendered');
@@ -131,7 +131,7 @@ async function main() {
     // Boost panel
     await send('openBoost', mockBoost);
     assert(await frame.locator('#boost-panel').isVisible(), 'Boost panel visible');
-    assert(await frame.locator('#boost-panel .logo-img').isVisible(), 'Boost panel uses The 305 logo');
+    assert(await frame.locator('#boost-panel .logo-img').isVisible(), 'Boost panel uses Envy Roleplay logo');
     assert((await frame.locator('#boost-sell-mult').textContent()) === '3x', 'Sell boost multiplier shown');
 
     // Boost HUD
@@ -146,7 +146,7 @@ async function main() {
     // Sell mini
     await send('openSell', mockOffer);
     assert(await frame.locator('#sell-mini').isVisible(), 'Sell mini visible');
-    assert(await frame.locator('#sell-mini .logo-img-mini').isVisible(), 'Sell mini uses The 305 logo');
+    assert(await frame.locator('#sell-mini .logo-img-mini').isVisible(), 'Sell mini uses Envy Roleplay logo');
     assert((await frame.locator('#sell-total').textContent()) === '$2,160', 'Sell total formatted correctly');
     assert((await frame.locator('#sell-attempts').textContent()).includes('2 haggle'), 'Haggle attempts shown');
     assert(await frame.locator('#sell-haggle-soft').isVisible(), 'Haggle buttons visible');

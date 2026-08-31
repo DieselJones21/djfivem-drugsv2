@@ -33,6 +33,8 @@ dofile('config/drugs.lua')
 
 print('=== djfivem-drugsv2 tests ===\n')
 
+assert_eq(Config.Brand, 'Envy Roleplay', 'brand is Envy Roleplay')
+
 -- Test: exactly 7 drugs
 local drugCount = 0
 for _ in pairs(Config.Drugs) do drugCount = drugCount + 1 end
@@ -81,7 +83,7 @@ print(('  Harvest fields: %d propField spots, %d total props'):format(propFieldC
 -- Test: progression ranks
 local levels = Utils.GetProgressLevels()
 assert_eq(#levels, 5, '5 progression ranks')
-assert_eq(levels[5].label, '305 Kingpin', 'max rank is 305 Kingpin')
+assert_eq(levels[5].label, 'Envy Kingpin', 'max rank is Envy Kingpin')
 
 -- Test: rank math
 local rank = Utils.GetRankForSold(0)
@@ -89,7 +91,7 @@ assert_eq(rank.label, 'Street Runner', '0 sold = Street Runner')
 rank = Utils.GetRankForSold(250)
 assert_eq(rank.label, 'Vice Hustler', '250 sold = Vice Hustler')
 rank = Utils.GetRankForSold(4500)
-assert_eq(rank.label, '305 Kingpin', '4500 sold = 305 Kingpin')
+assert_eq(rank.label, 'Envy Kingpin', '4500 sold = Envy Kingpin')
 
 -- Test: money type detection
 assert_true(Utils.IsFrameworkMoney('cash'), 'cash is framework money')

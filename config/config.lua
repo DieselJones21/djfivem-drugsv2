@@ -1,7 +1,7 @@
 Config = {}
 
 --[[
-    djfivem-drugsv2 — Miami Vice themed drug economy
+    djfivem-drugsv2 — Envy Roleplay themed drug economy
 
     Framework stack:
       - qbx_core
@@ -18,7 +18,7 @@ Config = {}
 
 Config.Debug = false
 Config.Locale = 'en'
-Config.Brand = 'THE 305'
+Config.Brand = 'Envy Roleplay'
 
 Config.MoneyType = 'cash'
 Config.DirtyMoneyType = 'black_money'
@@ -66,7 +66,7 @@ Config.Trap = {
     blip = {
         enabled = true,
         sprite = 514,
-        color = 8,
+        color = 3,
         scale = 0.7,
         label = 'Trap Mode',
     },
@@ -129,7 +129,7 @@ Config.Progression = {
         { level = 2, sold = 250,  label = 'Vice Hustler',   payoutMultiplier = 1.03 },
         { level = 3, sold = 800,  label = 'Ocean Plug',     payoutMultiplier = 1.06 },
         { level = 4, sold = 2000, label = 'Neon Trap Star', payoutMultiplier = 1.10 },
-        { level = 5, sold = 4500, label = '305 Kingpin',    payoutMultiplier = 1.15 },
+        { level = 5, sold = 4500, label = 'Envy Kingpin',   payoutMultiplier = 1.15 },
     },
 }
 
@@ -168,7 +168,7 @@ Config.Harvest = {
             vec3(1299.10, -1713.60, 54.77),
         },
         anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
-        blip = { enabled = false, sprite = 501, color = 8, label = 'Neon Crystals' },
+        blip = { enabled = false, sprite = 501, color = 3, label = 'Neon Crystals' },
     },
     {
         id = 'miami_solvent_yard',
@@ -190,7 +190,7 @@ Config.Harvest = {
             vec3(956.90, -196.80, 78.3),
         },
         anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
-        blip = { enabled = false, sprite = 499, color = 8, label = 'Miami Solvent' },
+        blip = { enabled = false, sprite = 499, color = 3, label = 'Miami Solvent' },
     },
     {
         id = 'vice_jars_warehouse',
@@ -212,7 +212,7 @@ Config.Harvest = {
             vec3(1125.60, -654.20, 55.73),
         },
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 478, color = 8, label = 'Vice Jars' },
+        blip = { enabled = false, sprite = 478, color = 3, label = 'Vice Jars' },
     },
     {
         id = 'espresso_powder_dock',
@@ -234,7 +234,7 @@ Config.Harvest = {
             vec3(758.30, -674.60, 27.73),
         },
         anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
-        blip = { enabled = false, sprite = 499, color = 8, label = 'Espresso Powder' },
+        blip = { enabled = false, sprite = 499, color = 3, label = 'Espresso Powder' },
     },
 
     --------------------------------------------------
@@ -264,7 +264,7 @@ Config.Harvest = {
             vec3(-1167.20, -1562.40, 4.35),
         },
         anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
-        blip = { enabled = true, sprite = 469, color = 8, label = 'Beach Buds' },
+        blip = { enabled = true, sprite = 469, color = 3, label = 'Beach Buds' },
     },
 
     --------------------------------------------------
@@ -429,7 +429,7 @@ Config.Harvest = {
             vec3(-1491.90, -403.70, 35.60),
         },
         anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
-        blip = { enabled = false, sprite = 51, color = 8, label = 'Drive Crystals' },
+        blip = { enabled = false, sprite = 51, color = 3, label = 'Drive Crystals' },
     },
     {
         id = 'neon_powder_barrels',
@@ -451,7 +451,7 @@ Config.Harvest = {
             vec3(-1342.30, -1156.70, 4.49),
         },
         anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
-        blip = { enabled = false, sprite = 51, color = 8, label = 'Neon Powder' },
+        blip = { enabled = false, sprite = 51, color = 3, label = 'Neon Powder' },
     },
     {
         id = 'press_capsules',
@@ -472,7 +472,7 @@ Config.Harvest = {
             vec3(-1611.80, -1050.30, 6.02),
         },
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 51, color = 8, label = 'Press Capsules' },
+        blip = { enabled = false, sprite = 51, color = 3, label = 'Press Capsules' },
     },
     {
         id = 'vice_stamps',
@@ -493,7 +493,7 @@ Config.Harvest = {
             vec3(-1283.60, -838.20, 16.15),
         },
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 51, color = 8, label = 'Vice Stamps' },
+        blip = { enabled = false, sprite = 51, color = 3, label = 'Vice Stamps' },
     },
 
     --------------------------------------------------
@@ -521,7 +521,7 @@ Config.Harvest = {
             vec3(1197.50, -3108.90, 5.80),
         },
         anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
-        blip = { enabled = false, sprite = 499, color = 8, label = 'Rush Powder' },
+        blip = { enabled = false, sprite = 499, color = 3, label = 'Rush Powder' },
     },
     {
         id = 'neon_candy',
@@ -543,7 +543,7 @@ Config.Harvest = {
             vec3(1246.10, -3252.30, 5.50),
         },
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 499, color = 8, label = 'Neon Candy' },
+        blip = { enabled = false, sprite = 499, color = 3, label = 'Neon Candy' },
     },
     {
         id = 'tropical_concentrate',
@@ -564,7 +564,7 @@ Config.Harvest = {
             vec3(1074.60, -3102.90, 5.90),
         },
         anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
-        blip = { enabled = false, sprite = 499, color = 8, label = 'Tropical Concentrate' },
+        blip = { enabled = false, sprite = 499, color = 3, label = 'Tropical Concentrate' },
     },
 
     --------------------------------------------------

@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>THE 305 Drugs</title>
+    <title>Envy Roleplay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,7 +14,7 @@
         <!-- Boost HUD (always visible when active) -->
         <div id="boost-hud" class="boost-hud hidden">
             <div class="boost-pill" id="boost-sell-pill">
-                <img class="logo-img-hud" src="img/logo-305-hud.png" alt="" />
+                <img class="logo-img-hud" src="img/logo-envy.png" alt="" />
                 <span class="boost-icon">⚡</span>
                 <span id="boost-sell-text">SELL 2x</span>
                 <span id="boost-sell-time" class="boost-time">30m</span>
@@ -25,8 +28,9 @@
 
         <!-- Mini Sell UI -->
         <div id="sell-mini" class="sell-mini hidden">
+            <div class="chrome-edge"></div>
             <div class="sell-mini-header">
-                <img class="logo-img-mini" src="img/logo-305-mini.png" alt="The 305" />
+                <img class="logo-img-mini" src="img/logo-envy.png" alt="Envy Roleplay" />
                 <span class="sell-badge">STREET DEAL</span>
             </div>
             <div class="sell-mini-body">
@@ -47,10 +51,11 @@
         <!-- Leaderboard Panel -->
         <div id="leaderboard" class="panel hidden">
             <div class="panel-glow"></div>
+            <div class="panel-frame" aria-hidden="true"></div>
             <header class="panel-header">
                 <div class="header-left">
-                    <img class="logo-img" src="img/logo-305-header.png" alt="The 305" />
-                    <div class="subtitle">Drug Leaderboard</div>
+                    <img class="logo-img" src="img/logo-envy.png" alt="Envy Roleplay" />
+                    <div class="subtitle">Street Leaderboard</div>
                 </div>
                 <div class="header-right">
                     <div class="player-meta">
@@ -59,7 +64,7 @@
                     </div>
                     <div class="player-avatar" id="lb-avatar">AR</div>
                 </div>
-                <button class="close-btn" data-close="leaderboard">✕</button>
+                <button class="close-btn" data-close="leaderboard" aria-label="Close">✕</button>
             </header>
 
             <div class="stats-row">
@@ -81,7 +86,7 @@
             </div>
 
             <div class="panel-body">
-                <div class="section-title">TOP TRAPPERS</div>
+                <div class="section-title">Top Trappers</div>
                 <div class="leaderboard-list" id="lb-list"></div>
                 <div class="progress-section">
                     <div class="progress-label" id="lb-progress-label">250 more units to Vice Hustler</div>
@@ -93,8 +98,8 @@
 
             <footer class="panel-footer">
                 <span class="footer-brand">
-                    <img class="logo-img-scene" src="img/logo-305-scene.png" alt="" />
-                    THE 305 DRUGS
+                    <img class="logo-img-scene" src="img/logo-envy.png" alt="" />
+                    ENVY ROLEPLAY
                 </span>
                 <span>ESC to close</span>
             </footer>
@@ -103,12 +108,13 @@
         <!-- Boost Admin Panel -->
         <div id="boost-panel" class="panel hidden">
             <div class="panel-glow"></div>
+            <div class="panel-frame" aria-hidden="true"></div>
             <header class="panel-header">
                 <div class="header-left">
-                    <img class="logo-img" src="img/logo-305-header.png" alt="The 305" />
-                    <div class="subtitle">Boost Events</div>
+                    <img class="logo-img" src="img/logo-envy.png" alt="Envy Roleplay" />
+                    <div class="subtitle">Boost Events — Admin</div>
                 </div>
-                <button class="close-btn" data-close="boost-panel">✕</button>
+                <button class="close-btn" data-close="boost-panel" aria-label="Close">✕</button>
             </header>
 
             <div class="stats-row">
@@ -125,7 +131,7 @@
             </div>
 
             <div class="panel-body boost-body">
-                <div class="section-title">START BOOST</div>
+                <div class="section-title">Start Boost</div>
                 <div class="boost-grid">
                     <button class="boost-card" data-action="start" data-kind="sell" data-mult="2">
                         <span class="boost-mult">2x</span>
@@ -164,16 +170,17 @@
                         <span class="boost-kind">Sell + Harvest</span>
                     </button>
                 </div>
+            </div>
 
-                <div class="section-title">DURATION</div>
+            <div class="boost-stop-section">
+                <div class="section-title">Duration</div>
                 <div class="duration-row" id="duration-row">
-                    <button class="duration-btn active" data-seconds="1800">30 min</button>
-                    <button class="duration-btn" data-seconds="3600">1 hour</button>
+                    <button class="duration-btn" data-seconds="1800">30 min</button>
+                    <button class="duration-btn active" data-seconds="3600">1 hour</button>
                     <button class="duration-btn" data-seconds="7200">2 hours</button>
                     <button class="duration-btn" data-seconds="14400">4 hours</button>
                 </div>
-
-                <div class="section-title">STOP BOOSTS</div>
+                <div class="section-title">Stop Boosts</div>
                 <div class="stop-row">
                     <button class="btn btn-stop" data-action="stop" data-kind="sell">Stop Sell</button>
                     <button class="btn btn-stop" data-action="stop" data-kind="harvest">Stop Harvest</button>
@@ -183,8 +190,8 @@
 
             <footer class="panel-footer">
                 <span class="footer-brand">
-                    <img class="logo-img-scene" src="img/logo-305-scene.png" alt="" />
-                    THE 305 DRUGS — ADMIN
+                    <img class="logo-img-scene" src="img/logo-envy.png" alt="" />
+                    ENVY ROLEPLAY — ADMIN
                 </span>
                 <span>ESC to close</span>
             </footer>

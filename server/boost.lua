@@ -71,7 +71,7 @@ end
 local function announce(message, nType)
     if Config.Boost.announce == false then return end
     TriggerClientEvent('ox_lib:notify', -1, {
-        title = 'THE 305 Boost Event',
+        title = (Config.Brand or 'Envy Roleplay') .. ' Boost Event',
         description = message,
         type = nType or 'inform',
         duration = 8000,
