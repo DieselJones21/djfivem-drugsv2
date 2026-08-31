@@ -1,5 +1,6 @@
 NUI = {
     focus = false,
+    mode = nil, -- 'leaderboard' | 'boost' | 'sell' | nil
 }
 
 function NUI.Send(action, data)
@@ -10,21 +11,24 @@ function NUI.Send(action, data)
 end
 
 function NUI.SetFocus(state)
-    NUI.focus = state
-    SetNuiFocus(state, state)
+    NUI.focus = state == true
+    SetNuiFocus(NUI.focus, NUI.focus)
 end
 
 function NUI.CloseAll()
+    NUI.mode = nil
     NUI.SetFocus(false)
     NUI.Send('closeAll')
 end
 
 function NUI.OpenLeaderboard(board)
+    NUI.mode = 'leaderboard'
     NUI.Send('openLeaderboard', board)
     NUI.SetFocus(true)
 end
 
 function NUI.OpenBoost(state)
+    NUI.mode = 'boost'
     NUI.Send('openBoost', state)
     NUI.SetFocus(true)
 end
@@ -35,7 +39,11 @@ end
 
 function NUI.OpenSell(offer)
     NUI.Send('openSell', offer)
-    -- Mini sell UI does not steal focus (player can still move)
+    -- Deal panel needs mouse so Accept / Haggle / Walk Away actually work
+    if NUI.mode ~= 'leaderboard' and NUI.mode ~= 'boost' then
+        NUI.mode = 'sell'
+        NUI.SetFocus(true)
+    end
 end
 
 function NUI.UpdateSell(offer)
@@ -44,9 +52,18 @@ end
 
 function NUI.CloseSell()
     NUI.Send('closeSell')
+    if NUI.mode == 'sell' then
+        NUI.mode = nil
+        NUI.SetFocus(false)
+    end
 end
 
 RegisterNUICallback('close', function(_, cb)
+    if NUI.mode == 'sell' then
+        cb('ok')
+        return
+    end
+    NUI.mode = nil
     NUI.SetFocus(false)
     cb('ok')
 end)
@@ -66,8 +83,7 @@ RegisterNUICallback('boostAction', function(data, cb)
     end
     cb('ok')
 
-    -- Refresh boost state in the panel after server processes the action
-    SetTimeout(500, function()
+    SetTimeout(400, function()
         local state = lib.callback.await('djdrugsv2:server:getBoostState', false)
         if state then
             NUI.UpdateBoost(state)

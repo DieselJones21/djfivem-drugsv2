@@ -23,7 +23,7 @@ local function doHarvest(spot, entityKey, propCoords)
         return
     end
 
-    TriggerServerEvent('djdrugsv2:server:harvest', spot.id, entityKey, propCoords)
+    TriggerServerEvent('djdrugsv2:server:harvest', spot.id, entityKey)
 end
 
 local function registerPropPosition(spotId, entityKey, coords)

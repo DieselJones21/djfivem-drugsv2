@@ -19,7 +19,7 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: Inter, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
     background: transparent;
     color: var(--text);
     overflow: hidden;
@@ -161,6 +161,21 @@ body {
     margin-top: 4px;
 }
 
+.sell-attempts {
+    font-size: 11px;
+    color: var(--pink);
+    margin-top: 6px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 .sell-mini-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -274,8 +289,26 @@ body {
 }
 
 .header-right {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-right: 16px;
+    text-align: right;
+}
+
+.player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff007f, #cc0066);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 16px var(--pink-glow);
+    letter-spacing: 0.5px;
 }
 
 .player-name {

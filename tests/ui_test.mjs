@@ -101,6 +101,7 @@ async function main() {
     await send('openLeaderboard', mockBoard);
     assert(await frame.locator('#leaderboard').isVisible(), 'Leaderboard panel visible');
     assert((await frame.locator('#lb-player-name').textContent()) === 'Alex Reyes', 'Player name rendered');
+    assert((await frame.locator('#lb-avatar').textContent()) === 'AR', 'Avatar initials rendered');
     assert((await frame.locator('#lb-rank').textContent()) === '#3', 'Rank place rendered');
     assert(await frame.locator('.lb-row').count() === 2, 'Leaderboard rows rendered');
     const progressWidth = await frame.locator('#lb-progress-fill').evaluate(el => el.style.width);
@@ -137,6 +138,7 @@ async function main() {
     await send('openSell', mockOffer);
     assert(await frame.locator('#sell-mini').isVisible(), 'Sell mini visible');
     assert((await frame.locator('#sell-total').textContent()) === '$2,160', 'Sell total formatted correctly');
+    assert((await frame.locator('#sell-attempts').textContent()).includes('2 haggle'), 'Haggle attempts shown');
     assert(await frame.locator('#sell-haggle-soft').isVisible(), 'Haggle buttons visible');
 
     // Sell no haggle
@@ -196,6 +198,13 @@ async function main() {
     await page.waitForTimeout(200);
     const loopCalls = await page.evaluate(() => document.getElementById('nui').contentWindow._nuiCalls);
     assert(loopCalls.filter(c => c.url.includes('close')).length === 0, 'closeAll does not post close callback (no loop)');
+
+    // Closing leaderboard must not hide an open street deal
+    await send('openSell', mockOffer);
+    await send('openLeaderboard', mockBoard);
+    await frame.locator('[data-close]').first().click();
+    await page.waitForTimeout(100);
+    assert(await frame.locator('#sell-mini').isVisible(), 'Closing leaderboard keeps sell mini open');
 
     // 4x both boost button exists
     await send('openBoost', {});

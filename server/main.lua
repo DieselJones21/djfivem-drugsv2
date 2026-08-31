@@ -125,33 +125,43 @@ function Server.IsNearCoords(src, coords, maxDist)
     return #(pCoords - coords) <= (maxDist or 4.0)
 end
 
---- Validate harvest proximity — checks prop position, positions array, or area radius
-function Server.IsNearHarvestSpot(src, spot, entityKey, propCoords)
+--- Map entityKey (spotId or spotId_N) to a configured harvest coordinate.
+--- Client-supplied world coords are never trusted.
+function Server.GetHarvestTarget(spot, entityKey)
+    if not spot then return nil end
+
+    if spot.positions and #spot.positions > 0 then
+        if type(entityKey) == 'string' then
+            local prefix = spot.id .. '_'
+            if entityKey:sub(1, #prefix) == prefix then
+                local idx = tonumber(entityKey:sub(#prefix + 1))
+                if idx and spot.positions[idx] then
+                    return spot.positions[idx]
+                end
+            end
+        end
+        return nil
+    end
+
+    if entityKey and entityKey ~= spot.id then
+        return nil
+    end
+    return spot.coords
+end
+
+--- Validate harvest proximity against configured prop positions only
+function Server.IsNearHarvestSpot(src, spot, entityKey)
+    local target = Server.GetHarvestTarget(spot, entityKey)
+    if not target then return false end
+
+    -- Horizontal distance so small Z mismatches from ground-snap do not fail
     local ped = GetPlayerPed(src)
     if not ped or ped == 0 then return false end
     local pCoords = GetEntityCoords(ped)
-    local maxDist = Config.InteractDistance + 1.5
-
-    -- If client sent exact prop coords, validate against those
-    if propCoords and type(propCoords) == 'table' then
-        local target = vec3(propCoords.x or propCoords[1], propCoords.y or propCoords[2], propCoords.z or propCoords[3])
-        if #(pCoords - target) <= maxDist then
-            return true
-        end
-    end
-
-    -- Check explicit positions array
-    if spot.positions then
-        for i = 1, #spot.positions do
-            if #(pCoords - spot.positions[i]) <= maxDist then
-                return true
-            end
-        end
-    end
-
-    -- Fallback: center + radius
-    local radius = spot.radius or 8.0
-    return #(pCoords - spot.coords) <= radius + 2.0
+    local dx = pCoords.x - target.x
+    local dy = pCoords.y - target.y
+    local maxDist = (Config.InteractDistance or 2.2) + 2.0
+    return (dx * dx + dy * dy) <= (maxDist * maxDist)
 end
 
 AddEventHandler('playerDropped', function()

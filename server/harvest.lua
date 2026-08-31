@@ -1,9 +1,9 @@
-RegisterNetEvent('djdrugsv2:server:harvest', function(spotId, entityKey, propCoords)
+RegisterNetEvent('djdrugsv2:server:harvest', function(spotId, entityKey)
     local src = source
     local spot = Server.FindHarvest(spotId)
     if not spot then return end
 
-    if not Server.IsNearHarvestSpot(src, spot, entityKey, propCoords) then
+    if not Server.IsNearHarvestSpot(src, spot, entityKey) then
         Server.Notify(src, 'Too far away', 'error')
         return
     end

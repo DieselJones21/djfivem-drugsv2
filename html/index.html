@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>THE 305 Drugs</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
     <div id="app">
@@ -36,6 +33,7 @@
                 <div class="sell-qty" id="sell-qty">2x @ $650 each</div>
                 <div class="sell-total" id="sell-total">$1,300</div>
                 <div class="sell-range" id="sell-range">Range $550–$900</div>
+                <div class="sell-attempts" id="sell-attempts"></div>
             </div>
             <div class="sell-mini-actions">
                 <button class="btn btn-accept" id="sell-accept">Accept Deal</button>
@@ -54,8 +52,11 @@
                     <div class="subtitle">Drug Leaderboard</div>
                 </div>
                 <div class="header-right">
-                    <div class="player-name" id="lb-player-name">Player</div>
-                    <div class="player-rank" id="lb-player-rank">Street Runner</div>
+                    <div class="player-meta">
+                        <div class="player-name" id="lb-player-name">Player</div>
+                        <div class="player-rank" id="lb-player-rank">Street Runner</div>
+                    </div>
+                    <div class="player-avatar" id="lb-avatar">AR</div>
                 </div>
                 <button class="close-btn" data-close="leaderboard">✕</button>
             </header>

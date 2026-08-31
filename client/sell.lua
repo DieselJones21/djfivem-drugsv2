@@ -5,6 +5,7 @@ Trap = {
     blip = nil,
     offer = nil,
     dealing = false,
+    busy = false,
 }
 
 local function loadAnimDict(dict)
@@ -32,6 +33,7 @@ local function deleteBuyer()
     end
     Trap.offer = nil
     Trap.dealing = false
+    Trap.busy = false
     NUI.CloseSell()
 end
 
@@ -110,15 +112,19 @@ local function openDealUI()
 end
 
 function Sell.HandleNUIAction(data)
-    if not Trap.offer then return end
+    if not Trap.offer or Trap.busy then return end
 
     if data.action == 'accept' then
+        Trap.busy = true
         finishSale()
+        Trap.busy = false
     elseif data.action == 'decline' then
         Client.Notify('You waved the buyer off', 'inform')
         deleteBuyer()
     elseif data.action == 'haggle' then
+        Trap.busy = true
         local result = lib.callback.await('djdrugsv2:server:haggleOffer', false, Trap.offer.token, data.askId)
+        Trap.busy = false
         if not result then
             Client.Notify('No response', 'error')
             deleteBuyer()
@@ -208,7 +214,10 @@ local function spawnBuyer()
 
         local waitDeadline = GetGameTimer() + (Config.Trap.buyerWaitTime * 1000)
         while Trap.active and Trap.buyer == ped and DoesEntityExist(ped) do
-            if GetGameTimer() > waitDeadline then
+            -- Pause the walk-away timer while the deal panel is open
+            if Trap.dealing or Trap.busy then
+                waitDeadline = GetGameTimer() + (Config.Trap.buyerWaitTime * 1000)
+            elseif GetGameTimer() > waitDeadline then
                 Client.Notify('Buyer got tired of waiting', 'error')
                 deleteBuyer()
                 return
@@ -228,7 +237,6 @@ function Sell.HandleBuyer()
 
     Trap.dealing = true
     openDealUI()
-    Trap.dealing = false
 end
 
 function Sell.Init()

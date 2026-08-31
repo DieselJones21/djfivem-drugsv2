@@ -76,12 +76,12 @@ Config.Drugs = {
         },
         process = {
             label = 'Bag South Beach Kush',
-            coords = vec3(-1178.40, -1575.20, 4.35),
-            heading = 125.0,
+            coords = vec3(-1198.70, -1548.40, 4.33),
+            heading = 210.0,
             duration = 9000,
             prop = {
                 model = `bkr_prop_weed_table_01a`,
-                heading = 125.0,
+                heading = 210.0,
             },
             anim = {
                 dict = 'mini@repair',
@@ -123,7 +123,7 @@ Config.Drugs = {
         },
         process = {
             label = 'Cook Brickell Snow',
-            coords = vec3(-2950.20, 637.03, 23.18),
+            coords = vec3(-2972.40, 618.80, 23.18),
             heading = 108.26,
             duration = 12000,
             prop = {
@@ -269,12 +269,12 @@ Config.Drugs = {
         },
         process = {
             label = 'Mix Neon Rush',
-            coords = vec3(-1486.62, -909.08, 9.02),
-            heading = 48.52,
+            coords = vec3(1048.50, -3095.80, 5.90),
+            heading = 90.0,
             duration = 11000,
             prop = {
                 model = `prop_tool_bench02`,
-                heading = 48.52,
+                heading = 90.0,
             },
             anim = {
                 dict = 'mini@repair',

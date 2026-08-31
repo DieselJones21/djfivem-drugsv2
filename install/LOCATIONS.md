@@ -19,7 +19,7 @@ Harvest fields use **multiple props** — walk around the area to collect each i
 |---|---|---|---|
 | Beach Buds | `beach_bud_field` | -1172, -1571, 4 | 10 scattered (blip on) |
 | Zip Bags | `zip_bags_supply` | 285, -1773, 27 | 5 scattered |
-| **Process** | — | -1178, -1575, 4 | `bkr_prop_weed_table_01a` |
+| **Process** | — | -1199, -1548, 4 | `bkr_prop_weed_table_01a` |
 
 ## Brickell Snow (Downtown)
 
@@ -28,7 +28,7 @@ Harvest fields use **multiple props** — walk around the area to collect each i
 | Tropical Leaves | `tropical_leaf_garden` | 251, -800, 29 | 8 scattered |
 | Lab Solvent | `lab_solvent` | -2950, 637, 23 | 5 scattered |
 | Zip Bags | `zip_bags_supply` | 285, -1773, 27 | 5 scattered |
-| **Process** | — | -2950, 637, 23 | `bkr_prop_coke_table01a` |
+| **Process** | — | -2972, 619, 23 | `bkr_prop_coke_table01a` |
 
 ## Vice Purple (Davis / Grove)
 
@@ -58,7 +58,7 @@ Harvest fields use **multiple props** — walk around the area to collect each i
 | Rush Powder | `rush_powder` | 1200, -3101, 6 | 8 scattered |
 | Neon Candy | `neon_candy` | 1244, -3250, 6 | 6 scattered |
 | Tropical Concentrate | `tropical_concentrate` | 1080, -3103, 6 | 5 scattered |
-| **Process** | — | -1487, -909, 9 | `prop_tool_bench02` |
+| **Process** | — | 1049, -3096, 6 | `prop_tool_bench02` |
 
 ## Perico Gold (Cayo Perico — exclusive)
 

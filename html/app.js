@@ -7,13 +7,16 @@ const $$ = (sel) => document.querySelectorAll(sel);
 
 let selectedDuration = 1800;
 let currentPanel = null;
+let sellBusy = false;
+let boostTick = null;
+let boostState = { sell: null, harvest: null };
 
 function formatMoney(n) {
     return '$' + Math.floor(n || 0).toLocaleString('en-US');
 }
 
 function formatTime(seconds) {
-    seconds = Math.max(0, seconds || 0);
+    seconds = Math.max(0, Math.floor(seconds || 0));
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     if (m >= 60) {
@@ -21,6 +24,13 @@ function formatTime(seconds) {
         return `${h}h ${m % 60}m`;
     }
     return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+function initials(name) {
+    const parts = String(name || 'P').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'P';
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
 function post(action, data = {}) {
@@ -56,10 +66,17 @@ function hideAllPanels() {
 
 function closeUI(notifyLua = true) {
     hideAllPanels();
-    $('#sell-mini').classList.add('hidden');
     if (notifyLua) {
         post('close');
     }
+}
+
+function setSellBusy(busy) {
+    sellBusy = busy;
+    ['#sell-accept', '#sell-haggle-soft', '#sell-haggle-hard', '#sell-decline'].forEach((sel) => {
+        const btn = $(sel);
+        if (btn) btn.disabled = busy;
+    });
 }
 
 /* ── Leaderboard ── */
@@ -67,8 +84,10 @@ function renderLeaderboard(data) {
     if (!data) return;
 
     const me = data.mine || {};
-    $('#lb-player-name').textContent = me.name || 'Player';
+    const name = me.name || 'Player';
+    $('#lb-player-name').textContent = name;
     $('#lb-player-rank').textContent = me.label || 'Street Runner';
+    $('#lb-avatar').textContent = initials(name);
     $('#lb-rank').textContent = me.place ? `#${me.place}` : '—';
     $('#lb-sold').textContent = (me.sold || 0).toLocaleString();
     $('#lb-earned').textContent = formatMoney(me.earned);
@@ -110,10 +129,10 @@ function renderLeaderboard(data) {
     });
 }
 
-/* ── Boost Panel ── */
-function renderBoostState(state) {
-    const sell = state && state.sell;
-    const harvest = state && state.harvest;
+/* ── Boost Panel + live HUD timer ── */
+function paintBoost() {
+    const sell = boostState && boostState.sell;
+    const harvest = boostState && boostState.harvest;
 
     if (sell) {
         $('#boost-sell-mult').textContent = `${sell.multiplier}x`;
@@ -147,13 +166,51 @@ function renderBoostState(state) {
     }
 }
 
+function stopBoostTick() {
+    if (boostTick) {
+        clearInterval(boostTick);
+        boostTick = null;
+    }
+}
+
+function startBoostTick() {
+    stopBoostTick();
+    if (!boostState.sell && !boostState.harvest) return;
+    boostTick = setInterval(() => {
+        let live = false;
+        if (boostState.sell) {
+            boostState.sell.remaining = Math.max(0, (boostState.sell.remaining || 0) - 1);
+            if (boostState.sell.remaining <= 0) boostState.sell = null;
+            else live = true;
+        }
+        if (boostState.harvest) {
+            boostState.harvest.remaining = Math.max(0, (boostState.harvest.remaining || 0) - 1);
+            if (boostState.harvest.remaining <= 0) boostState.harvest = null;
+            else live = true;
+        }
+        paintBoost();
+        if (!live) stopBoostTick();
+    }, 1000);
+}
+
+function renderBoostState(state) {
+    boostState = {
+        sell: state && state.sell ? { ...state.sell } : null,
+        harvest: state && state.harvest ? { ...state.harvest } : null,
+    };
+    paintBoost();
+    startBoostTick();
+}
+
 /* ── Mini Sell ── */
 function renderSellMini(offer) {
     if (!offer) {
         $('#sell-mini').classList.add('hidden');
+        setSellBusy(false);
         return;
     }
 
+    setSellBusy(false);
     $('#sell-drug-name').textContent = offer.label || 'Product';
     $('#sell-qty').textContent = `${offer.quantity}x @ ${formatMoney(offer.priceEach)} each`;
     $('#sell-total').textContent = formatMoney(offer.total);
@@ -166,10 +223,20 @@ function renderSellMini(offer) {
         && (offer.attempts || 0) < (offer.maxAttempts || 0)
         && offer.priceEach < offer.maxPrice;
 
+    const left = Math.max(0, (offer.maxAttempts || 0) - (offer.attempts || 0));
+    $('#sell-attempts').textContent = canHaggle
+        ? `${left} haggle attempt${left === 1 ? '' : 's'} left`
+        : 'No more haggle attempts';
+
     $('#sell-haggle-soft').style.display = canHaggle ? '' : 'none';
     $('#sell-haggle-hard').style.display = canHaggle ? '' : 'none';
 
     $('#sell-mini').classList.remove('hidden');
+}
+
+function hideSellMini() {
+    $('#sell-mini').classList.add('hidden');
+    setSellBusy(false);
 }
 
 /* ── Event Listeners ── */
@@ -195,10 +262,11 @@ window.addEventListener('message', (event) => {
             renderSellMini(data);
             break;
         case 'closeSell':
-            $('#sell-mini').classList.add('hidden');
+            hideSellMini();
             break;
         case 'closeAll':
-            closeUI(false);
+            hideAllPanels();
+            hideSellMini();
             break;
     }
 });
@@ -212,9 +280,10 @@ document.addEventListener('keydown', (e) => {
     }
 
     const sellMini = $('#sell-mini');
-    if (sellMini && !sellMini.classList.contains('hidden')) {
+    if (sellMini && !sellMini.classList.contains('hidden') && !sellBusy) {
+        setSellBusy(true);
         post('sellAction', { action: 'decline' });
-        sellMini.classList.add('hidden');
+        hideSellMini();
     }
 });
 
@@ -222,13 +291,17 @@ $$('[data-close]').forEach((btn) => {
     btn.addEventListener('click', () => closeUI());
 });
 
-/* Sell actions */
-$('#sell-accept').addEventListener('click', () => post('sellAction', { action: 'accept' }));
-$('#sell-haggle-soft').addEventListener('click', () => post('sellAction', { action: 'haggle', askId: 'soft' }));
-$('#sell-haggle-hard').addEventListener('click', () => post('sellAction', { action: 'haggle', askId: 'hard' }));
-$('#sell-decline').addEventListener('click', () => post('sellAction', { action: 'decline' }));
+function sellAction(action, extra = {}) {
+    if (sellBusy) return;
+    setSellBusy(true);
+    post('sellAction', { action, ...extra });
+}
 
-/* Boost actions */
+$('#sell-accept').addEventListener('click', () => sellAction('accept'));
+$('#sell-haggle-soft').addEventListener('click', () => sellAction('haggle', { askId: 'soft' }));
+$('#sell-haggle-hard').addEventListener('click', () => sellAction('haggle', { askId: 'hard' }));
+$('#sell-decline').addEventListener('click', () => sellAction('decline'));
+
 $$('.boost-card[data-action="start"]').forEach((btn) => {
     btn.addEventListener('click', () => {
         post('boostAction', {
