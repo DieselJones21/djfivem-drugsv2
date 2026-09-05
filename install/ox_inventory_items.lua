@@ -5,6 +5,7 @@
       server = { export = 'djfivem-drugsv2.useDrugServer' }
 
     Copy install/images/*.png into ox_inventory/web/images/
+    (photorealistic product stills — overwrite any old outline icons)
 ]]
 
 local drugUse = {

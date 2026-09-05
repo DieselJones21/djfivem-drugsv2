@@ -78,7 +78,17 @@ end
 ---@return vector3
 function Client.GetGroundCoords(coords)
     local x, y, z = coords.x, coords.y, coords.z
-    local found, groundZ = GetGroundZFor_3dCoord(x, y, z + 50.0, false)
+    RequestCollisionAtCoord(x, y, z)
+    local timeout = GetGameTimer() + 1200
+    while GetGameTimer() < timeout do
+        RequestCollisionAtCoord(x, y, z)
+        local found, groundZ = GetGroundZFor_3dCoord(x, y, z + 80.0, false)
+        if found then
+            return vec3(x, y, groundZ)
+        end
+        Wait(0)
+    end
+    local found, groundZ = GetGroundZFor_3dCoord(x, y, z + 200.0, false)
     if found then
         z = groundZ
     end
@@ -98,16 +108,19 @@ function Client.SpawnProp(model, coords, heading, placeOnGround)
         pos = Client.GetGroundCoords(coords)
     end
 
-    local obj = CreateObject(hash, pos.x, pos.y, pos.z, false, false, false)
+    local obj = CreateObjectNoOffset(hash, pos.x, pos.y, pos.z, false, false, false)
+    if not obj or obj == 0 then
+        SetModelAsNoLongerNeeded(hash)
+        return nil
+    end
     SetEntityHeading(obj, heading or 0.0)
 
     if placeOnGround ~= false then
         PlaceObjectOnGroundProperly(obj)
-        -- Double-check ground level after placement
         local finalCoords = GetEntityCoords(obj)
-        local found, groundZ = GetGroundZFor_3dCoord(finalCoords.x, finalCoords.y, finalCoords.z + 2.0, false)
-        if found and math.abs(finalCoords.z - groundZ) > 0.15 then
-            SetEntityCoords(obj, finalCoords.x, finalCoords.y, groundZ, false, false, false, false)
+        local found, groundZ = GetGroundZFor_3dCoord(finalCoords.x, finalCoords.y, finalCoords.z + 4.0, false)
+        if found then
+            SetEntityCoordsNoOffset(obj, finalCoords.x, finalCoords.y, groundZ, false, false, false)
             PlaceObjectOnGroundProperly(obj)
         end
     end
@@ -115,6 +128,7 @@ function Client.SpawnProp(model, coords, heading, placeOnGround)
     FreezeEntityPosition(obj, true)
     SetEntityAsMissionEntity(obj, true, true)
     SetEntityCollision(obj, true, true)
+    SetEntityInvincible(obj, true)
     SetModelAsNoLongerNeeded(hash)
 
     Client.spawnedProps[#Client.spawnedProps + 1] = obj
