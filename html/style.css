@@ -1,6 +1,6 @@
 :root {
     --bg: #05080a;
-    --panel: rgba(6, 12, 14, 0.94);
+    --panel: rgba(6, 12, 14, 0.82);
     --panel-border: rgba(0, 245, 255, 0.28);
     --cyan: #00f5ff;
     --cyan-hot: #7ff6ff;
@@ -28,9 +28,21 @@
     box-sizing: border-box;
 }
 
+html,
+body,
+#app {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
 body {
     font-family: var(--font);
-    background: transparent;
     color: var(--text);
     overflow: hidden;
     user-select: none;
@@ -79,7 +91,6 @@ body {
     letter-spacing: 1px;
     text-transform: uppercase;
     animation: pulse-glow 2.2s ease-in-out infinite;
-    backdrop-filter: blur(10px);
 }
 
 .boost-pill .boost-time {
@@ -102,15 +113,14 @@ body {
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.62), 0 0 36px var(--cyan-soft);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), 0 0 20px var(--cyan-soft);
     overflow: hidden;
     z-index: 200;
     animation: slide-up 0.3s ease-out;
-    backdrop-filter: blur(16px);
 }
 
 .sell-mini.is-boosted {
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.62), 0 0 42px var(--cyan-glow);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), 0 0 26px var(--cyan-glow);
 }
 
 .chrome-edge {
@@ -309,11 +319,11 @@ body {
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: 18px;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.72), 0 0 44px var(--cyan-soft);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), 0 0 22px var(--cyan-soft);
     overflow: hidden;
     z-index: 300;
     animation: panel-in 0.25s ease-out;
-    backdrop-filter: blur(18px);
+    isolation: isolate;
 }
 
 .panel::after {

@@ -86,7 +86,7 @@ function renderLeaderboard(data) {
     const me = data.mine || {};
     const name = me.name || 'Player';
     $('#lb-player-name').textContent = name;
-    $('#lb-player-rank').textContent = me.label || 'Street Runner';
+    $('#lb-player-rank').textContent = me.label || 'Ranch Hand';
     $('#lb-avatar').textContent = initials(name);
     $('#lb-rank').textContent = me.place ? `#${me.place}` : '—';
     $('#lb-sold').textContent = (me.sold || 0).toLocaleString();
@@ -107,7 +107,7 @@ function renderLeaderboard(data) {
     list.innerHTML = '';
 
     if (!data.top || data.top.length === 0) {
-        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first Envy trapper on the board.</div>';
+        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first Envy runner on the board.</div>';
         return;
     }
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Envy Roleplay cyan/chrome inventory icons for ox_inventory (128x128)."""
+"""Generate Texas-themed inventory icons for ox_inventory (128x128)."""
 
 import os
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
@@ -17,38 +17,45 @@ CYAN = (0, 210, 230)
 WHITE = (245, 245, 250)
 ORANGE = (255, 140, 60)
 CHROME = (212, 221, 228)
+BROWN = (184, 122, 62)
+TAN = (214, 178, 112)
+RUST = (210, 86, 46)
 
 ITEMS = {
-    'neon_crystals': (PINK, 'CRY', 'crystal'),
-    'miami_solvent': (CYAN, 'SOL', 'bottle'),
-    'vice_jars': (PINK_LIGHT, 'JAR', 'jar'),
-    'espresso_powder': (ORANGE, 'ESP', 'sack'),
-    'beach_bud': (GREEN, 'BUD', 'leaf'),
+    'ranch_bud': (GREEN, 'BUD', 'leaf'),
+    'haze_bud': (GREEN, 'HAZE', 'leaf'),
     'zip_bags': (WHITE, 'ZIP', 'bag'),
-    'tropical_leaves': (GREEN, 'LEAF', 'leaf'),
+    'coca_leaves': (GREEN, 'LEAF', 'leaf'),
     'lab_solvent': (CYAN, 'LAB', 'bottle'),
+    'lithium_rocks': (CHROME, 'LI', 'crystal'),
+    'camp_fuel': (ORANGE, 'FUEL', 'bottle'),
+    'raw_tar': (BROWN, 'TAR', 'jar'),
+    'wrap_tape': (TAN, 'TAPE', 'bag'),
+    'street_crystals': (PINK, 'CRY', 'crystal'),
+    'press_capsules': (WHITE, 'CAP', 'pill'),
+    'stamp_dies': (CHROME, 'DIE', 'stamp'),
     'purple_syrup': (PURPLE, 'SYR', 'bottle'),
     'crushed_ice': (CYAN, 'ICE', 'ice'),
     'foam_cups': (WHITE, 'CUP', 'cup'),
     'spark_soda': (CYAN, 'SODA', 'can'),
     'hard_candy': (PINK_LIGHT, 'CNDY', 'pill'),
-    'drive_crystals': (PINK, 'DRV', 'crystal'),
-    'neon_powder': (PINK, 'PWD', 'sack'),
-    'press_capsules': (WHITE, 'CAP', 'pill'),
-    'vice_stamps': (CHROME, 'STMP', 'stamp'),
-    'rush_powder': (PINK, 'RUSH', 'sack'),
-    'neon_candy': (PINK_LIGHT, 'CNDY', 'pill'),
-    'tropical_concentrate': (CYAN, 'CON', 'bottle'),
+    'oil_sludge': (RUST, 'OIL', 'bottle'),
+    'spark_caps': (ORANGE, 'CAP', 'pill'),
+    'desert_dust': (TAN, 'DUST', 'sack'),
+    'baking_soda': (WHITE, 'SODA', 'sack'),
     'cayo_palm_leaf': (GREEN, 'PALM', 'leaf'),
     'reef_coral': (PINK_LIGHT, 'COR', 'crystal'),
     'perico_resin': (GOLD, 'RES', 'jar'),
     'gold_capsules': (GOLD, 'CAP', 'pill'),
-    'heat_305': (PINK, '305', 'product'),
-    'south_beach_kush': (GREEN, 'SBK', 'product'),
-    'brickell_snow': (WHITE, 'SNO', 'product'),
-    'vice_purple': (PURPLE, 'VP', 'product'),
-    'ocean_drive_rolls': (PINK, 'ODR', 'product'),
-    'neon_rush': (CYAN, 'NR', 'product'),
+    'lone_star_kush': (GREEN, 'LSK', 'product'),
+    'hill_country_haze': (GREEN, 'HCH', 'product'),
+    'houston_snow': (WHITE, 'HSN', 'product'),
+    'west_texas_ice': (ORANGE, 'WTI', 'product'),
+    'border_brick': (BROWN, 'BRK', 'product'),
+    'sixth_street_rolls': (PINK, 'SSR', 'product'),
+    'purple_drank': (PURPLE, 'PD', 'product'),
+    'rig_juice': (RUST, 'RIG', 'product'),
+    'panhandle_dust': (TAN, 'PHD', 'product'),
     'perico_gold': (GOLD, 'PG', 'product'),
     'black_money': (GREEN, '$', 'money'),
 }

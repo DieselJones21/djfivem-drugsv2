@@ -1,6 +1,7 @@
 Harvest = {}
 
 local cooldowns = {}
+local fields = {} -- spotId -> { spot, spawned = { [index] = entityKey }, entities = { [entityKey] = rec } }
 
 local function onCooldown(id, seconds)
     local now = GetGameTimer()
@@ -13,7 +14,98 @@ local function onCooldown(id, seconds)
     return false
 end
 
-local function doHarvest(spot, entityKey, propCoords)
+local function shuffle(list)
+    for i = #list, 2, -1 do
+        local j = math.random(1, i)
+        list[i], list[j] = list[j], list[i]
+    end
+    return list
+end
+
+local function registerPropPosition(spotId, entityKey, coords)
+    Client.propPositions[spotId] = Client.propPositions[spotId] or {}
+    Client.propPositions[spotId][entityKey] = coords
+end
+
+local function destroyEntity(entity)
+    if entity and DoesEntityExist(entity) then
+        exports.ox_target:removeLocalEntity(entity)
+        DeleteEntity(entity)
+    end
+end
+
+local function spawnFieldProp(spot, index)
+    local state = fields[spot.id]
+    if not state or not spot.positions or not spot.positions[index] then return end
+    if state.spawned[index] then return end
+
+    local model = spot.model or (spot.prop and spot.prop.model)
+    local rawCoords = spot.positions[index]
+    local groundCoords = Client.GetGroundCoords(rawCoords)
+    local heading = (spot.heading or 0.0) + (index * 37.0)
+    local entityKey = ('%s_%s'):format(spot.id, index)
+
+    registerPropPosition(spot.id, entityKey, groundCoords)
+
+    local obj = Client.SpawnTargetProp(model, rawCoords, heading, {
+        {
+            name = 'djdrugsv2_prop_' .. entityKey,
+            icon = spot.plant and 'fa-solid fa-seedling' or 'fa-solid fa-hand',
+            label = spot.label,
+            distance = Config.InteractDistance,
+            onSelect = function()
+                Harvest.TryCollect(spot, entityKey)
+            end,
+        },
+    }, true)
+
+    if not obj then return end
+
+    state.spawned[index] = entityKey
+    state.entities[entityKey] = {
+        entity = obj,
+        index = index,
+        coords = groundCoords,
+    }
+end
+
+local function despawnFieldProp(spot, entityKey)
+    local state = fields[spot.id]
+    if not state then return end
+    local rec = state.entities[entityKey]
+    if not rec then return end
+
+    destroyEntity(rec.entity)
+    state.entities[entityKey] = nil
+    state.spawned[rec.index] = nil
+    if Client.propPositions[spot.id] then
+        Client.propPositions[spot.id][entityKey] = nil
+    end
+end
+
+local function unusedIndices(spot)
+    local state = fields[spot.id]
+    local free = {}
+    for i = 1, #spot.positions do
+        if not state.spawned[i] then
+            free[#free + 1] = i
+        end
+    end
+    return free
+end
+
+function Harvest.Relocate(spot, entityKey)
+    if not spot or not spot.positions or #spot.positions == 0 then return end
+    despawnFieldProp(spot, entityKey)
+
+    local free = unusedIndices(spot)
+    if #free == 0 then
+        return
+    end
+    spawnFieldProp(spot, free[math.random(1, #free)])
+end
+
+function Harvest.TryCollect(spot, entityKey)
     local key = entityKey or spot.id
     if onCooldown(key, spot.cooldown) then return end
 
@@ -23,12 +115,15 @@ local function doHarvest(spot, entityKey, propCoords)
         return
     end
 
-    TriggerServerEvent('djdrugsv2:server:harvest', spot.id, entityKey)
-end
+    local ok = lib.callback.await('djdrugsv2:server:tryHarvest', false, spot.id, entityKey)
+    if not ok then
+        cooldowns[key] = nil
+        return
+    end
 
-local function registerPropPosition(spotId, entityKey, coords)
-    Client.propPositions[spotId] = Client.propPositions[spotId] or {}
-    Client.propPositions[spotId][entityKey] = coords
+    if spot.clientUnique ~= false then
+        Harvest.Relocate(spot, entityKey)
+    end
 end
 
 --- Single bench harvest spot
@@ -55,7 +150,7 @@ local function setupBench(spot)
             label = spot.label,
             distance = Config.InteractDistance,
             onSelect = function()
-                doHarvest(spot, spot.id, groundCoords)
+                Harvest.TryCollect(spot, spot.id)
             end,
         },
     }
@@ -72,7 +167,7 @@ local function setupBench(spot)
     Client.harvestZones[#Client.harvestZones + 1] = zoneId
 end
 
---- Multiple props scattered in an area — walk around to harvest
+--- Per-player subset of a position pool. Harvest despawns that prop and grows another in a free slot.
 local function setupPropField(spot)
     Client.AddBlip(spot.coords, spot.blip)
 
@@ -84,7 +179,6 @@ local function setupPropField(spot)
 
     local positions = spot.positions
     if not positions or #positions == 0 then
-        -- Fallback: generate circle layout
         local count = spot.count or 6
         local radius = spot.radius or 8.0
         positions = {}
@@ -97,31 +191,25 @@ local function setupPropField(spot)
                 spot.coords.z
             )
         end
+        spot.positions = positions
     end
 
+    fields[spot.id] = { spot = spot, spawned = {}, entities = {} }
+
+    local pool = {}
     for i = 1, #positions do
-        local rawCoords = positions[i]
-        local groundCoords = Client.GetGroundCoords(rawCoords)
-        local heading = (spot.heading or 0.0) + (i * 37.0)
-        local entityKey = ('%s_%s'):format(spot.id, i)
+        pool[i] = i
+    end
+    shuffle(pool)
 
-        registerPropPosition(spot.id, entityKey, groundCoords)
-
-        Client.SpawnTargetProp(model, rawCoords, heading, {
-            {
-                name = 'djdrugsv2_prop_' .. entityKey,
-                icon = 'fa-solid fa-seedling',
-                label = spot.label,
-                distance = Config.InteractDistance,
-                onSelect = function()
-                    doHarvest(spot, entityKey, groundCoords)
-                end,
-            },
-        }, true)
+    local visible = math.min(spot.visibleCount or 6, #pool)
+    for n = 1, visible do
+        spawnFieldProp(spot, pool[n])
     end
 end
 
 function Harvest.Init()
+    math.randomseed(GetGameTimer() + (PlayerId() * 7919))
     for i = 1, #Config.Harvest do
         local spot = Config.Harvest[i]
         if spot.type == 'propField' or spot.type == 'prop' then
@@ -131,4 +219,3 @@ function Harvest.Init()
         end
     end
 end
-

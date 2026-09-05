@@ -107,7 +107,7 @@ lib.callback.register('djdrugsv2:server:createOffer', function(source)
     local total = priceEach * quantity
     local token = newToken()
     local moneyType = sell.moneyType
-        or (pick.id == 'south_beach_kush' and (Config.MoneyType or 'cash'))
+        or (sell.clean == true and (Config.MoneyType or 'cash'))
         or (Config.DirtyMoneyType or 'black_money')
 
     Server.offers[source] = {
