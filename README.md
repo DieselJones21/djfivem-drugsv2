@@ -40,7 +40,9 @@ Weed strains pay clean cash. Everything else pays dirty money. Rank and boost mu
 
 1. Place `djfivem-drugsv2` in your `resources` folder
 2. Merge `install/ox_inventory_items.lua` into `ox_inventory/data/items.lua`
-3. Copy `install/images/*.png` into `ox_inventory/web/images/`
+3. Copy `install/images/*.png` into `ox_inventory/web/images/` (photorealistic product stills)
+
+Process bench coordinates are listed in `install/LOCATIONS.md`.
 4. Add to `server.cfg`:
 
 ```cfg

@@ -32,6 +32,25 @@ Harvest fields are **client-sided**. Each player sees a subset of the position p
 | Perico Resin | 4821.73, -5777.58, 35.90 | `prop_barrel_01a` |
 | Gold Capsules | 5099.88, -4845.09, 13.42 | `prop_box_wood05a` |
 
+## Process benches
+
+Benches snap to the ground. Heading is the fourth `vector4` value.
+
+| Product | Coords (x, y, z) | Heading | Prop |
+|---------|------------------|---------|------|
+| Lone Star Kush | 310.38, 263.08, 104.85 | 272.13 | `bkr_prop_weed_table_01a` |
+| Hill Country Haze | -3164.28, 1113.06, 20.77 | 155.91 | `bkr_prop_weed_table_01a` |
+| Houston Snow | -2246.64, 198.47, 174.59 | 116.22 | `bkr_prop_coke_table01a` |
+| West Texas Ice | -1102.04, 2727.97, 18.80 | 218.27 | `bkr_prop_meth_table01a` |
+| Border Brick | 1467.80, 6554.91, 14.00 | 93.54 | `prop_tool_bench02` |
+| Sixth Street Rolls | 120.45, -717.69, 42.02 | 68.03 | `prop_tool_bench02` |
+| Purple Drank | 220.35, -1992.47, 19.66 | 48.19 | `prop_tool_bench02` |
+| Rig Juice | 1732.27, -1536.24, 112.70 | 68.03 | `bkr_prop_meth_table01a` |
+| Panhandle Dust | 1142.20, -299.64, 68.79 | 269.29 | `prop_tool_bench02` |
+| Perico Gold | 5211.84, -5128.51, 6.20 | 280.63 | `prop_tool_bench02` |
+
+Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
+
 ## Commands
 
 | Command | Description |
