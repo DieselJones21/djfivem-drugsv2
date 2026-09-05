@@ -1,106 +1,62 @@
 --[[
-    7 Miami-themed drugs for djfivem-drugsv2
+    10 Texas-themed drugs for djfivem-drugsv2 (Envy Roleplay)
 
     Default craft rule: 5 of each ingredient → 7 finished product
-    Weed (South Beach Kush) pays clean cash; all others pay black_money.
+    Weed strains pay clean cash; everything else pays black_money.
+
+    Effects:
+      noScreenFx = true  → armor / sprint / stamina / stress only (no timecycle, shake, or postfx)
 ]]
 
-local COMBAT_STIM = {
-    enabled = true,
-    duration = 45000,
-    armorPercent = 25,
-    stamina = true,
-}
+local function processAnim()
+    return {
+        dict = 'anim@amb@business@coc@coc_unpack_cut@',
+        clip = 'fullcut_cycle_v6_cokecutter',
+    }
+end
+
+local function bagAnim()
+    return {
+        dict = 'mini@repair',
+        clip = 'fixing_a_ped',
+    }
+end
 
 Config.Drugs = {
     --------------------------------------------------
-    -- 305 Heat — neon stim drink (Little Havana)
+    -- Lone Star Kush — ranch weed (Grapeseed) — cash, no screen FX
     --------------------------------------------------
-    heat_305 = {
-        label = '305 Heat',
-        item = 'heat_305',
-        description = 'High-octane Miami neon stimulant brew',
-        theme = 'Little Havana',
+    lone_star_kush = {
+        label = 'Lone Star Kush',
+        item = 'lone_star_kush',
+        description = 'Ranch-grown kush bagged for the county',
+        theme = 'Grapeseed',
         ingredients = {
-            { item = 'neon_crystals', amount = 5 },
-            { item = 'miami_solvent', amount = 5 },
-            { item = 'vice_jars', amount = 5 },
-            { item = 'espresso_powder', amount = 5 },
-        },
-        process = {
-            label = 'Mix 305 Heat',
-            coords = vec3(856.71, -943.52, 25.28),
-            heading = 268.68,
-            duration = 14000,
-            prop = {
-                model = `bkr_prop_meth_table01a`,
-                heading = 268.68,
-            },
-            anim = {
-                dict = 'anim@amb@business@coc@coc_unpack_cut@',
-                clip = 'fullcut_cycle_v6_cokecutter',
-            },
-            output = { item = 'heat_305', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 3, label = '305 Heat Lab' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 550,
-            maxPrice = 900,
-            minQty = 1,
-            maxQty = 4,
-        },
-        effects = {
-            enabled = COMBAT_STIM.enabled,
-            label = 'Chugging 305 Heat',
-            useTime = 3500,
-            duration = COMBAT_STIM.duration,
-            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
-            armorPercent = COMBAT_STIM.armorPercent,
-            stamina = COMBAT_STIM.stamina,
-        },
-    },
-
-    --------------------------------------------------
-    -- South Beach Kush — weed (Vespucci Beach)
-    --------------------------------------------------
-    south_beach_kush = {
-        label = 'South Beach Kush',
-        item = 'south_beach_kush',
-        description = 'Premium beach-grown kush bagged for the streets',
-        theme = 'Vespucci Beach',
-        ingredients = {
-            { item = 'beach_bud', amount = 5 },
+            { item = 'ranch_bud', amount = 5 },
             { item = 'zip_bags', amount = 5 },
         },
         process = {
-            label = 'Bag South Beach Kush',
-            coords = vec3(-1198.70, -1548.40, 4.33),
-            heading = 210.0,
+            label = 'Bag Lone Star Kush',
+            coords = vec3(2434.12, 4968.84, 46.81),
+            heading = 225.0,
             duration = 9000,
-            prop = {
-                model = `bkr_prop_weed_table_01a`,
-                heading = 210.0,
-            },
-            anim = {
-                dict = 'mini@repair',
-                clip = 'fixing_a_ped',
-            },
-            output = { item = 'south_beach_kush', amount = 7 },
-            blip = { enabled = false, sprite = 469, color = 3, label = 'Beach Kush Bench' },
+            prop = { model = `bkr_prop_weed_table_01a`, heading = 225.0 },
+            anim = bagAnim(),
+            output = { item = 'lone_star_kush', amount = 7 },
+            blip = { enabled = false, sprite = 469, color = 2, label = 'Lone Star Kush Bench' },
         },
         sell = {
             enabled = true,
             moneyType = 'cash',
-            minPrice = 80,
-            maxPrice = 160,
+            minPrice = 85,
+            maxPrice = 165,
             minQty = 1,
             maxQty = 8,
         },
         effects = {
             enabled = true,
-            label = 'Smoking South Beach Kush',
+            noScreenFx = true,
+            label = 'Smoking Lone Star Kush',
             useTime = 5000,
             duration = 45000,
             anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
@@ -109,61 +65,237 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Brickell Snow — cocaine (Downtown)
+    -- Hill Country Haze — country sativa — cash, light run, no screen FX
     --------------------------------------------------
-    brickell_snow = {
-        label = 'Brickell Snow',
-        item = 'brickell_snow',
-        description = 'Refined downtown snow ready to move',
-        theme = 'Brickell',
+    hill_country_haze = {
+        label = 'Hill Country Haze',
+        item = 'hill_country_haze',
+        description = 'Dry-country haze that keeps you moving',
+        theme = 'Great Chaparral',
         ingredients = {
-            { item = 'tropical_leaves', amount = 5 },
+            { item = 'haze_bud', amount = 5 },
+            { item = 'zip_bags', amount = 5 },
+        },
+        process = {
+            label = 'Bag Hill Country Haze',
+            coords = vec3(-1132.46, 2697.21, 18.80),
+            heading = 130.0,
+            duration = 9000,
+            prop = { model = `bkr_prop_weed_table_01a`, heading = 130.0 },
+            anim = bagAnim(),
+            output = { item = 'hill_country_haze', amount = 7 },
+            blip = { enabled = false, sprite = 469, color = 2, label = 'Hill Country Haze Bench' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'cash',
+            minPrice = 110,
+            maxPrice = 190,
+            minQty = 1,
+            maxQty = 8,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = true,
+            label = 'Smoking Hill Country Haze',
+            useTime = 4500,
+            duration = 40000,
+            anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
+            stamina = true,
+            sprintMultiplier = 1.15,
+            stress = -15,
+        },
+    },
+
+    --------------------------------------------------
+    -- Houston Snow — industrial coke — armor + run, light screen
+    --------------------------------------------------
+    houston_snow = {
+        label = 'Houston Snow',
+        item = 'houston_snow',
+        description = 'City brick broken down for the streets',
+        theme = 'El Burro / La Mesa',
+        ingredients = {
+            { item = 'coca_leaves', amount = 5 },
             { item = 'lab_solvent', amount = 5 },
             { item = 'zip_bags', amount = 5 },
         },
         process = {
-            label = 'Cook Brickell Snow',
-            coords = vec3(-2972.40, 618.80, 23.18),
-            heading = 108.26,
+            label = 'Cut Houston Snow',
+            coords = vec3(891.74, -2172.41, 32.29),
+            heading = 175.0,
             duration = 12000,
-            prop = {
-                model = `bkr_prop_coke_table01a`,
-                heading = 108.26,
-            },
-            anim = {
-                dict = 'anim@amb@business@coc@coc_unpack_cut@',
-                clip = 'fullcut_cycle_v6_cokecutter',
-            },
-            output = { item = 'brickell_snow', amount = 7 },
-            blip = { enabled = false, sprite = 501, color = 0, label = 'Brickell Snow Table' },
+            prop = { model = `bkr_prop_coke_table01a`, heading = 175.0 },
+            anim = processAnim(),
+            output = { item = 'houston_snow', amount = 7 },
+            blip = { enabled = false, sprite = 501, color = 0, label = 'Houston Snow Table' },
         },
         sell = {
             enabled = true,
             moneyType = 'black_money',
-            minPrice = 250,
-            maxPrice = 420,
+            minPrice = 260,
+            maxPrice = 430,
             minQty = 1,
             maxQty = 6,
         },
         effects = {
             enabled = true,
-            label = 'Snorting Brickell Snow',
+            noScreenFx = false,
+            label = 'Snorting Houston Snow',
             useTime = 4000,
             duration = 45000,
             anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
-            armorPercent = 15,
+            armorPercent = 20,
             stamina = true,
+            sprintMultiplier = 1.20,
+            timecycle = 'spectator5',
+            timecycleStrength = 0.35,
         },
     },
 
     --------------------------------------------------
-    -- Vice Purple — lean (Davis / Grove)
+    -- West Texas Ice — desert meth — fast run + screen FX
     --------------------------------------------------
-    vice_purple = {
-        label = 'Vice Purple',
-        item = 'vice_purple',
-        description = 'Classic Miami purple cup ready to pour',
-        theme = 'Vice City',
+    west_texas_ice = {
+        label = 'West Texas Ice',
+        item = 'west_texas_ice',
+        description = 'Sandy-cooked ice that burns the legs',
+        theme = 'Sandy Shores',
+        ingredients = {
+            { item = 'lithium_rocks', amount = 5 },
+            { item = 'camp_fuel', amount = 5 },
+            { item = 'lab_solvent', amount = 5 },
+        },
+        process = {
+            label = 'Cook West Texas Ice',
+            coords = vec3(1391.83, 3603.76, 38.94),
+            heading = 200.0,
+            duration = 13000,
+            prop = { model = `bkr_prop_meth_table01a`, heading = 200.0 },
+            anim = processAnim(),
+            output = { item = 'west_texas_ice', amount = 7 },
+            blip = { enabled = false, sprite = 499, color = 17, label = 'West Texas Ice Lab' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 210,
+            maxPrice = 370,
+            minQty = 1,
+            maxQty = 6,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Hitting West Texas Ice',
+            useTime = 3500,
+            duration = 50000,
+            anim = { dict = 'switch@trevor@trev_smoking_meth', clip = 'trev_smoking_meth_loop', flag = 49 },
+            stamina = true,
+            sprintMultiplier = 1.40,
+            shake = { intensity = 0.35, duration = 8000 },
+            timecycle = 'drug_wobbly',
+            timecycleStrength = 0.45,
+        },
+    },
+
+    --------------------------------------------------
+    -- Border Brick — tar brick — armor + screen FX
+    --------------------------------------------------
+    border_brick = {
+        label = 'Border Brick',
+        item = 'border_brick',
+        description = 'Wrapped brick moved up from the docks',
+        theme = 'Elysian Island',
+        ingredients = {
+            { item = 'raw_tar', amount = 5 },
+            { item = 'wrap_tape', amount = 5 },
+            { item = 'zip_bags', amount = 5 },
+        },
+        process = {
+            label = 'Wrap Border Brick',
+            coords = vec3(1048.50, -3095.80, 5.90),
+            heading = 90.0,
+            duration = 12000,
+            prop = { model = `prop_tool_bench02`, heading = 90.0 },
+            anim = bagAnim(),
+            output = { item = 'border_brick', amount = 7 },
+            blip = { enabled = false, sprite = 501, color = 1, label = 'Border Brick Bench' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 320,
+            maxPrice = 520,
+            minQty = 1,
+            maxQty = 5,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Using Border Brick',
+            useTime = 4500,
+            duration = 50000,
+            anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
+            armorPercent = 30,
+            walk = 'move_m@drunk@slightlydrunk',
+            drunkCamera = true,
+            shake = { intensity = 0.25, duration = 6000 },
+        },
+    },
+
+    --------------------------------------------------
+    -- Sixth Street Rolls — molly — fast run + screen FX
+    --------------------------------------------------
+    sixth_street_rolls = {
+        label = 'Sixth Street Rolls',
+        item = 'sixth_street_rolls',
+        description = 'Pressed rolls from the downtown alleys',
+        theme = 'Textile City',
+        ingredients = {
+            { item = 'street_crystals', amount = 5 },
+            { item = 'press_capsules', amount = 5 },
+            { item = 'stamp_dies', amount = 5 },
+        },
+        process = {
+            label = 'Press Sixth Street Rolls',
+            coords = vec3(196.42, -316.18, 44.14),
+            heading = 160.0,
+            duration = 11000,
+            prop = { model = `prop_tool_bench02`, heading = 160.0 },
+            anim = bagAnim(),
+            output = { item = 'sixth_street_rolls', amount = 7 },
+            blip = { enabled = false, sprite = 51, color = 3, label = 'Sixth Street Press' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 480,
+            maxPrice = 820,
+            minQty = 1,
+            maxQty = 6,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Popping Sixth Street Rolls',
+            useTime = 3000,
+            duration = 45000,
+            anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
+            stamina = true,
+            sprintMultiplier = 1.35,
+            screenEffect = 'DrugsMichaelAliensFight',
+        },
+    },
+
+    --------------------------------------------------
+    -- Purple Drank — lean — stress only, no screen FX
+    --------------------------------------------------
+    purple_drank = {
+        label = 'Purple Drank',
+        item = 'purple_drank',
+        description = 'County-cup lean mixed in the south side',
+        theme = 'Davis',
         ingredients = {
             { item = 'purple_syrup', amount = 5 },
             { item = 'crushed_ice', amount = 5 },
@@ -172,32 +304,27 @@ Config.Drugs = {
             { item = 'hard_candy', amount = 5 },
         },
         process = {
-            label = 'Mix Vice Purple',
+            label = 'Pour Purple Drank',
             coords = vec3(1092.77, -154.72, 54.64),
             heading = 66.12,
             duration = 10000,
-            prop = {
-                model = `prop_tool_bench02`,
-                heading = 66.12,
-            },
-            anim = {
-                dict = 'mini@repair',
-                clip = 'fixing_a_ped',
-            },
-            output = { item = 'vice_purple', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 27, label = 'Vice Purple Bench' },
+            prop = { model = `prop_tool_bench02`, heading = 66.12 },
+            anim = bagAnim(),
+            output = { item = 'purple_drank', amount = 7 },
+            blip = { enabled = false, sprite = 499, color = 27, label = 'Purple Drank Bench' },
         },
         sell = {
             enabled = true,
             moneyType = 'black_money',
-            minPrice = 140,
-            maxPrice = 260,
+            minPrice = 145,
+            maxPrice = 265,
             minQty = 1,
             maxQty = 5,
         },
         effects = {
             enabled = true,
-            label = 'Sipping Vice Purple',
+            noScreenFx = true,
+            label = 'Sipping Purple Drank',
             useTime = 4500,
             duration = 45000,
             anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
@@ -206,104 +333,97 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Ocean Drive Rolls — ecstasy (Del Perro)
+    -- Rig Juice — oilfield stim — fast run + armor, no screen FX
     --------------------------------------------------
-    ocean_drive_rolls = {
-        label = 'Ocean Drive Rolls',
-        item = 'ocean_drive_rolls',
-        description = 'Neon-pressed rolls from the Del Perro strip',
-        theme = 'Ocean Drive',
+    rig_juice = {
+        label = 'Rig Juice',
+        item = 'rig_juice',
+        description = 'Oilfield stim that keeps crews on their feet',
+        theme = 'Grand Senora oil',
         ingredients = {
-            { item = 'drive_crystals', amount = 5 },
-            { item = 'neon_powder', amount = 5 },
-            { item = 'press_capsules', amount = 5 },
-            { item = 'vice_stamps', amount = 5 },
+            { item = 'oil_sludge', amount = 5 },
+            { item = 'spark_caps', amount = 5 },
+            { item = 'camp_fuel', amount = 5 },
         },
         process = {
-            label = 'Press Ocean Drive Rolls',
-            coords = vec3(384.63, 3554.60, 32.42),
-            heading = 172.92,
+            label = 'Mix Rig Juice',
+            coords = vec3(601.18, 2854.42, 39.92),
+            heading = 280.0,
             duration = 11000,
-            prop = {
-                model = `prop_tool_bench02`,
-                heading = 172.92,
-            },
-            anim = {
-                dict = 'mini@repair',
-                clip = 'fixing_a_ped',
-            },
-            output = { item = 'ocean_drive_rolls', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 3, label = 'Ocean Drive Press' },
+            prop = { model = `bkr_prop_meth_table01a`, heading = 280.0 },
+            anim = processAnim(),
+            output = { item = 'rig_juice', amount = 7 },
+            blip = { enabled = false, sprite = 499, color = 17, label = 'Rig Juice Lab' },
         },
         sell = {
             enabled = true,
             moneyType = 'black_money',
-            minPrice = 500,
-            maxPrice = 850,
+            minPrice = 560,
+            maxPrice = 920,
             minQty = 1,
-            maxQty = 6,
+            maxQty = 4,
         },
         effects = {
             enabled = true,
-            label = 'Popping Ocean Drive Rolls',
-            useTime = 3000,
+            noScreenFx = true,
+            label = 'Drinking Rig Juice',
+            useTime = 3500,
             duration = 45000,
-            anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
+            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
+            armorPercent = 25,
             stamina = true,
-            sprintMultiplier = 1.35,
+            sprintMultiplier = 1.38,
         },
     },
 
     --------------------------------------------------
-    -- Neon Rush — stim juice (Port)
+    -- Panhandle Dust — desert speed — fast run + screen FX
     --------------------------------------------------
-    neon_rush = {
-        label = 'Neon Rush',
-        item = 'neon_rush',
-        description = 'Port-side neon juice ready to move',
-        theme = 'Elysian Island',
+    panhandle_dust = {
+        label = 'Panhandle Dust',
+        item = 'panhandle_dust',
+        description = 'Desert speed cut with baking soda',
+        theme = 'Grand Senora Desert',
         ingredients = {
-            { item = 'rush_powder', amount = 5 },
-            { item = 'neon_candy', amount = 5 },
-            { item = 'tropical_concentrate', amount = 5 },
+            { item = 'desert_dust', amount = 5 },
+            { item = 'baking_soda', amount = 5 },
+            { item = 'zip_bags', amount = 5 },
         },
         process = {
-            label = 'Mix Neon Rush',
-            coords = vec3(1048.50, -3095.80, 5.90),
-            heading = 90.0,
-            duration = 11000,
-            prop = {
-                model = `prop_tool_bench02`,
-                heading = 90.0,
-            },
-            anim = {
-                dict = 'mini@repair',
-                clip = 'fixing_a_ped',
-            },
-            output = { item = 'neon_rush', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 3, label = 'Neon Rush Lab' },
+            label = 'Cut Panhandle Dust',
+            coords = vec3(2351.44, 3132.88, 48.21),
+            heading = 350.0,
+            duration = 10000,
+            prop = { model = `prop_tool_bench02`, heading = 350.0 },
+            anim = bagAnim(),
+            output = { item = 'panhandle_dust', amount = 7 },
+            blip = { enabled = false, sprite = 51, color = 5, label = 'Panhandle Dust Bench' },
         },
         sell = {
             enabled = true,
             moneyType = 'black_money',
-            minPrice = 500,
-            maxPrice = 850,
+            minPrice = 185,
+            maxPrice = 330,
             minQty = 1,
             maxQty = 6,
         },
         effects = {
-            enabled = COMBAT_STIM.enabled,
-            label = 'Drinking Neon Rush',
-            useTime = 4000,
-            duration = COMBAT_STIM.duration,
-            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
-            armorPercent = COMBAT_STIM.armorPercent,
-            stamina = COMBAT_STIM.stamina,
+            enabled = true,
+            noScreenFx = false,
+            label = 'Railing Panhandle Dust',
+            useTime = 3000,
+            duration = 40000,
+            anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
+            stamina = true,
+            sprintMultiplier = 1.42,
+            shake = { intensity = 0.28, duration = 5000 },
+            timecycle = 'drug_flying_01',
+            timecycleStrength = 0.4,
         },
     },
 
     --------------------------------------------------
-    -- Perico Gold — Cayo exclusive premium pills
+    -- Perico Gold — Cayo exclusive — armor + stamina, no screen FX
     --------------------------------------------------
     perico_gold = {
         label = 'Perico Gold',
@@ -321,14 +441,8 @@ Config.Drugs = {
             coords = vec3(5071.07, -4639.87, 2.11),
             heading = 30.0,
             duration = 15000,
-            prop = {
-                model = `prop_tool_bench02`,
-                heading = 30.0,
-            },
-            anim = {
-                dict = 'mini@repair',
-                clip = 'fixing_a_ped',
-            },
+            prop = { model = `prop_tool_bench02`, heading = 30.0 },
+            anim = bagAnim(),
             output = { item = 'perico_gold', amount = 7 },
             blip = { enabled = false, sprite = 51, color = 5, label = 'Perico Gold Press' },
         },
@@ -342,6 +456,7 @@ Config.Drugs = {
         },
         effects = {
             enabled = true,
+            noScreenFx = true,
             label = 'Popping Perico Gold',
             useTime = 3000,
             duration = 60000,

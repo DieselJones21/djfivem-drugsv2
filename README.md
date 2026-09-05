@@ -1,31 +1,33 @@
 # djfivem-drugsv2
 
-Drug economy for FiveM (QBX + ox_inventory) themed for **Envy Roleplay**. Harvest ingredients from scattered props across the map, process at benches, and sell via `/trap` street dealing.
-
-**Envy Roleplay** aesthetic — dark glass UI with electric cyan and chrome accents matching the server wordmark.
+Texas-themed drug economy for FiveM (QBX + ox_inventory) branded for **Envy Roleplay**. Harvest ingredients from client-side props, process at benches, and sell via `/trap`.
 
 ## Features
 
-- **7 Miami-themed drugs** spread across Los Santos + Cayo Perico
-- **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and mini sell deal panel
-- **Multi-prop harvest fields** — walk around areas to collect ingredients (not single spots)
-- **Ground-snapped props** — all harvest props and processing benches level on the ground
-- **32 ox_inventory items** with custom cyan/chrome icons
+- **10 Texas-themed drugs** plus a Cayo Perico exclusive
+- **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and street deals
+- **Client-sided harvest fields** — each player sees their own plants/props; harvest despawns that one and respawns it elsewhere in the same field
+- **Ground-snapped props** on harvest spots and process benches
 - **Sell ranks & leaderboard** with KVP persistence
 - **Admin boost events** (2x/3x/4x sell + harvest)
-- **Anti-exploit** server validation (proximity, cooldowns, token-based sales)
+- **Anti-exploit** server validation (proximity to the configured pool, cooldowns, token-based sales)
 
 ## Drugs
 
-| Drug | Theme | Location | Payout |
-|------|-------|----------|--------|
-| 305 Heat | Neon stim drink | Little Havana | black_money |
-| South Beach Kush | Premium weed | Vespucci Beach | cash |
-| Brickell Snow | Downtown coke | Maze Bank area | black_money |
-| Vice Purple | Lean cup | Davis / Grove | black_money |
-| Ocean Drive Rolls | Ecstasy pills | Del Perro | black_money |
-| Neon Rush | Port stim juice | Elysian Island | black_money |
-| Perico Gold | Premium pills | Cayo Perico | black_money |
+| Drug | Pay | Effects |
+|------|-----|---------|
+| Lone Star Kush | cash | Calm / no screen FX |
+| Hill Country Haze | cash | Light sprint / no screen FX |
+| Houston Snow | black_money | Armor + run / light screen |
+| West Texas Ice | black_money | Fast run / screen FX |
+| Border Brick | black_money | Armor / screen FX |
+| Sixth Street Rolls | black_money | Fast run / screen FX |
+| Purple Drank | black_money | Stress relief / no screen FX |
+| Rig Juice | black_money | Armor + fast run / no screen FX |
+| Panhandle Dust | black_money | Fast run / screen FX |
+| Perico Gold | black_money | Heavy armor / no screen FX |
+
+Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
 
 ## Dependencies
 
@@ -50,8 +52,8 @@ ensure djfivem-drugsv2
 
 | Command | Description |
 |---------|-------------|
-| `/trap` | Start/stop street selling (opens mini deal NUI) |
-| `/drugboard` | Open Envy-themed sell leaderboard |
+| `/trap` | Start/stop street selling |
+| `/drugboard` | Open the sell leaderboard |
 | `/drugboost` | Admin boost event panel |
 
 ## Crafting
@@ -59,16 +61,6 @@ ensure djfivem-drugsv2
 Default rule: **5 of each ingredient → 7 finished product**
 
 Flow: Harvest scattered props → Process at bench → `/trap` to sell
-
-## UI
-
-The custom NUI matches the Envy Roleplay cyan/chrome wordmark:
-- Dark glassmorphism panels with electric cyan glow and chrome highlights
-- Official **Envy Roleplay** logo on leaderboard, boost, sell, and HUD
-- Podium styling (gold / silver / bronze) and a highlighted “you” row
-- Leaderboard with rank progress bar and player avatar
-- Boost admin panel with multiplier cards, live status, and a HUD countdown
-- Compact street deal panel (mouse focus for Accept / Haggle / Walk Away)
 
 ## Tests
 

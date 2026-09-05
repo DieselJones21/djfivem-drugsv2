@@ -83,10 +83,10 @@ async function main() {
     };
 
     const mockBoard = {
-        mine: { name: 'Alex Reyes', label: 'Vice Hustler', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'Ocean Plug', nextSold: 800, maxed: false },
+        mine: { name: 'Alex Reyes', label: 'Dust Runner', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'County Plug', nextSold: 800, maxed: false },
         top: [
             { place: 1, name: 'Carlos M.', label: 'Envy Kingpin', sold: 5200, earned: 2400000 },
-            { place: 2, name: 'Maria S.', label: 'Neon Trap Star', sold: 3100, earned: 980000 },
+            { place: 2, name: 'Maria S.', label: 'Border Star', sold: 3100, earned: 980000 },
         ],
         totalSellers: 2,
     };
@@ -97,7 +97,7 @@ async function main() {
     };
 
     const mockOffer = {
-        label: '305 Heat', quantity: 3, priceEach: 720, total: 2160,
+        label: 'Rig Juice', quantity: 3, priceEach: 720, total: 2160,
         minPrice: 550, maxPrice: 900, attempts: 0, maxAttempts: 2,
         haggleEnabled: true, boostMultiplier: 2,
     };

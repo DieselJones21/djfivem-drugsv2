@@ -59,16 +59,18 @@ function Effects.Apply(drugId, effect)
         applyStress(effect.stress)
     end
 
-    if effect.timecycle then
+    local allowScreen = effect.noScreenFx ~= true
+
+    if allowScreen and effect.timecycle then
         SetTimecycleModifier(effect.timecycle)
         SetTimecycleModifierStrength(effect.timecycleStrength or 0.5)
     end
 
-    if effect.screenEffect then
+    if allowScreen and effect.screenEffect then
         AnimpostfxPlay(effect.screenEffect, 0, true)
     end
 
-    if effect.shake then
+    if allowScreen and effect.shake then
         ShakeGameplayCam('DRUNK_SHAKE', effect.shake.intensity or 0.3)
         SetTimeout(effect.shake.duration or 5000, function()
             if Effects.token == token then
@@ -77,7 +79,7 @@ function Effects.Apply(drugId, effect)
         end)
     end
 
-    if effect.walk then
+    if allowScreen and effect.walk then
         RequestAnimSet(effect.walk)
         local timeout = GetGameTimer() + 3000
         while not HasAnimSetLoaded(effect.walk) do
@@ -89,7 +91,7 @@ function Effects.Apply(drugId, effect)
         end
     end
 
-    if effect.drunkCamera then
+    if allowScreen and effect.drunkCamera then
         SetPedIsDrunk(ped, true)
     end
 

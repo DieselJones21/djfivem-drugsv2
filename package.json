@@ -1,7 +1,7 @@
 {
   "name": "workspace",
   "version": "1.0.0",
-    "description": "Envy Roleplay drug economy for FiveM (QBX + ox_inventory). Harvest ingredients from scattered props across the map, process at benches, and sell via `/trap` street dealing.",
+    "description": "Envy Roleplay Texas drug economy for FiveM (QBX + ox_inventory). Client-sided harvest fields, process benches, and `/trap` street dealing.",
   "main": "index.js",
   "directories": {
     "test": "tests"
