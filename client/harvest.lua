@@ -45,9 +45,7 @@ local function spawnFieldProp(spot, index)
     local heading = (spot.heading or 0.0) + (index * 37.0)
     local entityKey = ('%s_%s'):format(spot.id, index)
 
-    registerPropPosition(spot.id, entityKey, groundCoords)
-
-    local obj = Client.SpawnTargetProp(model, rawCoords, heading, {
+    local obj = Client.SpawnTargetProp(model, groundCoords, heading, {
         {
             name = 'djdrugsv2_prop_' .. entityKey,
             icon = spot.plant and 'fa-solid fa-seedling' or 'fa-solid fa-hand',
@@ -61,11 +59,14 @@ local function spawnFieldProp(spot, index)
 
     if not obj then return end
 
+    local placed = GetEntityCoords(obj)
+    registerPropPosition(spot.id, entityKey, placed)
+
     state.spawned[index] = entityKey
     state.entities[entityKey] = {
         entity = obj,
         index = index,
-        coords = groundCoords,
+        coords = placed,
     }
 end
 
