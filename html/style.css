@@ -154,9 +154,9 @@ body {
 
 .logo-img {
     display: block;
-    height: 92px;
+    height: 108px;
     width: auto;
-    max-width: 280px;
+    max-width: 320px;
     object-fit: contain;
     filter: drop-shadow(0 0 14px rgba(232, 238, 242, 0.35)) drop-shadow(0 0 18px rgba(198, 40, 40, 0.35));
 }
@@ -419,9 +419,7 @@ body {
     padding: 6px 22px 4px;
     border-bottom: 1px solid var(--panel-border);
     position: relative;
-    background:
-        url('img/logo-rebel.png') right 72px top -18px / 210px auto no-repeat,
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
+    background: linear-gradient(180deg, rgba(198, 40, 40, 0.12), transparent);
     z-index: 2;
 }
 
