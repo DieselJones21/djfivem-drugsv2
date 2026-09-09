@@ -138,6 +138,7 @@ async function main() {
     await send('updateBoost', mockBoost);
     assert(await frame.locator('#boost-hud').isVisible(), 'Boost HUD visible when events active');
     assert(await frame.locator('#boost-sell-pill').isVisible(), 'Sell boost pill visible');
+    assert(await frame.locator('#boost-harvest-pill .logo-img-hud').isVisible(), 'Harvest HUD uses Rebel logo');
 
     // Boost HUD hidden when inactive
     await send('updateBoost', { sell: null, harvest: null });

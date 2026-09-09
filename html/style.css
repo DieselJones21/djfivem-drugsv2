@@ -1,18 +1,25 @@
 :root {
     --bg: #050303;
-    --panel: rgba(10, 6, 6, 0.86);
-    --panel-border: rgba(220, 40, 40, 0.32);
-    --cyan: #e8e8e8;
-    --cyan-hot: #ffffff;
-    --cyan-deep: #9b1c1c;
-    --cyan-glow: rgba(220, 36, 36, 0.5);
-    --cyan-soft: rgba(220, 36, 36, 0.16);
-    --chrome: #d4dde4;
-    --chrome-mid: #8b97a1;
-    --text: #f4f1ea;
-    --text-dim: rgba(230, 220, 210, 0.55);
-    --card: rgba(255, 255, 255, 0.04);
+    --panel: rgba(8, 5, 5, 0.92);
+    --panel-border: rgba(198, 40, 40, 0.42);
+    --chrome: #e8eef2;
+    --chrome-mid: #9aa8b4;
+    --chrome-deep: #5d6b76;
+    --crimson: #c62828;
+    --crimson-hot: #e53935;
+    --crimson-deep: #7a1212;
+    --navy: #1a3a6b;
+    --navy-hot: #2e6bb8;
     --gold: #d4af37;
+    --gold-hot: #f0d060;
+    --cyan: var(--chrome);
+    --cyan-hot: #ffffff;
+    --cyan-deep: var(--crimson-deep);
+    --cyan-glow: rgba(198, 40, 40, 0.5);
+    --cyan-soft: rgba(198, 40, 40, 0.16);
+    --text: #f4f1ea;
+    --text-dim: rgba(230, 220, 210, 0.58);
+    --card: rgba(255, 255, 255, 0.04);
     --silver: #c5d0d8;
     --bronze: #d08a4c;
     --danger: #ff6b6b;
@@ -81,10 +88,10 @@ body {
     align-items: center;
     gap: 8px;
     padding: 8px 16px 8px 10px;
-    background: linear-gradient(180deg, rgba(18, 32, 36, 0.92), rgba(6, 12, 14, 0.94));
-    border: 1px solid var(--panel-border);
+    background: linear-gradient(180deg, rgba(26, 58, 107, 0.55), rgba(8, 5, 5, 0.94));
+    border: 1px solid rgba(232, 238, 242, 0.28);
     border-radius: 999px;
-    box-shadow: 0 0 22px var(--cyan-soft), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 22px var(--cyan-soft), inset 0 1px 0 rgba(255, 255, 255, 0.18);
     font-family: var(--display);
     font-size: 13px;
     font-weight: 700;
@@ -94,9 +101,9 @@ body {
 }
 
 .boost-pill .boost-time {
-    color: var(--cyan);
+    color: var(--gold-hot);
     font-weight: 700;
-    text-shadow: 0 0 10px var(--cyan-glow);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.55);
 }
 
 @keyframes pulse-glow {
@@ -109,24 +116,24 @@ body {
     position: fixed;
     bottom: 80px;
     right: 30px;
-    width: 340px;
+    width: 360px;
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: var(--radius);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), 0 0 20px var(--cyan-soft);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), 0 0 24px var(--cyan-soft);
     overflow: hidden;
     z-index: 200;
     animation: slide-up 0.3s ease-out;
 }
 
 .sell-mini.is-boosted {
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28), 0 0 26px var(--cyan-glow);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45), 0 0 28px rgba(212, 175, 55, 0.35);
 }
 
 .chrome-edge {
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--chrome) 18%, var(--cyan) 50%, var(--chrome) 82%, transparent);
-    box-shadow: 0 0 12px var(--cyan-glow);
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--chrome) 22%, var(--crimson) 50%, var(--chrome) 78%, var(--navy));
+    box-shadow: 0 0 14px var(--cyan-glow);
 }
 
 @keyframes slide-up {
@@ -138,43 +145,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px 8px;
-    background: linear-gradient(180deg, rgba(0, 245, 255, 0.12), transparent);
+    padding: 8px 14px 6px;
+    background:
+        url('img/logo-rebel.png') right -20px center / 180px auto no-repeat,
+        linear-gradient(180deg, rgba(198, 40, 40, 0.18), transparent);
     border-bottom: 1px solid var(--panel-border);
 }
 
 .logo-img {
     display: block;
-    height: 72px;
+    height: 92px;
     width: auto;
-    max-width: 240px;
+    max-width: 280px;
     object-fit: contain;
-    filter: drop-shadow(0 0 16px rgba(0, 245, 255, 0.55));
+    filter: drop-shadow(0 0 14px rgba(232, 238, 242, 0.35)) drop-shadow(0 0 18px rgba(198, 40, 40, 0.35));
 }
 
 .logo-img-mini {
     display: block;
-    height: 52px;
+    height: 64px;
     width: auto;
-    max-width: 180px;
+    max-width: 200px;
     object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.5));
+    filter: drop-shadow(0 0 10px rgba(232, 238, 242, 0.4));
 }
 
 .logo-img-hud {
     display: block;
-    height: 22px;
+    height: 26px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 0 6px rgba(0, 245, 255, 0.65));
+    filter: drop-shadow(0 0 6px rgba(232, 238, 242, 0.55));
 }
 
 .logo-img-scene {
-    height: 28px;
+    height: 36px;
     width: auto;
-    max-width: 72px;
+    max-width: 96px;
     object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(0, 245, 255, 0.4));
+    filter: drop-shadow(0 0 8px rgba(232, 238, 242, 0.35));
 }
 
 .footer-brand {
@@ -184,6 +193,7 @@ body {
     font-family: var(--display);
     font-weight: 700;
     letter-spacing: 1.2px;
+    color: var(--chrome);
 }
 
 .sell-badge {
@@ -191,12 +201,13 @@ body {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.4px;
-    color: var(--cyan);
+    color: var(--chrome);
     padding: 4px 10px;
-    border: 1px solid var(--cyan);
+    border: 1px solid var(--chrome-mid);
     border-radius: 999px;
     box-shadow: 0 0 12px var(--cyan-soft);
-    text-shadow: 0 0 8px var(--cyan-glow);
+    text-shadow: 0 0 8px rgba(232, 238, 242, 0.35);
+    background: rgba(26, 58, 107, 0.35);
 }
 
 .sell-mini-body {
@@ -222,10 +233,9 @@ body {
     font-family: var(--display);
     font-size: 36px;
     font-weight: 700;
-    color: var(--text);
     letter-spacing: 0.5px;
-    text-shadow: 0 0 22px var(--cyan-glow);
-    background: linear-gradient(180deg, #ffffff, var(--cyan-hot));
+    text-shadow: 0 0 22px rgba(212, 175, 55, 0.45);
+    background: linear-gradient(180deg, #fff6d0, var(--gold), #9a7a18);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -239,7 +249,7 @@ body {
 
 .sell-attempts {
     font-size: 11px;
-    color: var(--cyan);
+    color: var(--gold);
     margin-top: 6px;
     font-weight: 600;
     letter-spacing: 0.3px;
@@ -273,10 +283,11 @@ body {
 
 .btn-accept {
     grid-column: 1 / -1;
-    background: linear-gradient(180deg, #8af7ff 0%, #00d7e4 42%, #008f9c 100%);
-    color: #041014;
+    background: linear-gradient(180deg, #e8eef2 0%, #b8c4ce 42%, #7a1212 100%);
+    color: #140808;
     box-shadow: 0 4px 20px var(--cyan-glow), inset 0 1px 0 rgba(255, 255, 255, 0.55);
     text-transform: uppercase;
+    border: 1px solid rgba(198, 40, 40, 0.55);
 }
 
 .btn-accept:hover {
@@ -287,13 +298,13 @@ body {
 .btn-haggle-soft, .btn-haggle-hard {
     background: var(--card);
     color: var(--text);
-    border: 1px solid var(--panel-border);
+    border: 1px solid rgba(26, 58, 107, 0.55);
 }
 
 .btn-haggle-soft:hover, .btn-haggle-hard:hover {
-    border-color: var(--cyan);
-    background: var(--cyan-soft);
-    color: var(--cyan-hot);
+    border-color: var(--navy-hot);
+    background: rgba(26, 58, 107, 0.28);
+    color: var(--chrome);
 }
 
 .btn-decline {
@@ -314,35 +325,47 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 720px;
+    width: 740px;
     max-height: 85vh;
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: 18px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28), 0 0 22px var(--cyan-soft);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 26px var(--cyan-soft);
     overflow: hidden;
     z-index: 300;
     animation: panel-in 0.25s ease-out;
     isolation: isolate;
 }
 
+.panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(198, 40, 40, 0.08), transparent 28%),
+        linear-gradient(90deg, rgba(26, 58, 107, 0.12), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
 .panel::after {
     content: '';
     position: absolute;
-    right: -10px;
-    bottom: 28px;
-    width: 220px;
-    height: 150px;
+    right: -24px;
+    bottom: -8px;
+    width: 340px;
+    height: 210px;
     background: url('img/logo-rebel.png') center / contain no-repeat;
-    opacity: 0.08;
+    opacity: 0.16;
     pointer-events: none;
-    filter: saturate(1.2);
+    filter: saturate(1.15);
+    z-index: 0;
 }
 
 .panel-frame {
     position: absolute;
     inset: 8px;
-    border: 1px solid rgba(220, 40, 40, 0.12);
+    border: 1px solid rgba(232, 238, 242, 0.12);
     border-radius: 12px;
     pointer-events: none;
     z-index: 1;
@@ -354,8 +377,8 @@ body {
     position: absolute;
     width: 18px;
     height: 18px;
-    border: 2px solid var(--cyan);
-    filter: drop-shadow(0 0 6px var(--cyan-glow));
+    border: 2px solid var(--chrome);
+    filter: drop-shadow(0 0 6px rgba(232, 238, 242, 0.45));
 }
 
 .panel-frame::before {
@@ -384,18 +407,22 @@ body {
     width: 200%;
     height: 200%;
     background:
-        radial-gradient(circle at 28% 18%, rgba(0, 245, 255, 0.1), transparent 42%),
-        radial-gradient(circle at 80% 0%, rgba(212, 221, 228, 0.05), transparent 36%);
+        radial-gradient(circle at 22% 12%, rgba(198, 40, 40, 0.16), transparent 42%),
+        radial-gradient(circle at 82% 8%, rgba(26, 58, 107, 0.14), transparent 38%),
+        radial-gradient(circle at 70% 90%, rgba(212, 175, 55, 0.06), transparent 40%);
     pointer-events: none;
 }
 
 .panel-header {
     display: flex;
     align-items: center;
-    padding: 8px 22px 6px;
+    padding: 6px 22px 4px;
     border-bottom: 1px solid var(--panel-border);
     position: relative;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent);
+    background:
+        url('img/logo-rebel.png') right 72px top -18px / 210px auto no-repeat,
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
+    z-index: 2;
 }
 
 .header-left { flex: 1; }
@@ -405,7 +432,7 @@ body {
     font-size: 13px;
     font-weight: 600;
     color: var(--text-dim);
-    margin-top: -4px;
+    margin-top: -6px;
     letter-spacing: 1.6px;
     text-transform: uppercase;
 }
@@ -422,8 +449,8 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: linear-gradient(180deg, #8af7ff, #009aa8);
-    color: #041014;
+    background: linear-gradient(180deg, #e8eef2, #8b1a1a);
+    color: #140808;
     font-family: var(--display);
     font-size: 14px;
     font-weight: 700;
@@ -432,6 +459,7 @@ body {
     justify-content: center;
     box-shadow: 0 0 16px var(--cyan-glow);
     letter-spacing: 0.5px;
+    border: 1px solid rgba(232, 238, 242, 0.45);
 }
 
 .player-name {
@@ -442,7 +470,7 @@ body {
 .player-rank {
     font-family: var(--display);
     font-size: 12px;
-    color: var(--cyan);
+    color: var(--gold);
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -462,8 +490,8 @@ body {
 }
 
 .close-btn:hover {
-    color: var(--cyan);
-    border-color: var(--cyan);
+    color: var(--chrome);
+    border-color: var(--chrome);
     box-shadow: 0 0 12px var(--cyan-soft);
 }
 
@@ -473,6 +501,8 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     padding: 14px 24px 10px;
+    position: relative;
+    z-index: 2;
 }
 
 #boost-panel .stats-row {
@@ -481,7 +511,7 @@ body {
 
 .stat-card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.18)), var(--card);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(232, 238, 242, 0.08);
     border-radius: var(--radius);
     padding: 14px 16px;
     position: relative;
@@ -495,8 +525,8 @@ body {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cyan), var(--chrome), transparent);
-    opacity: 0.75;
+    background: linear-gradient(90deg, transparent, var(--crimson), var(--chrome), var(--navy), transparent);
+    opacity: 0.9;
 }
 
 .stat-card.is-live {
@@ -505,8 +535,8 @@ body {
 }
 
 .stat-card.is-live .stat-value {
-    color: var(--cyan-hot);
-    text-shadow: 0 0 12px var(--cyan-glow);
+    color: var(--gold-hot);
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
 }
 
 .stat-label {
@@ -531,7 +561,7 @@ body {
     font-family: var(--display);
     font-size: 11px;
     font-weight: 700;
-    color: var(--cyan);
+    color: var(--chrome);
     padding: 2px 8px;
     border: 1px solid var(--panel-border);
     border-radius: 999px;
@@ -552,7 +582,7 @@ body {
 }
 
 .panel-body::-webkit-scrollbar-thumb {
-    background: var(--cyan);
+    background: linear-gradient(180deg, var(--crimson), var(--chrome));
     border-radius: 4px;
 }
 
@@ -603,7 +633,7 @@ body {
 }
 
 .lb-row.lb-me {
-    border-color: var(--cyan);
+    border-color: var(--crimson);
     box-shadow: 0 0 16px var(--cyan-soft);
 }
 
@@ -612,7 +642,7 @@ body {
     font-family: var(--display);
     font-size: 18px;
     font-weight: 700;
-    color: var(--cyan);
+    color: var(--chrome);
 }
 
 .lb-row.lb-gold .lb-place { color: var(--gold); text-shadow: 0 0 10px rgba(255, 213, 106, 0.45); }
@@ -644,7 +674,7 @@ body {
 }
 
 .lb-earned {
-    color: var(--text-dim);
+    color: var(--gold);
     font-size: 11px;
 }
 
@@ -671,7 +701,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--cyan-deep), var(--cyan), var(--chrome));
+    background: linear-gradient(90deg, var(--navy), var(--crimson), var(--gold));
     border-radius: 999px;
     transition: width 0.5s ease;
     box-shadow: 0 0 12px var(--cyan-glow);
@@ -718,7 +748,7 @@ body {
     gap: 4px;
     padding: 12px 8px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2)), var(--card);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(232, 238, 242, 0.08);
     border-radius: var(--radius-sm);
     cursor: pointer;
     transition: all 0.15s;
@@ -727,7 +757,7 @@ body {
 }
 
 .boost-card:hover {
-    border-color: var(--cyan);
+    border-color: var(--crimson);
     background: var(--cyan-soft);
     box-shadow: 0 0 16px var(--cyan-soft);
     transform: translateY(-1px);
@@ -741,8 +771,8 @@ body {
     font-family: var(--display);
     font-size: 24px;
     font-weight: 700;
-    color: var(--cyan);
-    text-shadow: 0 0 12px var(--cyan-glow);
+    color: var(--chrome);
+    text-shadow: 0 0 12px rgba(232, 238, 242, 0.35);
 }
 
 .boost-kind {
@@ -773,10 +803,10 @@ body {
 
 .duration-btn.active,
 .duration-btn:hover {
-    border-color: var(--cyan);
-    color: var(--cyan);
-    background: var(--cyan-soft);
-    box-shadow: 0 0 12px var(--cyan-soft);
+    border-color: var(--gold);
+    color: var(--gold-hot);
+    background: rgba(212, 175, 55, 0.12);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.18);
 }
 
 .stop-row {
