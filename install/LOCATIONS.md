@@ -31,6 +31,18 @@ Harvest fields are **client-sided**. Each player sees a subset of the position p
 | Reef Coral | 4819.21, -5038.63, 31.40 | `prop_rock_4_c` |
 | Perico Resin | 4821.73, -5777.58, 35.90 | `prop_barrel_01a` |
 | Gold Capsules | 5099.88, -4845.09, 13.42 | `prop_box_wood05a` |
+| Civic Bolts | 1042.35, 2283.18, 49.67 | `prop_toolchest_01` |
+| Shift Powder | 1661.42, -13.85, 173.77 | `prop_feed_sack_01` |
+| Red Keycaps | -1504.22, 151.18, 55.67 | `prop_cs_pills` |
+| Rust Needles | -1167.72, 4926.44, 223.26 | `prop_ld_health_pack` |
+| Iodine Swabs | 3808.15, 4478.62, 4.15 | `prop_cs_script_bottle` |
+| Alley Tonic | -3192.48, 1296.22, 14.43 | `prop_drug_bottle` |
+| Black Petals | -1762.88, -262.41, 48.14 | `prop_plant_01a` |
+| Temple Ash | -289.62, 2834.48, 55.50 | `prop_rock_4_c` |
+| Ink Resin | -1048.55, -522.18, 36.07 | `prop_barrel_02b` |
+| Diesel Nugs | 2354.18, 1835.62, 102.10 | `prop_weed_01` |
+| Grease Wrap | 454.23, -1151.39, 29.29 | `prop_cs_cardbox_01` |
+| Iron Filters | 267.45, 2885.92, 43.61 | `prop_oilcan_01a` |
 
 ## Process benches
 
@@ -48,6 +60,10 @@ Benches snap to the ground. Heading is the fourth `vector4` value.
 | Rig Juice | 1732.27, -1536.24, 112.70 | 68.03 | `bkr_prop_meth_table01a` |
 | Panhandle Dust | 1142.20, -299.64, 68.79 | 269.29 | `prop_tool_bench02` |
 | Perico Gold | 5211.84, -5128.51, 6.20 | 280.63 | `prop_tool_bench02` |
+| Honda Pills | 107.17, 6629.63, 31.79 | 45.00 | `prop_tool_bench02` |
+| Stab Juice | 3328.86, 5169.42, 18.31 | 290.00 | `bkr_prop_meth_table01a` |
+| Black Lotus | -411.52, 1173.18, 325.64 | 165.00 | `prop_tool_bench02` |
+| Diesels Pack | 2137.42, 4795.88, 41.14 | 25.00 | `bkr_prop_weed_table_01a` |
 
 Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
 

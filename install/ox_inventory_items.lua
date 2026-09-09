@@ -53,4 +53,23 @@ return {
     ['rig_juice'] = { label = 'Rig Juice', weight = 90, stack = true, close = true, description = 'Oilfield stim — 25% armor + 1.38x run, no screen FX', server = drugUse },
     ['panhandle_dust'] = { label = 'Panhandle Dust', weight = 35, stack = true, close = true, description = 'Desert speed — 1.42x run with screen FX', server = drugUse },
     ['perico_gold'] = { label = 'Perico Gold', weight = 25, stack = true, close = true, description = 'Cayo exclusive — 40% armor, no screen FX', server = drugUse },
+
+    -- Player-owned custom set (3 ingredients each)
+    ['civic_bolts'] = { label = 'Civic Bolts', weight = 20, stack = true, close = true, description = 'Track-scrap bolts for Honda Pills' },
+    ['shift_powder'] = { label = 'Shift Powder', weight = 25, stack = true, close = true, description = 'Gear-dust cut for Honda Pills' },
+    ['red_keycaps'] = { label = 'Red Keycaps', weight = 15, stack = true, close = true, description = 'Red starter caps for Honda Pills' },
+    ['rust_needles'] = { label = 'Rust Needles', weight = 15, stack = true, close = true, description = 'Scrap needles for Stab Juice' },
+    ['iodine_swabs'] = { label = 'Iodine Swabs', weight = 20, stack = true, close = true, description = 'Clinic swabs for Stab Juice' },
+    ['alley_tonic'] = { label = 'Alley Tonic', weight = 40, stack = true, close = true, description = 'Back-alley tonic for Stab Juice' },
+    ['black_petals'] = { label = 'Black Petals', weight = 20, stack = true, close = true, description = 'Night-bloom petals for Black Lotus' },
+    ['temple_ash'] = { label = 'Temple Ash', weight = 25, stack = true, close = true, description = 'Church-yard ash for Black Lotus' },
+    ['ink_resin'] = { label = 'Ink Resin', weight = 40, stack = true, close = true, description = 'Studio ink resin for Black Lotus' },
+    ['diesel_nugs'] = { label = 'Diesel Nugs', weight = 30, stack = true, close = true, description = 'House nugs for Diesels Pack' },
+    ['grease_wrap'] = { label = 'Grease Wrap', weight = 15, stack = true, close = true, description = 'Shop wrap for Diesels Pack' },
+    ['iron_filters'] = { label = 'Iron Filters', weight = 35, stack = true, close = true, description = 'Engine filters for Diesels Pack' },
+
+    ['honda_pills'] = { label = 'Honda Pills', weight = 25, stack = true, close = true, description = 'Player-owned racing pills — 1.48x run + armor', server = drugUse },
+    ['stab_juice'] = { label = 'Stab Juice', weight = 80, stack = true, close = true, description = 'Player-owned combat tonic — armor + health', server = drugUse },
+    ['black_lotus'] = { label = 'Black Lotus', weight = 30, stack = true, close = true, description = 'Player-owned night bloom — heavy armor + screen FX', server = drugUse },
+    ['diesels_pack'] = { label = 'Diesels Pack', weight = 45, stack = true, close = true, description = 'Player-owned house pack — 50% armor + run', server = drugUse },
 }

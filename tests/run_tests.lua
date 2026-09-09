@@ -37,8 +37,12 @@ assert_eq(Config.Brand, 'Envy Roleplay', 'brand is Envy Roleplay')
 
 local drugCount = 0
 for _ in pairs(Config.Drugs) do drugCount = drugCount + 1 end
-assert_eq(drugCount, 10, 'should have exactly 10 drugs')
+assert_eq(drugCount, 14, 'should have 10 county drugs + 4 player-owned')
 assert_true(Config.Drugs.perico_gold ~= nil, 'includes perico_gold')
+assert_true(Config.Drugs.honda_pills ~= nil, 'includes Honda Pills')
+assert_true(Config.Drugs.stab_juice ~= nil, 'includes Stab Juice')
+assert_true(Config.Drugs.black_lotus ~= nil, 'includes Black Lotus')
+assert_true(Config.Drugs.diesels_pack ~= nil, 'includes Diesels Pack')
 
 for drugId, drug in pairs(Config.Drugs) do
     assert_true(drug.label ~= nil, drugId .. ' has label')
@@ -134,12 +138,24 @@ for drugId, drug in pairs(Config.Drugs) do
     end
 end
 
+local playerOwned = { 'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack' }
+for _, id in ipairs(playerOwned) do
+    local drug = Config.Drugs[id]
+    assert_true(drug.playerOwned == true, id .. ' is marked playerOwned')
+    assert_eq(#drug.ingredients, 3, id .. ' uses exactly 3 ingredients')
+end
+
 local imageDir = 'install/images/'
 local requiredImages = {
     'lone_star_kush', 'hill_country_haze', 'houston_snow', 'west_texas_ice',
     'border_brick', 'sixth_street_rolls', 'purple_drank', 'rig_juice',
     'panhandle_dust', 'perico_gold', 'black_money',
     'ranch_bud', 'haze_bud', 'coca_leaves', 'oil_sludge', 'desert_dust', 'cayo_palm_leaf',
+    'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
+    'civic_bolts', 'shift_powder', 'red_keycaps',
+    'rust_needles', 'iodine_swabs', 'alley_tonic',
+    'black_petals', 'temple_ash', 'ink_resin',
+    'diesel_nugs', 'grease_wrap', 'iron_filters',
 }
 for _, item in ipairs(requiredImages) do
     local f = io.open(imageDir .. item .. '.png', 'r')

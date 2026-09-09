@@ -22,6 +22,11 @@ REQUIRED = [
     'lone_star_kush', 'hill_country_haze', 'houston_snow', 'west_texas_ice',
     'border_brick', 'sixth_street_rolls', 'purple_drank', 'rig_juice',
     'panhandle_dust', 'perico_gold', 'black_money',
+    'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
+    'civic_bolts', 'shift_powder', 'red_keycaps',
+    'rust_needles', 'iodine_swabs', 'alley_tonic',
+    'black_petals', 'temple_ash', 'ink_resin',
+    'diesel_nugs', 'grease_wrap', 'iron_filters',
 ]
 
 

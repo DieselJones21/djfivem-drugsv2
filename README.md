@@ -27,8 +27,14 @@ Texas-themed drug economy for FiveM (QBX + ox_inventory) branded for **Envy Role
 | Rig Juice | black_money | Armor + fast run / no screen FX |
 | Panhandle Dust | black_money | Fast run / screen FX |
 | Perico Gold | black_money | Heavy armor / no screen FX |
+| Honda Pills | black_money | Player-owned — 1.48x run + armor |
+| Stab Juice | black_money | Player-owned — armor + health |
+| Black Lotus | black_money | Player-owned — heavy armor + screen FX |
+| Diesels Pack | black_money | Player-owned — 50% armor + run |
 
 Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
+
+The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) each use **3 ingredients**. Harvest spots sit in places people rarely check (dirt track, dam, cemetery, cult camp, lighthouse, observatory, wind farm).
 
 ## Dependencies
 

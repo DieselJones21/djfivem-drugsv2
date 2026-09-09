@@ -161,7 +161,7 @@ Config.Machines = {}
 
 
 --[[
-    Harvest spots — 10 Texas drugs + shared supplies.
+    Harvest spots — 10 Texas drugs + 4 player-owned customs + shared supplies.
     positions = pool of legal world coords (server validates these).
     Each client shows `visibleCount` of them. Harvest deletes that prop immediately;
     a new one grows 10–15s later at a different pool point in the same radius.
@@ -549,5 +549,175 @@ Config.Harvest = {
         duration = 6500,
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 51, color = 5, label = 'Gold Capsules' },
+    }),
+
+    --------------------------------------------------
+    -- PLAYER-OWNED: HONDA PILLS (Redwood Lights / Land Act / mansion garden)
+    --------------------------------------------------
+    field({
+        id = 'civic_bolts',
+        item = 'civic_bolts',
+        label = 'Scrape Civic Bolts',
+        plant = false,
+        coords = vec3(1042.35, 2283.18, 49.67),
+        radius = 16.0,
+        pool = 12,
+        model = `prop_toolchest_01`,
+        duration = 6000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 402, color = 1, label = 'Civic Bolts' },
+    }),
+    field({
+        id = 'shift_powder',
+        item = 'shift_powder',
+        label = 'Sweep Shift Powder',
+        plant = false,
+        coords = vec3(1661.42, -13.85, 173.77),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_feed_sack_01`,
+        duration = 5500,
+        anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
+        blip = { enabled = false, sprite = 478, color = 1, label = 'Shift Powder' },
+    }),
+    field({
+        id = 'red_keycaps',
+        item = 'red_keycaps',
+        label = 'Grab Red Keycaps',
+        plant = false,
+        coords = vec3(-1504.22, 151.18, 55.67),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_cs_pills`,
+        duration = 5000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 51, color = 1, label = 'Red Keycaps' },
+    }),
+
+    --------------------------------------------------
+    -- PLAYER-OWNED: STAB JUICE (Altruist Camp / Cape Catfish / Chumash church)
+    --------------------------------------------------
+    field({
+        id = 'rust_needles',
+        item = 'rust_needles',
+        label = 'Pick Rust Needles',
+        plant = false,
+        coords = vec3(-1167.72, 4926.44, 223.26),
+        radius = 16.0,
+        pool = 12,
+        model = `prop_ld_health_pack`,
+        duration = 6500,
+        anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
+        blip = { enabled = false, sprite = 499, color = 1, label = 'Rust Needles' },
+    }),
+    field({
+        id = 'iodine_swabs',
+        item = 'iodine_swabs',
+        label = 'Steal Iodine Swabs',
+        plant = false,
+        coords = vec3(3808.15, 4478.62, 4.15),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_cs_script_bottle`,
+        duration = 6000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 403, color = 1, label = 'Iodine Swabs' },
+    }),
+    field({
+        id = 'alley_tonic',
+        item = 'alley_tonic',
+        label = 'Grab Alley Tonic',
+        plant = false,
+        coords = vec3(-3192.48, 1296.22, 14.43),
+        radius = 12.0,
+        pool = 12,
+        model = `prop_drug_bottle`,
+        duration = 5500,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 478, color = 1, label = 'Alley Tonic' },
+    }),
+
+    --------------------------------------------------
+    -- PLAYER-OWNED: BLACK LOTUS (cemetery / chaparral church / studio lot)
+    --------------------------------------------------
+    field({
+        id = 'black_petals',
+        item = 'black_petals',
+        label = 'Pick Black Petals',
+        plant = true,
+        coords = vec3(-1762.88, -262.41, 48.14),
+        radius = 16.0,
+        pool = 14,
+        model = `prop_plant_01a`,
+        duration = 6500,
+        blip = { enabled = false, sprite = 469, color = 27, label = 'Black Petals' },
+    }),
+    field({
+        id = 'temple_ash',
+        item = 'temple_ash',
+        label = 'Scoop Temple Ash',
+        plant = false,
+        coords = vec3(-289.62, 2834.48, 55.50),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_rock_4_c`,
+        duration = 6000,
+        anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
+        blip = { enabled = false, sprite = 51, color = 27, label = 'Temple Ash' },
+    }),
+    field({
+        id = 'ink_resin',
+        item = 'ink_resin',
+        label = 'Tap Ink Resin',
+        plant = false,
+        coords = vec3(-1048.55, -522.18, 36.07),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_barrel_02b`,
+        duration = 7000,
+        anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
+        blip = { enabled = false, sprite = 499, color = 27, label = 'Ink Resin' },
+    }),
+
+    --------------------------------------------------
+    -- PLAYER-OWNED: DIESELS PACK (wind farm / bus depot / cement works)
+    --------------------------------------------------
+    field({
+        id = 'diesel_nugs',
+        item = 'diesel_nugs',
+        label = 'Harvest Diesel Nugs',
+        plant = true,
+        coords = vec3(2354.18, 1835.62, 102.10),
+        radius = 18.0,
+        pool = 14,
+        model = `prop_weed_01`,
+        duration = 6500,
+        blip = { enabled = false, sprite = 469, color = 5, label = 'Diesel Nugs' },
+    }),
+    field({
+        id = 'grease_wrap',
+        item = 'grease_wrap',
+        label = 'Grab Grease Wrap',
+        plant = false,
+        coords = vec3(454.23, -1151.39, 29.29),
+        radius = 14.0,
+        pool = 12,
+        model = `prop_cs_cardbox_01`,
+        duration = 5000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 478, color = 5, label = 'Grease Wrap' },
+    }),
+    field({
+        id = 'iron_filters',
+        item = 'iron_filters',
+        label = 'Pull Iron Filters',
+        plant = false,
+        coords = vec3(267.45, 2885.92, 43.61),
+        radius = 16.0,
+        pool = 12,
+        model = `prop_oilcan_01a`,
+        duration = 6000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = false, sprite = 499, color = 5, label = 'Iron Filters' },
     }),
 }

@@ -1,11 +1,10 @@
 --[[
-    10 Texas-themed drugs for djfivem-drugsv2 (Envy Roleplay)
+    10 Texas county drugs + 4 player-owned custom recipes for djfivem-drugsv2
 
     Default craft rule: 5 of each ingredient → 7 finished product
     Weed strains pay clean cash; everything else pays black_money.
 
-    Effects:
-      noScreenFx = true  → armor / sprint / stamina / stress only (no timecycle, shake, or postfx)
+    Player-owned set (3 ingredients each): Honda Pills, Stab Juice, Black Lotus, Diesels Pack
 ]]
 
 local function processAnim()
@@ -463,6 +462,197 @@ Config.Drugs = {
             anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
             armorPercent = 40,
             stamina = true,
+        },
+    },
+
+    --------------------------------------------------
+    -- PLAYER-OWNED CUSTOM SET
+    -- Signature recipes. Same 5x3 → 7 craft rule. Harvest spots are
+    -- intentionally off the usual farm/port/warehouse loop.
+    --------------------------------------------------
+
+    honda_pills = {
+        label = 'Honda Pills',
+        item = 'honda_pills',
+        playerOwned = true,
+        description = 'Player-owned racing pills — Civic bolts, shift powder, red keycaps',
+        theme = 'Redwood Lights / Paleto garage',
+        ingredients = {
+            { item = 'civic_bolts', amount = 5 },
+            { item = 'shift_powder', amount = 5 },
+            { item = 'red_keycaps', amount = 5 },
+        },
+        process = {
+            label = 'Press Honda Pills',
+            coords = vec3(107.17, 6629.63, 31.79),
+            heading = 45.0,
+            duration = 11000,
+            prop = { model = `prop_tool_bench02`, heading = 45.0 },
+            anim = bagAnim(),
+            output = { item = 'honda_pills', amount = 7 },
+            blip = { enabled = false, sprite = 51, color = 1, label = 'Honda Pills Press' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 380,
+            maxPrice = 640,
+            minQty = 1,
+            maxQty = 5,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Popping Honda Pills',
+            useTime = 2800,
+            duration = 55000,
+            anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
+            armorPercent = 20,
+            stamina = true,
+            sprintMultiplier = 1.48,
+            timecycle = 'drug_flying_01',
+            timecycleStrength = 0.55,
+            shake = { intensity = 0.32, duration = 7000 },
+        },
+    },
+
+    stab_juice = {
+        label = 'Stab Juice',
+        item = 'stab_juice',
+        playerOwned = true,
+        description = 'Player-owned combat tonic — rust needles, iodine swabs, alley tonic',
+        theme = 'Chiliad cult / Cape Catfish',
+        ingredients = {
+            { item = 'rust_needles', amount = 5 },
+            { item = 'iodine_swabs', amount = 5 },
+            { item = 'alley_tonic', amount = 5 },
+        },
+        process = {
+            label = 'Brew Stab Juice',
+            coords = vec3(3328.86, 5169.42, 18.31),
+            heading = 290.0,
+            duration = 12000,
+            prop = { model = `bkr_prop_meth_table01a`, heading = 290.0 },
+            anim = processAnim(),
+            output = { item = 'stab_juice', amount = 7 },
+            blip = { enabled = false, sprite = 499, color = 1, label = 'Stab Juice Still' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 420,
+            maxPrice = 700,
+            minQty = 1,
+            maxQty = 5,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Drinking Stab Juice',
+            useTime = 3200,
+            duration = 60000,
+            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
+            armorPercent = 35,
+            health = 35,
+            stamina = true,
+            sprintMultiplier = 1.32,
+            shake = { intensity = 0.42, duration = 8000 },
+            walk = 'move_m@drunk@moderatedrunk',
+            drunkCamera = true,
+        },
+    },
+
+    black_lotus = {
+        label = 'Black Lotus',
+        item = 'black_lotus',
+        playerOwned = true,
+        description = 'Player-owned night bloom — black petals, temple ash, ink resin',
+        theme = 'Pacific Bluffs cemetery / observatory',
+        ingredients = {
+            { item = 'black_petals', amount = 5 },
+            { item = 'temple_ash', amount = 5 },
+            { item = 'ink_resin', amount = 5 },
+        },
+        process = {
+            label = 'Bind Black Lotus',
+            coords = vec3(-411.52, 1173.18, 325.64),
+            heading = 165.0,
+            duration = 14000,
+            prop = { model = `prop_tool_bench02`, heading = 165.0 },
+            anim = bagAnim(),
+            output = { item = 'black_lotus', amount = 7 },
+            blip = { enabled = false, sprite = 51, color = 27, label = 'Black Lotus Altar' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 520,
+            maxPrice = 880,
+            minQty = 1,
+            maxQty = 4,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Smoking Black Lotus',
+            useTime = 4500,
+            duration = 75000,
+            anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
+            armorPercent = 40,
+            stress = -60,
+            walk = 'move_m@drunk@verydrunk',
+            drunkCamera = true,
+            timecycle = 'drug_wobbly',
+            timecycleStrength = 0.7,
+            shake = { intensity = 0.28, duration = 10000 },
+            screenEffect = 'DrugsMichaelAliensFight',
+        },
+    },
+
+    diesels_pack = {
+        label = 'Diesels Pack',
+        item = 'diesels_pack',
+        playerOwned = true,
+        description = 'Player-owned house pack — diesel nugs, grease wrap, iron filters',
+        theme = 'Wind farm / McKenzie Field',
+        ingredients = {
+            { item = 'diesel_nugs', amount = 5 },
+            { item = 'grease_wrap', amount = 5 },
+            { item = 'iron_filters', amount = 5 },
+        },
+        process = {
+            label = 'Bag Diesels Pack',
+            coords = vec3(2137.42, 4795.88, 41.14),
+            heading = 25.0,
+            duration = 13000,
+            prop = { model = `bkr_prop_weed_table_01a`, heading = 25.0 },
+            anim = bagAnim(),
+            output = { item = 'diesels_pack', amount = 7 },
+            blip = { enabled = false, sprite = 469, color = 5, label = 'Diesels Pack Bench' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 900,
+            maxPrice = 1500,
+            minQty = 1,
+            maxQty = 4,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Hitting Diesels Pack',
+            useTime = 3500,
+            duration = 70000,
+            anim = { dict = 'switch@trevor@trev_smoking_meth', clip = 'trev_smoking_meth_loop', flag = 49 },
+            armorPercent = 50,
+            health = 40,
+            stamina = true,
+            sprintMultiplier = 1.45,
+            timecycle = 'spectator5',
+            timecycleStrength = 0.6,
+            screenEffect = 'DrugsTrevorClownsFight',
+            shake = { intensity = 0.38, duration = 9000 },
         },
     },
 }
