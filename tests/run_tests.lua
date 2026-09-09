@@ -54,6 +54,7 @@ end
 
 local perico = Config.Drugs.perico_gold
 assert_true(perico.sell.minPrice >= 1500, 'perico_gold has premium pricing')
+assert_true(perico.sell.maxPrice <= 2600, 'perico_gold was nudged down a little')
 assert_true(perico.effects.noScreenFx == true, 'perico_gold has no screen FX')
 assert_true((perico.effects.armorPercent or 0) >= 40, 'perico_gold grants armor')
 
@@ -113,6 +114,12 @@ assert_eq(rank.label, 'Dust Runner', '250 sold = Dust Runner')
 rank = Utils.GetRankForSold(4500)
 assert_eq(rank.label, 'Envy Kingpin', '4500 sold = Envy Kingpin')
 
+assert_eq(Config.Dispatch.chance, 35, 'bad sell chance is 35%')
+assert_eq(Config.Dispatch.resource, 'ps-dispatch', 'dispatch uses Project Sloth')
+assert_eq(Config.HarvestRespawn.min, 10, 'harvest respawn min is 10s')
+assert_eq(Config.HarvestRespawn.max, 15, 'harvest respawn max is 15s')
+assert_true(Config.Drugs.lone_star_kush.sell.minPrice <= 80, 'street prices were nudged down')
+assert_true(Config.Drugs.houston_snow.sell.maxPrice <= 400, 'houston snow pays a little less')
 assert_true(Utils.IsFrameworkMoney('cash'), 'cash is framework money')
 assert_true(not Utils.IsFrameworkMoney('black_money'), 'black_money is inventory item')
 

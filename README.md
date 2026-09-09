@@ -6,7 +6,8 @@ Texas-themed drug economy for FiveM (QBX + ox_inventory) branded for **Envy Role
 
 - **10 Texas-themed drugs** plus a Cayo Perico exclusive
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and street deals
-- **Client-sided harvest fields** — each player sees their own plants/props; harvest despawns that one and respawns it elsewhere in the same field
+- **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
+- **35% bad-sale snitch** that pings Project Sloth dispatch (`DrugSale`)
 - **Ground-snapped props** on harvest spots and process benches
 - **Sell ranks & leaderboard** with KVP persistence
 - **Admin boost events** (2x/3x/4x sell + harvest)
@@ -35,6 +36,9 @@ Weed strains pay clean cash. Everything else pays dirty money. Rank and boost mu
 - [ox_target](https://github.com/overextended/ox_target)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [qbx_core](https://github.com/Qbox-project/qbx_core)
+- [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — 35% snitch chance on `/trap` sales pings LEO
+
+Street prices sit a little under the previous ranges. A completed sale still pays; when the buyer snitches, Project Sloth `DrugSale` fires at your coords.
 
 ## Installation
 
@@ -47,6 +51,7 @@ Process bench coordinates are listed in `install/LOCATIONS.md`.
 
 ```cfg
 add_ace group.admin djdrugsv2.boost allow
+ensure ps-dispatch
 ensure djfivem-drugsv2
 ```
 

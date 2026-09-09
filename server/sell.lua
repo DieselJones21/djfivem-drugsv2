@@ -252,10 +252,15 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
         Server.Notify(source, ('Rank up — %s (Level %s)'):format(rank.label, rank.level), 'success')
     end
 
-    if Config.Police.enabled and (Config.Police.alertChance or 0) > 0 then
-        if math.random(1, 100) <= Config.Police.alertChance then
-            Utils.Debug('police alert rolled for', source)
-        end
+    local dispatch = Config.Dispatch or {}
+    local chance = dispatch.chance or (Config.Police and Config.Police.alertChance) or 0
+    local dispatchOn = dispatch.enabled ~= false
+    if dispatchOn and chance > 0 and math.random(1, 100) <= chance then
+        TriggerClientEvent('djdrugsv2:client:badSell', source, {
+            label = offer.label,
+            item = offer.item,
+            quantity = offer.quantity,
+        })
     end
 
     local dirty = offer.moneyType and offer.moneyType ~= (Config.MoneyType or 'cash')

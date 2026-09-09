@@ -67,6 +67,59 @@ local function createTrapBlip()
     Trap.blip = blip
 end
 
+local function dispatchResource()
+    local cfg = Config.Dispatch or {}
+    return cfg.resource or 'ps-dispatch'
+end
+
+local function sendPsDispatch(data)
+    local res = dispatchResource()
+    if GetResourceState(res) ~= 'started' then
+        Utils.Debug('dispatch resource not started', res)
+        return false
+    end
+
+    local ok = pcall(function()
+        exports[res]:DrugSale()
+    end)
+    if ok then return true end
+
+    local cfg = Config.Dispatch or {}
+    local coords = GetEntityCoords(PlayerPedId())
+    ok = pcall(function()
+        exports[res]:CustomAlert({
+            coords = coords,
+            message = cfg.message or 'Suspicious street sale',
+            dispatchCode = cfg.code or '10-66',
+            description = cfg.description or 'Drug Sale',
+            radius = 0,
+            sprite = cfg.sprite or 51,
+            color = cfg.color or 1,
+            scale = cfg.scale or 1.0,
+            length = cfg.length or 3,
+        })
+    end)
+    if ok then return true end
+
+    ok = pcall(function()
+        TriggerServerEvent('ps-dispatch:server:notify', {
+            message = cfg.message or 'Suspicious street sale',
+            codeName = 'drugsale',
+            code = cfg.code or '10-66',
+            icon = 'fas fa-cannabis',
+            priority = 2,
+            coords = coords,
+            jobs = cfg.jobs or { 'leo' },
+        })
+    end)
+    return ok
+end
+
+RegisterNetEvent('djdrugsv2:client:badSell', function(payload)
+    Client.Notify('The buyer snitched — cops are incoming', 'error')
+    sendPsDispatch(payload)
+end)
+
 local function randomSpawnCoords(origin)
     local dist = Utils.RandomFloat(Config.Trap.spawnDistance.min, Config.Trap.spawnDistance.max)
     local angle = Utils.RandomFloat(0.0, math.pi * 2)

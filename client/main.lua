@@ -135,6 +135,33 @@ function Client.SpawnProp(model, coords, heading, placeOnGround)
     return obj
 end
 
+--- Force-delete a local harvest/process prop (hide first so it never "sticks").
+function Client.DeleteProp(entity)
+    if not entity or entity == 0 then return end
+
+    pcall(function()
+        exports.ox_target:removeLocalEntity(entity)
+    end)
+
+    if DoesEntityExist(entity) then
+        SetEntityAsMissionEntity(entity, true, true)
+        FreezeEntityPosition(entity, false)
+        SetEntityCollision(entity, false, false)
+        SetEntityAlpha(entity, 0, false)
+        SetEntityVisible(entity, false, false)
+        DeleteObject(entity)
+        if DoesEntityExist(entity) then
+            DeleteEntity(entity)
+        end
+    end
+
+    for i = #Client.spawnedProps, 1, -1 do
+        if Client.spawnedProps[i] == entity then
+            table.remove(Client.spawnedProps, i)
+        end
+    end
+end
+
 ---@param model number|string
 ---@param coords vector3
 ---@param heading number|nil
@@ -148,10 +175,13 @@ function Client.SpawnTargetProp(model, coords, heading, options, placeOnGround)
 end
 
 local function cleanup()
+    Harvest.running = false
     for i = 1, #Client.spawnedProps do
         local ent = Client.spawnedProps[i]
         if DoesEntityExist(ent) then
-            exports.ox_target:removeLocalEntity(ent)
+            pcall(function()
+                exports.ox_target:removeLocalEntity(ent)
+            end)
             DeleteEntity(ent)
         end
     end
