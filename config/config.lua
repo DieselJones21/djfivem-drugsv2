@@ -1,24 +1,14 @@
 Config = {}
 
 --[[
-    djfivem-drugsv2 — Envy Roleplay themed drug economy
+    djfivem-drugsv2 — Rebel Roleplay outlaw drug economy
 
-    Framework stack:
-      - qbx_core
-      - ox_lib
-      - ox_target (3rd eye)
-      - ox_inventory
-
-    Harvest types:
-      - 'bench'      = single prop + ox_target zone
-      - 'propField'  = client-unique subset of a position pool; harvest relocates that prop
-
-    All props use ground snapping (PlaceObjectOnGroundProperly + GetGroundZFor_3dCoord).
+    Branched from the Envy Roleplay Texas set. Keep Envy on main / Envy PRs.
 ]]
 
 Config.Debug = false
 Config.Locale = 'en'
-Config.Brand = 'Envy Roleplay'
+Config.Brand = 'Rebel Roleplay'
 
 Config.MoneyType = 'cash'
 Config.DirtyMoneyType = 'black_money'
@@ -148,11 +138,11 @@ Config.Progression = {
     description = 'Open drug sell leaderboard and your rank',
     leaderboardSize = 10,
     levels = {
-        { level = 1, sold = 0,    label = 'Ranch Hand',     payoutMultiplier = 1.00 },
-        { level = 2, sold = 250,  label = 'Dust Runner',    payoutMultiplier = 1.03 },
-        { level = 3, sold = 800,  label = 'County Plug',    payoutMultiplier = 1.06 },
-        { level = 4, sold = 2000, label = 'Border Star',    payoutMultiplier = 1.10 },
-        { level = 5, sold = 4500, label = 'Envy Kingpin',   payoutMultiplier = 1.15 },
+        { level = 1, sold = 0,    label = 'Prospect',       payoutMultiplier = 1.00 },
+        { level = 2, sold = 250,  label = 'Outlaw',         payoutMultiplier = 1.04 },
+        { level = 3, sold = 800,  label = 'Road Captain',   payoutMultiplier = 1.08 },
+        { level = 4, sold = 2000, label = 'Shot Caller',    payoutMultiplier = 1.12 },
+        { level = 5, sold = 4500, label = 'Rebel Kingpin',  payoutMultiplier = 1.18 },
     },
 }
 
@@ -161,7 +151,8 @@ Config.Machines = {}
 
 
 --[[
-    Harvest spots — 10 Texas drugs + 4 player-owned customs + shared supplies.
+    Harvest spots — Rebel outlaw set + 4 player-owned customs.
+    New field centers vs the Envy branch so the two versions do not share farms.
     positions = pool of legal world coords (server validates these).
     Each client shows `visibleCount` of them. Harvest deletes that prop immediately;
     a new one grows 10–15s later at a different pool point in the same radius.
@@ -192,26 +183,26 @@ end
 
 Config.Harvest = {
     --------------------------------------------------
-    -- LONE STAR KUSH (Grapeseed ranch)
+    -- LONGHORN KUSH (Grapeseed)
     --------------------------------------------------
     field({
-        id = 'ranch_bud_field',
-        item = 'ranch_bud',
-        label = 'Harvest Ranch Buds',
+        id = 'horn_nugs_field',
+        item = 'horn_nugs',
+        label = 'Harvest Horn Nugs',
         plant = true,
-        coords = vec3(-278.47, -1632.34, 31.84),
+        coords = vec3(2447.12, 4975.88, 46.81),
         radius = 25.0,
         pool = 20,
         model = `prop_weed_01`,
         duration = 6500,
-        blip = { enabled = true, sprite = 469, color = 2, label = 'Ranch Buds' },
+        blip = { enabled = true, sprite = 469, color = 1, label = 'Horn Nugs' },
     }),
     field({
         id = 'zip_bags_supply',
         item = 'zip_bags',
         label = 'Grab Zip Bags',
         plant = false,
-        coords = vec3(1202.43, -1332.69, 35.21),
+        coords = vec3(1703.44, 3596.21, 35.47),
         radius = 14.0,
         pool = 12,
         model = `prop_cs_cardbox_01`,
@@ -221,42 +212,42 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- HILL COUNTRY HAZE (Great Chaparral / Route 68)
+    -- DIRT ROAD HAZE (Great Chaparral)
     --------------------------------------------------
     field({
-        id = 'haze_bud_field',
-        item = 'haze_bud',
-        label = 'Harvest Haze Buds',
+        id = 'road_nugs_field',
+        item = 'road_nugs',
+        label = 'Harvest Road Nugs',
         plant = true,
-        coords = vec3(-2554.04, 2708.44, 2.83),
+        coords = vec3(-1888.40, 2045.10, 140.98),
         radius = 20.0,
         pool = 16,
         model = `prop_weed_01`,
         duration = 6500,
-        blip = { enabled = true, sprite = 469, color = 2, label = 'Haze Buds' },
+        blip = { enabled = true, sprite = 469, color = 1, label = 'Road Nugs' },
     }),
 
     --------------------------------------------------
-    -- HOUSTON SNOW (El Burro / La Mesa)
+    -- CHROME SNOW (La Mesa)
     --------------------------------------------------
     field({
-        id = 'coca_leaf_garden',
-        item = 'coca_leaves',
-        label = 'Pick Coca Leaves',
+        id = 'bush_leaf_garden',
+        item = 'bush_leaves',
+        label = 'Pick Bush Leaves',
         plant = true,
-        coords = vec3(1482.40, -1902.10, 71.10),
+        coords = vec3(1142.55, -1486.22, 34.69),
         radius = 20.0,
         pool = 16,
         model = `prop_plant_01a`,
         duration = 6000,
-        blip = { enabled = false, sprite = 501, color = 0, label = 'Coca Leaves' },
+        blip = { enabled = false, sprite = 501, color = 0, label = 'Bush Leaves' },
     }),
     field({
         id = 'lab_solvent',
         item = 'lab_solvent',
         label = 'Take Lab Solvent',
         plant = false,
-        coords = vec3(-2950.20, 637.03, 23.18),
+        coords = vec3(2763.18, 1675.44, 24.53),
         radius = 16.0,
         pool = 14,
         model = `prop_barrel_exp_01a`,
@@ -266,14 +257,14 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- WEST TEXAS ICE (Sandy / quarry)
+    -- SANDLOT ICE (Sandy Shores)
     --------------------------------------------------
     field({
         id = 'lithium_rocks',
         item = 'lithium_rocks',
         label = 'Break Lithium Rocks',
         plant = false,
-        coords = vec3(820.64, 1315.07, 363.18),
+        coords = vec3(2954.22, 2788.10, 41.50),
         radius = 20.0,
         pool = 16,
         model = `prop_rock_4_c`,
@@ -286,7 +277,7 @@ Config.Harvest = {
         item = 'camp_fuel',
         label = 'Siphon Camp Fuel',
         plant = false,
-        coords = vec3(-1042.40, -3522.67, 14.13),
+        coords = vec3(724.80, 4191.40, 40.71),
         radius = 16.0,
         pool = 14,
         model = `prop_jerrycan_01a`,
@@ -296,14 +287,14 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- BORDER BRICK (Port)
+    -- OUTLAW BRICK (Elysian / docks)
     --------------------------------------------------
     field({
         id = 'raw_tar',
         item = 'raw_tar',
         label = 'Scoop Raw Tar',
         plant = false,
-        coords = vec3(969.45, -2621.24, 5.52),
+        coords = vec3(38.22, -2678.55, 6.01),
         radius = 20.0,
         pool = 16,
         model = `prop_barrel_02b`,
@@ -316,7 +307,7 @@ Config.Harvest = {
         item = 'wrap_tape',
         label = 'Grab Wrap Tape',
         plant = false,
-        coords = vec3(1216.83, -2198.77, 41.43),
+        coords = vec3(808.40, -2158.90, 29.62),
         radius = 16.0,
         pool = 14,
         model = `prop_box_wood05a`,
@@ -326,56 +317,56 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- SIXTH STREET ROLLS (Downtown)
+    -- HONKYTONK ROLLS (Alta / downtown)
     --------------------------------------------------
     field({
-        id = 'street_crystals',
-        item = 'street_crystals',
-        label = 'Harvest Street Crystals',
+        id = 'club_crystals',
+        item = 'club_crystals',
+        label = 'Harvest Club Crystals',
         plant = false,
-        coords = vec3(327.82, -1221.27, 30.70),
+        coords = vec3(239.10, -34.80, 69.90),
         radius = 18.0,
         pool = 16,
         model = `prop_box_wood05a`,
         duration = 7000,
-        blip = { enabled = false, sprite = 51, color = 3, label = 'Street Crystals' },
+        blip = { enabled = false, sprite = 51, color = 1, label = 'Club Crystals' },
     }),
     field({
         id = 'press_capsules',
         item = 'press_capsules',
         label = 'Collect Press Capsules',
         plant = false,
-        coords = vec3(876.73, -2189.13, 30.51),
+        coords = vec3(-1154.20, -2005.40, 13.18),
         radius = 16.0,
         pool = 14,
         model = `prop_box_wood05a`,
         duration = 6000,
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 51, color = 3, label = 'Press Capsules' },
+        blip = { enabled = false, sprite = 51, color = 1, label = 'Press Capsules' },
     }),
     field({
         id = 'stamp_dies',
         item = 'stamp_dies',
         label = 'Collect Stamp Dies',
         plant = false,
-        coords = vec3(712.38, -1377.32, 26.25),
+        coords = vec3(1240.60, -3179.20, 7.13),
         radius = 15.0,
         pool = 12,
         model = `prop_box_wood05a`,
         duration = 5500,
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
-        blip = { enabled = false, sprite = 51, color = 3, label = 'Stamp Dies' },
+        blip = { enabled = false, sprite = 51, color = 1, label = 'Stamp Dies' },
     }),
 
     --------------------------------------------------
-    -- PURPLE DRANK (Davis / Grove)
+    -- SWAMP LEAN (Davis / Strawberry)
     --------------------------------------------------
     field({
         id = 'purple_syrup_stash',
         item = 'purple_syrup',
         label = 'Steal Purple Syrup',
         plant = false,
-        coords = vec3(99.71, -1978.33, 19.76),
+        coords = vec3(243.40, -1785.20, 28.70),
         radius = 16.0,
         pool = 14,
         model = `prop_drug_bottle`,
@@ -388,7 +379,7 @@ Config.Harvest = {
         item = 'crushed_ice',
         label = 'Scoop Crushed Ice',
         plant = false,
-        coords = vec3(-47.52, -1758.87, 29.42),
+        coords = vec3(29.80, -1340.10, 29.50),
         radius = 12.0,
         pool = 12,
         model = `prop_coolbox_01`,
@@ -401,7 +392,7 @@ Config.Harvest = {
         item = 'foam_cups',
         label = 'Grab Foam Cups',
         plant = false,
-        coords = vec3(-620.23, 323.26, 81.26),
+        coords = vec3(1126.40, -645.80, 56.82),
         radius = 14.0,
         pool = 12,
         model = `prop_food_bs_cups01`,
@@ -414,7 +405,7 @@ Config.Harvest = {
         item = 'spark_soda',
         label = 'Take Spark Soda',
         plant = false,
-        coords = vec3(-1784.34, -401.11, 45.47),
+        coords = vec3(-2972.10, 390.40, 15.04),
         radius = 16.0,
         pool = 12,
         model = `prop_crate_11e`,
@@ -427,7 +418,7 @@ Config.Harvest = {
         item = 'hard_candy',
         label = 'Grab Hard Candy',
         plant = false,
-        coords = vec3(-1486.62, -909.08, 9.02),
+        coords = vec3(-822.50, -1083.20, 11.13),
         radius = 14.0,
         pool = 12,
         model = `prop_candy_pqs`,
@@ -437,27 +428,27 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- RIG JUICE (Grand Senora oil)
+    -- TRUCK JUICE (oil / power station)
     --------------------------------------------------
     field({
         id = 'oil_sludge',
         item = 'oil_sludge',
         label = 'Scoop Oil Sludge',
         plant = false,
-        coords = vec3(592.40, 2926.20, 40.90),
+        coords = vec3(2735.80, 1551.20, 24.50),
         radius = 20.0,
         pool = 16,
         model = `prop_barrel_01a`,
         duration = 7000,
         anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
-        blip = { enabled = true, sprite = 499, color = 17, label = 'Oil Sludge' },
+        blip = { enabled = true, sprite = 499, color = 1, label = 'Oil Sludge' },
     }),
     field({
         id = 'spark_caps',
         item = 'spark_caps',
         label = 'Collect Spark Caps',
         plant = false,
-        coords = vec3(467.20, 2974.10, 41.50),
+        coords = vec3(1543.20, 2185.40, 78.80),
         radius = 16.0,
         pool = 14,
         model = `prop_battery_01`,
@@ -467,14 +458,14 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- PANHANDLE DUST (Grand Senora Desert)
+    -- GRAVEL DUST (Grand Senora)
     --------------------------------------------------
     field({
         id = 'desert_dust',
         item = 'desert_dust',
         label = 'Sweep Desert Dust',
         plant = false,
-        coords = vec3(2638.18, 3499.78, 54.20),
+        coords = vec3(2354.10, 3125.40, 48.21),
         radius = 20.0,
         pool = 16,
         model = `prop_rock_4_c`,
@@ -487,7 +478,7 @@ Config.Harvest = {
         item = 'baking_soda',
         label = 'Grab Baking Soda',
         plant = false,
-        coords = vec3(1620.73, 3292.14, 39.39),
+        coords = vec3(1963.40, 3744.10, 32.34),
         radius = 14.0,
         pool = 12,
         model = `prop_feed_sack_01`,
@@ -497,14 +488,14 @@ Config.Harvest = {
     }),
 
     --------------------------------------------------
-    -- PERICO GOLD (Cayo Perico)
+    -- CAYO CROWN (Cayo Perico)
     --------------------------------------------------
     field({
         id = 'cayo_palm_leaf',
         item = 'cayo_palm_leaf',
         label = 'Pick Cayo Palm Leaves',
         plant = true,
-        coords = vec3(4250.03, -4496.83, 4.16),
+        coords = vec3(4890.20, -4921.40, 3.37),
         radius = 22.0,
         pool = 16,
         model = `prop_plant_01a`,
@@ -516,7 +507,7 @@ Config.Harvest = {
         item = 'reef_coral',
         label = 'Grind Reef Coral',
         plant = false,
-        coords = vec3(4819.21, -5038.63, 31.40),
+        coords = vec3(5132.80, -5115.60, 2.20),
         radius = 18.0,
         pool = 14,
         model = `prop_rock_4_c`,
@@ -529,7 +520,7 @@ Config.Harvest = {
         item = 'perico_resin',
         label = 'Tap Perico Resin',
         plant = false,
-        coords = vec3(4821.73, -5777.58, 35.90),
+        coords = vec3(5136.40, -5524.10, 54.19),
         radius = 16.0,
         pool = 14,
         model = `prop_barrel_01a`,
@@ -542,7 +533,7 @@ Config.Harvest = {
         item = 'gold_capsules',
         label = 'Collect Gold Capsules',
         plant = false,
-        coords = vec3(5099.88, -4845.09, 13.42),
+        coords = vec3(4991.10, -5716.40, 19.88),
         radius = 16.0,
         pool = 12,
         model = `prop_box_wood05a`,

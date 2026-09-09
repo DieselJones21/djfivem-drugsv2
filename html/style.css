@@ -1,25 +1,25 @@
 :root {
-    --bg: #05080a;
-    --panel: rgba(6, 12, 14, 0.82);
-    --panel-border: rgba(0, 245, 255, 0.28);
-    --cyan: #00f5ff;
-    --cyan-hot: #7ff6ff;
-    --cyan-deep: #009aa8;
-    --cyan-glow: rgba(0, 245, 255, 0.48);
-    --cyan-soft: rgba(0, 245, 255, 0.14);
+    --bg: #050303;
+    --panel: rgba(10, 6, 6, 0.86);
+    --panel-border: rgba(220, 40, 40, 0.32);
+    --cyan: #e8e8e8;
+    --cyan-hot: #ffffff;
+    --cyan-deep: #9b1c1c;
+    --cyan-glow: rgba(220, 36, 36, 0.5);
+    --cyan-soft: rgba(220, 36, 36, 0.16);
     --chrome: #d4dde4;
     --chrome-mid: #8b97a1;
-    --text: #f3f7f9;
-    --text-dim: rgba(214, 228, 234, 0.55);
-    --card: rgba(255, 255, 255, 0.035);
-    --gold: #ffd56a;
+    --text: #f4f1ea;
+    --text-dim: rgba(230, 220, 210, 0.55);
+    --card: rgba(255, 255, 255, 0.04);
+    --gold: #d4af37;
     --silver: #c5d0d8;
     --bronze: #d08a4c;
     --danger: #ff6b6b;
     --radius: 16px;
     --radius-sm: 10px;
     --font: Inter, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
-    --display: Rajdhani, Inter, Segoe UI, sans-serif;
+    --display: Oswald, Rajdhani, Inter, sans-serif;
 }
 
 * {
@@ -333,7 +333,7 @@ body {
     bottom: 28px;
     width: 220px;
     height: 150px;
-    background: url('img/logo-envy.png') center / contain no-repeat;
+    background: url('img/logo-rebel.png') center / contain no-repeat;
     opacity: 0.08;
     pointer-events: none;
     filter: saturate(1.2);
@@ -342,7 +342,7 @@ body {
 .panel-frame {
     position: absolute;
     inset: 8px;
-    border: 1px solid rgba(0, 245, 255, 0.08);
+    border: 1px solid rgba(220, 40, 40, 0.12);
     border-radius: 12px;
     pointer-events: none;
     z-index: 1;

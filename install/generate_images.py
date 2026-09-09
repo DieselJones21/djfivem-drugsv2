@@ -14,14 +14,14 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), 'images')
 SIZE = 512
 
 REQUIRED = [
-    'ranch_bud', 'haze_bud', 'zip_bags', 'coca_leaves', 'lab_solvent',
-    'lithium_rocks', 'camp_fuel', 'raw_tar', 'wrap_tape', 'street_crystals',
+    'horn_nugs', 'road_nugs', 'zip_bags', 'bush_leaves', 'lab_solvent',
+    'lithium_rocks', 'camp_fuel', 'raw_tar', 'wrap_tape', 'club_crystals',
     'press_capsules', 'stamp_dies', 'purple_syrup', 'crushed_ice', 'foam_cups',
     'spark_soda', 'hard_candy', 'oil_sludge', 'spark_caps', 'desert_dust',
     'baking_soda', 'cayo_palm_leaf', 'reef_coral', 'perico_resin', 'gold_capsules',
-    'lone_star_kush', 'hill_country_haze', 'houston_snow', 'west_texas_ice',
-    'border_brick', 'sixth_street_rolls', 'purple_drank', 'rig_juice',
-    'panhandle_dust', 'perico_gold', 'black_money',
+    'longhorn_kush', 'dirt_road_haze', 'chrome_snow', 'sandlot_ice',
+    'outlaw_brick', 'honkytonk_rolls', 'swamp_lean', 'truck_juice',
+    'gravel_dust', 'cayo_crown', 'black_money',
     'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
     'civic_bolts', 'shift_powder', 'red_keycaps',
     'rust_needles', 'iodine_swabs', 'alley_tonic',
