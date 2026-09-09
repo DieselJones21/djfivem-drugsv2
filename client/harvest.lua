@@ -1,4 +1,6 @@
-Harvest = {}
+Harvest = {
+    running = true,
+}
 
 local cooldowns = {}
 local fields = {} -- spotId -> { spot, spawned = { [index] = entityKey }, entities = { [entityKey] = rec } }
@@ -27,25 +29,19 @@ local function registerPropPosition(spotId, entityKey, coords)
     Client.propPositions[spotId][entityKey] = coords
 end
 
-local function destroyEntity(entity)
-    if entity and DoesEntityExist(entity) then
-        exports.ox_target:removeLocalEntity(entity)
-        DeleteEntity(entity)
-    end
-end
-
 local function spawnFieldProp(spot, index)
     local state = fields[spot.id]
-    if not state or not spot.positions or not spot.positions[index] then return end
-    if state.spawned[index] then return end
+    if not Harvest.running or not state or not spot.positions or not spot.positions[index] then
+        return false
+    end
+    if state.spawned[index] then return true end
 
     local model = spot.model or (spot.prop and spot.prop.model)
     local rawCoords = spot.positions[index]
-    local groundCoords = Client.GetGroundCoords(rawCoords)
     local heading = (spot.heading or 0.0) + (index * 37.0)
     local entityKey = ('%s_%s'):format(spot.id, index)
 
-    local obj = Client.SpawnTargetProp(model, groundCoords, heading, {
+    local obj = Client.SpawnTargetProp(model, rawCoords, heading, {
         {
             name = 'djdrugsv2_prop_' .. entityKey,
             icon = spot.plant and 'fa-solid fa-seedling' or 'fa-solid fa-hand',
@@ -57,7 +53,9 @@ local function spawnFieldProp(spot, index)
         },
     }, true)
 
-    if not obj then return end
+    if not obj or obj == 0 or not DoesEntityExist(obj) then
+        return false
+    end
 
     local placed = GetEntityCoords(obj)
     registerPropPosition(spot.id, entityKey, placed)
@@ -68,6 +66,7 @@ local function spawnFieldProp(spot, index)
         index = index,
         coords = placed,
     }
+    return true
 end
 
 local function despawnFieldProp(spot, entityKey)
@@ -76,34 +75,66 @@ local function despawnFieldProp(spot, entityKey)
     local rec = state.entities[entityKey]
     if not rec then return end
 
-    destroyEntity(rec.entity)
+    Client.DeleteProp(rec.entity)
     state.entities[entityKey] = nil
     state.spawned[rec.index] = nil
     if Client.propPositions[spot.id] then
         Client.propPositions[spot.id][entityKey] = nil
     end
+    return rec.index
 end
 
-local function unusedIndices(spot)
+local function unusedIndices(spot, avoidIndex)
     local state = fields[spot.id]
     local free = {}
     for i = 1, #spot.positions do
-        if not state.spawned[i] then
+        if not state.spawned[i] and i ~= avoidIndex then
             free[#free + 1] = i
+        end
+    end
+    if #free == 0 and avoidIndex then
+        -- only the harvested slot is free
+        if not state.spawned[avoidIndex] then
+            free[1] = avoidIndex
         end
     end
     return free
 end
 
+local function respawnDelayMs()
+    local cfg = Config.HarvestRespawn or {}
+    local minS = math.max(1, math.floor(cfg.min or 10))
+    local maxS = math.max(minS, math.floor(cfg.max or 15))
+    return math.random(minS, maxS) * 1000
+end
+
+--- Delete now, then grow a different pool point after 10–15 seconds.
 function Harvest.Relocate(spot, entityKey)
     if not spot or not spot.positions or #spot.positions == 0 then return end
-    despawnFieldProp(spot, entityKey)
 
-    local free = unusedIndices(spot)
-    if #free == 0 then
-        return
-    end
-    spawnFieldProp(spot, free[math.random(1, #free)])
+    local harvestedIndex = despawnFieldProp(spot, entityKey)
+    if not harvestedIndex then return end
+
+    local delay = respawnDelayMs()
+    CreateThread(function()
+        Wait(delay)
+        if not Harvest.running then return end
+        local state = fields[spot.id]
+        if not state then return end
+
+        local free = unusedIndices(spot, harvestedIndex)
+        if #free == 0 then return end
+
+        local index = free[math.random(1, #free)]
+        for _ = 1, 6 do
+            if not Harvest.running then return end
+            if spawnFieldProp(spot, index) then
+                return
+            end
+            Wait(750)
+        end
+        Utils.Debug('harvest respawn failed', spot.id, tostring(index))
+    end)
 end
 
 function Harvest.TryCollect(spot, entityKey)
@@ -168,7 +199,7 @@ local function setupBench(spot)
     Client.harvestZones[#Client.harvestZones + 1] = zoneId
 end
 
---- Per-player subset of a position pool. Harvest despawns that prop and grows another in a free slot.
+--- Per-player subset of a position pool. Harvest deletes that prop; another grows later.
 local function setupPropField(spot)
     Client.AddBlip(spot.coords, spot.blip)
 
@@ -210,6 +241,7 @@ local function setupPropField(spot)
 end
 
 function Harvest.Init()
+    Harvest.running = true
     math.randomseed(GetGameTimer() + (PlayerId() * 7919))
     for i = 1, #Config.Harvest do
         local spot = Config.Harvest[i]

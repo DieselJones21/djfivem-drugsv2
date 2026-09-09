@@ -51,3 +51,5 @@ dependencies {
     'ox_inventory',
     'qbx_core',
 }
+
+-- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.

@@ -32,10 +32,33 @@ Config.InteractDistance = 2.2
 Config.ProgressCancelOnMove = true
 
 Config.Police = {
-    enabled = false,
+    enabled = false, -- cop-count gate for /trap (leave false to always allow trapping)
     jobs = { 'police', 'sheriff' },
     minimum = 0,
-    alertChance = 0,
+    alertChance = 35,
+}
+
+-- Project Sloth dispatch on a "bad" street sale (buyer snitches).
+-- Sale still pays; police get a DrugSale ping.
+Config.Dispatch = {
+    enabled = true,
+    resource = 'ps-dispatch',
+    chance = 35,
+    code = '10-66',
+    message = 'Suspicious street sale',
+    description = 'Drug Sale',
+    jobs = { 'leo', 'police', 'sheriff' },
+    sprite = 51,
+    color = 1,
+    scale = 1.0,
+    length = 3,
+}
+
+-- After a successful harvest the prop deletes immediately, then a new one
+-- grows at a different pool point inside the field radius.
+Config.HarvestRespawn = {
+    min = 10,
+    max = 15,
 }
 
 Config.Trap = {
@@ -140,7 +163,8 @@ Config.Machines = {}
 --[[
     Harvest spots — 10 Texas drugs + shared supplies.
     positions = pool of legal world coords (server validates these).
-    Each client shows `visibleCount` of them, then relocates after a successful harvest.
+    Each client shows `visibleCount` of them. Harvest deletes that prop immediately;
+    a new one grows 10–15s later at a different pool point in the same radius.
     Plant fields use weed/plant models and the same per-player spawn rules.
 ]]
 
