@@ -26,19 +26,46 @@ local function assert_true(v, msg)
     return true
 end
 
--- Load config
-dofile('shared/utils.lua')
-dofile('config/config.lua')
-dofile('config/drugs.lua')
+-- FiveM stubs so vanilla Lua can load config (vec3 + backtick hashes)
+if not vec3 then
+    function vec3(x, y, z)
+        return { x = x, y = y, z = z }
+    end
+end
+
+local function dofile_fivem(path)
+    local f = assert(io.open(path, 'r'))
+    local src = f:read('*a')
+    f:close()
+    src = src:gsub('`([^`]+)`', function(s)
+        return string.format('%q', s)
+    end)
+    local fn, err = load(src, '@' .. path)
+    if not fn then
+        error(err)
+    end
+    fn()
+end
+
+dofile_fivem('shared/utils.lua')
+dofile_fivem('config/config.lua')
+dofile_fivem('config/drugs.lua')
 
 print('=== djfivem-drugsv2 tests ===\n')
 
-assert_eq(Config.Brand, 'Envy Roleplay', 'brand is Envy Roleplay')
+assert_eq(Config.Brand, 'Rebel Roleplay', 'brand is Rebel Roleplay')
 
 local drugCount = 0
 for _ in pairs(Config.Drugs) do drugCount = drugCount + 1 end
-assert_eq(drugCount, 10, 'should have exactly 10 drugs')
-assert_true(Config.Drugs.perico_gold ~= nil, 'includes perico_gold')
+assert_eq(drugCount, 14, 'should have 10 county drugs + 4 player-owned')
+assert_true(Config.Drugs.cayo_crown ~= nil, 'includes cayo_crown')
+assert_true(Config.Drugs.longhorn_kush ~= nil, 'includes longhorn_kush')
+assert_true(Config.Drugs.honda_pills ~= nil, 'includes Honda Pills')
+assert_true(Config.Drugs.stab_juice ~= nil, 'includes Stab Juice')
+assert_true(Config.Drugs.black_lotus ~= nil, 'includes Black Lotus')
+assert_true(Config.Drugs.diesels_pack ~= nil, 'includes Diesels Pack')
+assert_true(Config.Drugs.perico_gold == nil, 'Envy perico_gold is not on the Rebel branch')
+assert_true(Config.Drugs.lone_star_kush == nil, 'Envy lone_star_kush is not on the Rebel branch')
 
 for drugId, drug in pairs(Config.Drugs) do
     assert_true(drug.label ~= nil, drugId .. ' has label')
@@ -50,17 +77,20 @@ for drugId, drug in pairs(Config.Drugs) do
     assert_true(drug.effects and drug.effects.enabled ~= false, drugId .. ' has effects')
     assert_true(drug.sell.minPrice and drug.sell.maxPrice and drug.sell.maxPrice >= drug.sell.minPrice, drugId .. ' has valid payout range')
     assert_true(drug.sell.minQty and drug.sell.maxQty and drug.sell.maxQty >= drug.sell.minQty, drugId .. ' has valid qty range')
+    assert_true(drug.effects.noScreenFx ~= true, drugId .. ' uses screen FX (Rebel set is loud)')
+    local sprint = drug.effects.sprintMultiplier or 1
+    assert_true(sprint <= 1.49, drugId .. ' sprint stays at or under the 1.49 cap')
 end
 
-local perico = Config.Drugs.perico_gold
-assert_true(perico.sell.minPrice >= 1500, 'perico_gold has premium pricing')
-assert_true(perico.sell.maxPrice <= 2600, 'perico_gold was nudged down a little')
-assert_true(perico.effects.noScreenFx == true, 'perico_gold has no screen FX')
-assert_true((perico.effects.armorPercent or 0) >= 40, 'perico_gold grants armor')
+local cayo = Config.Drugs.cayo_crown
+assert_true(cayo.sell.minPrice >= 1500, 'cayo_crown has premium pricing')
+assert_true(cayo.sell.maxPrice <= 2800, 'cayo_crown stays in the island range')
+assert_true((cayo.effects.armorPercent or 0) >= 60, 'cayo_crown grants heavy armor')
+assert_true(cayo.effects.screenEffect ~= nil, 'cayo_crown has a screen effect')
 
-local cashDrugs = { lone_star_kush = true, hill_country_haze = true }
-assert_eq(Config.Drugs.lone_star_kush.sell.moneyType, 'cash', 'lone_star_kush pays cash')
-assert_eq(Config.Drugs.hill_country_haze.sell.moneyType, 'cash', 'hill_country_haze pays cash')
+local cashDrugs = { longhorn_kush = true, dirt_road_haze = true }
+assert_eq(Config.Drugs.longhorn_kush.sell.moneyType, 'cash', 'longhorn_kush pays cash')
+assert_eq(Config.Drugs.dirt_road_haze.sell.moneyType, 'cash', 'dirt_road_haze pays cash')
 
 for drugId, drug in pairs(Config.Drugs) do
     if cashDrugs[drugId] then
@@ -70,20 +100,26 @@ for drugId, drug in pairs(Config.Drugs) do
     end
 end
 
-local clean = { 'lone_star_kush', 'hill_country_haze', 'purple_drank', 'rig_juice', 'perico_gold' }
-for _, id in ipairs(clean) do
-    assert_true(Config.Drugs[id].effects.noScreenFx == true, id .. ' is marked noScreenFx')
-end
-
-local runners = { 'hill_country_haze', 'houston_snow', 'west_texas_ice', 'sixth_street_rolls', 'rig_juice', 'panhandle_dust' }
+local runners = {
+    'dirt_road_haze', 'chrome_snow', 'sandlot_ice', 'honkytonk_rolls',
+    'truck_juice', 'gravel_dust', 'honda_pills', 'stab_juice', 'diesels_pack', 'cayo_crown',
+}
 for _, id in ipairs(runners) do
     assert_true((Config.Drugs[id].effects.sprintMultiplier or 1) > 1, id .. ' boosts sprint')
 end
 
-local armor = { 'houston_snow', 'border_brick', 'rig_juice', 'perico_gold' }
+local armor = {
+    'chrome_snow', 'outlaw_brick', 'honkytonk_rolls', 'truck_juice', 'cayo_crown',
+    'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
+}
 for _, id in ipairs(armor) do
     assert_true((Config.Drugs[id].effects.armorPercent or 0) > 0, id .. ' grants armor')
 end
+
+assert_true((Config.Drugs.sandlot_ice.effects.sprintMultiplier or 1) >= 1.49, 'sandlot_ice hits the sprint cap')
+assert_true((Config.Drugs.diesels_pack.effects.armorPercent or 0) >= 60, 'diesels_pack is the house armor pack')
+assert_true((Config.Drugs.black_lotus.effects.armorPercent or 0) >= 50, 'black_lotus grants 50% armor')
+assert_true((Config.Drugs.stab_juice.effects.health or 0) >= 50, 'stab_juice restores health')
 
 local propFieldCount = 0
 local totalProps = 0
@@ -104,22 +140,23 @@ print(('  Harvest fields: %d propField spots, %d pool props, %d plant fields'):f
 
 local levels = Utils.GetProgressLevels()
 assert_eq(#levels, 5, '5 progression ranks')
-assert_eq(levels[1].label, 'Ranch Hand', 'first rank is Ranch Hand')
-assert_eq(levels[5].label, 'Envy Kingpin', 'max rank is Envy Kingpin')
+assert_eq(levels[1].label, 'Prospect', 'first rank is Prospect')
+assert_eq(levels[2].label, 'Outlaw', 'second rank is Outlaw')
+assert_eq(levels[5].label, 'Rebel Kingpin', 'max rank is Rebel Kingpin')
 
 local rank = Utils.GetRankForSold(0)
-assert_eq(rank.label, 'Ranch Hand', '0 sold = Ranch Hand')
+assert_eq(rank.label, 'Prospect', '0 sold = Prospect')
 rank = Utils.GetRankForSold(250)
-assert_eq(rank.label, 'Dust Runner', '250 sold = Dust Runner')
+assert_eq(rank.label, 'Outlaw', '250 sold = Outlaw')
 rank = Utils.GetRankForSold(4500)
-assert_eq(rank.label, 'Envy Kingpin', '4500 sold = Envy Kingpin')
+assert_eq(rank.label, 'Rebel Kingpin', '4500 sold = Rebel Kingpin')
 
 assert_eq(Config.Dispatch.chance, 35, 'bad sell chance is 35%')
 assert_eq(Config.Dispatch.resource, 'ps-dispatch', 'dispatch uses Project Sloth')
 assert_eq(Config.HarvestRespawn.min, 10, 'harvest respawn min is 10s')
 assert_eq(Config.HarvestRespawn.max, 15, 'harvest respawn max is 15s')
-assert_true(Config.Drugs.lone_star_kush.sell.minPrice <= 80, 'street prices were nudged down')
-assert_true(Config.Drugs.houston_snow.sell.maxPrice <= 400, 'houston snow pays a little less')
+assert_true(Config.Drugs.longhorn_kush.sell.minPrice >= 80, 'longhorn street prices are Rebel-tier')
+assert_true(Config.Drugs.chrome_snow.sell.maxPrice >= 400, 'chrome snow pays a city brick rate')
 assert_true(Utils.IsFrameworkMoney('cash'), 'cash is framework money')
 assert_true(not Utils.IsFrameworkMoney('black_money'), 'black_money is inventory item')
 
@@ -134,12 +171,25 @@ for drugId, drug in pairs(Config.Drugs) do
     end
 end
 
+local playerOwned = { 'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack' }
+for _, id in ipairs(playerOwned) do
+    local drug = Config.Drugs[id]
+    assert_true(drug.playerOwned == true, id .. ' is marked playerOwned')
+    assert_eq(#drug.ingredients, 3, id .. ' uses exactly 3 ingredients')
+end
+
 local imageDir = 'install/images/'
 local requiredImages = {
-    'lone_star_kush', 'hill_country_haze', 'houston_snow', 'west_texas_ice',
-    'border_brick', 'sixth_street_rolls', 'purple_drank', 'rig_juice',
-    'panhandle_dust', 'perico_gold', 'black_money',
-    'ranch_bud', 'haze_bud', 'coca_leaves', 'oil_sludge', 'desert_dust', 'cayo_palm_leaf',
+    'longhorn_kush', 'dirt_road_haze', 'chrome_snow', 'sandlot_ice',
+    'outlaw_brick', 'honkytonk_rolls', 'swamp_lean', 'truck_juice',
+    'gravel_dust', 'cayo_crown', 'black_money',
+    'horn_nugs', 'road_nugs', 'bush_leaves', 'club_crystals',
+    'oil_sludge', 'desert_dust', 'cayo_palm_leaf',
+    'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
+    'civic_bolts', 'shift_powder', 'red_keycaps',
+    'rust_needles', 'iodine_swabs', 'alley_tonic',
+    'black_petals', 'temple_ash', 'ink_resin',
+    'diesel_nugs', 'grease_wrap', 'iron_filters',
 }
 for _, item in ipairs(requiredImages) do
     local f = io.open(imageDir .. item .. '.png', 'r')

@@ -83,10 +83,10 @@ async function main() {
     };
 
     const mockBoard = {
-        mine: { name: 'Alex Reyes', label: 'Dust Runner', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'County Plug', nextSold: 800, maxed: false },
+        mine: { name: 'Alex Reyes', label: 'Outlaw', place: 3, sold: 412, earned: 185000, currentSold: 250, remaining: 388, nextLabel: 'Road Captain', nextSold: 800, maxed: false },
         top: [
-            { place: 1, name: 'Carlos M.', label: 'Envy Kingpin', sold: 5200, earned: 2400000 },
-            { place: 2, name: 'Maria S.', label: 'Border Star', sold: 3100, earned: 980000 },
+            { place: 1, name: 'Carlos M.', label: 'Rebel Kingpin', sold: 5200, earned: 2400000 },
+            { place: 2, name: 'Maria S.', label: 'Shot Caller', sold: 3100, earned: 980000 },
         ],
         totalSellers: 2,
     };
@@ -97,7 +97,7 @@ async function main() {
     };
 
     const mockOffer = {
-        label: 'Rig Juice', quantity: 3, priceEach: 720, total: 2160,
+        label: 'Truck Juice', quantity: 3, priceEach: 720, total: 2160,
         minPrice: 550, maxPrice: 900, attempts: 0, maxAttempts: 2,
         haggleEnabled: true, boostMultiplier: 2,
     };
@@ -105,7 +105,7 @@ async function main() {
     // Leaderboard
     await send('openLeaderboard', mockBoard);
     assert(await frame.locator('#leaderboard').isVisible(), 'Leaderboard panel visible');
-    assert(await frame.locator('#leaderboard .logo-img').isVisible(), 'Leaderboard uses Envy Roleplay logo');
+    assert(await frame.locator('#leaderboard .logo-img').isVisible(), 'Leaderboard uses Rebel Roleplay logo');
     const logoOk = await frame.locator('#leaderboard .logo-img').evaluate((img) => img.complete && img.naturalWidth > 0);
     assert(logoOk, 'Leaderboard logo image loaded');
     assert((await frame.locator('#lb-player-name').textContent()) === 'Alex Reyes', 'Player name rendered');
@@ -131,13 +131,14 @@ async function main() {
     // Boost panel
     await send('openBoost', mockBoost);
     assert(await frame.locator('#boost-panel').isVisible(), 'Boost panel visible');
-    assert(await frame.locator('#boost-panel .logo-img').isVisible(), 'Boost panel uses Envy Roleplay logo');
+    assert(await frame.locator('#boost-panel .logo-img').isVisible(), 'Boost panel uses Rebel Roleplay logo');
     assert((await frame.locator('#boost-sell-mult').textContent()) === '3x', 'Sell boost multiplier shown');
 
     // Boost HUD
     await send('updateBoost', mockBoost);
     assert(await frame.locator('#boost-hud').isVisible(), 'Boost HUD visible when events active');
     assert(await frame.locator('#boost-sell-pill').isVisible(), 'Sell boost pill visible');
+    assert(await frame.locator('#boost-harvest-pill .logo-img-hud').isVisible(), 'Harvest HUD uses Rebel logo');
 
     // Boost HUD hidden when inactive
     await send('updateBoost', { sell: null, harvest: null });
@@ -146,7 +147,7 @@ async function main() {
     // Sell mini
     await send('openSell', mockOffer);
     assert(await frame.locator('#sell-mini').isVisible(), 'Sell mini visible');
-    assert(await frame.locator('#sell-mini .logo-img-mini').isVisible(), 'Sell mini uses Envy Roleplay logo');
+    assert(await frame.locator('#sell-mini .logo-img-mini').isVisible(), 'Sell mini uses Rebel Roleplay logo');
     assert((await frame.locator('#sell-total').textContent()) === '$2,160', 'Sell total formatted correctly');
     assert((await frame.locator('#sell-attempts').textContent()).includes('2 haggle'), 'Haggle attempts shown');
     assert(await frame.locator('#sell-haggle-soft').isVisible(), 'Haggle buttons visible');

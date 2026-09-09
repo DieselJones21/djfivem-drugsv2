@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Envy Roleplay</title>
+    <title>Rebel Roleplay</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body style="background: transparent;">
@@ -14,12 +14,13 @@
         <!-- Boost HUD (always visible when active) -->
         <div id="boost-hud" class="boost-hud hidden">
             <div class="boost-pill" id="boost-sell-pill">
-                <img class="logo-img-hud" src="img/logo-envy.png" alt="" />
+                <img class="logo-img-hud" src="img/logo-rebel.png" alt="" />
                 <span class="boost-icon">⚡</span>
                 <span id="boost-sell-text">SELL 2x</span>
                 <span id="boost-sell-time" class="boost-time">30m</span>
             </div>
             <div class="boost-pill" id="boost-harvest-pill">
+                <img class="logo-img-hud" src="img/logo-rebel.png" alt="" />
                 <span class="boost-icon">🌿</span>
                 <span id="boost-harvest-text">HARVEST 2x</span>
                 <span id="boost-harvest-time" class="boost-time">30m</span>
@@ -30,11 +31,11 @@
         <div id="sell-mini" class="sell-mini hidden">
             <div class="chrome-edge"></div>
             <div class="sell-mini-header">
-                <img class="logo-img-mini" src="img/logo-envy.png" alt="Envy Roleplay" />
+                <img class="logo-img-mini" src="img/logo-rebel.png" alt="Rebel Roleplay" />
                 <span class="sell-badge">STREET DEAL</span>
             </div>
             <div class="sell-mini-body">
-                <div class="sell-drug-name" id="sell-drug-name">Rig Juice</div>
+                <div class="sell-drug-name" id="sell-drug-name">Truck Juice</div>
                 <div class="sell-qty" id="sell-qty">2x @ $650 each</div>
                 <div class="sell-total" id="sell-total">$1,300</div>
                 <div class="sell-range" id="sell-range">Range $550–$900</div>
@@ -50,17 +51,18 @@
 
         <!-- Leaderboard Panel -->
         <div id="leaderboard" class="panel hidden">
+            <div class="chrome-edge"></div>
             <div class="panel-glow"></div>
             <div class="panel-frame" aria-hidden="true"></div>
             <header class="panel-header">
                 <div class="header-left">
-                    <img class="logo-img" src="img/logo-envy.png" alt="Envy Roleplay" />
+                    <img class="logo-img" src="img/logo-rebel.png" alt="Rebel Roleplay" />
                     <div class="subtitle">County Leaderboard</div>
                 </div>
                 <div class="header-right">
                     <div class="player-meta">
                         <div class="player-name" id="lb-player-name">Player</div>
-                        <div class="player-rank" id="lb-player-rank">Street Runner</div>
+                        <div class="player-rank" id="lb-player-rank">Prospect</div>
                     </div>
                     <div class="player-avatar" id="lb-avatar">AR</div>
                 </div>
@@ -89,7 +91,7 @@
                 <div class="section-title">Top Runners</div>
                 <div class="leaderboard-list" id="lb-list"></div>
                 <div class="progress-section">
-                    <div class="progress-label" id="lb-progress-label">250 more units to Dust Runner</div>
+                    <div class="progress-label" id="lb-progress-label">250 more units to Outlaw</div>
                     <div class="progress-bar">
                         <div class="progress-fill" id="lb-progress-fill"></div>
                     </div>
@@ -98,8 +100,8 @@
 
             <footer class="panel-footer">
                 <span class="footer-brand">
-                    <img class="logo-img-scene" src="img/logo-envy.png" alt="" />
-                    ENVY ROLEPLAY
+                    <img class="logo-img-scene" src="img/logo-rebel.png" alt="" />
+                    REBEL ROLEPLAY
                 </span>
                 <span>ESC to close</span>
             </footer>
@@ -107,11 +109,12 @@
 
         <!-- Boost Admin Panel -->
         <div id="boost-panel" class="panel hidden">
+            <div class="chrome-edge"></div>
             <div class="panel-glow"></div>
             <div class="panel-frame" aria-hidden="true"></div>
             <header class="panel-header">
                 <div class="header-left">
-                    <img class="logo-img" src="img/logo-envy.png" alt="Envy Roleplay" />
+                    <img class="logo-img" src="img/logo-rebel.png" alt="Rebel Roleplay" />
                     <div class="subtitle">Boost Events — Admin</div>
                 </div>
                 <button class="close-btn" data-close="boost-panel" aria-label="Close">✕</button>
@@ -190,8 +193,8 @@
 
             <footer class="panel-footer">
                 <span class="footer-brand">
-                    <img class="logo-img-scene" src="img/logo-envy.png" alt="" />
-                    ENVY ROLEPLAY — ADMIN
+                    <img class="logo-img-scene" src="img/logo-rebel.png" alt="" />
+                    REBEL ROLEPLAY — ADMIN
                 </span>
                 <span>ESC to close</span>
             </footer>

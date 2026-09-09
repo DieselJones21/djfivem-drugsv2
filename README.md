@@ -1,44 +1,51 @@
-# djfivem-drugsv2
+# djfivem-drugsv2 — Rebel Roleplay
 
-Texas-themed drug economy for FiveM (QBX + ox_inventory) branded for **Envy Roleplay**. Harvest ingredients from client-side props, process at benches, and sell via `/trap`.
+Outlaw drug economy for FiveM (QBX + ox_inventory) branded for **Rebel Roleplay**. Harvest ingredients from client-side props, process at benches, and sell via `/trap`.
+
+This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / Envy PRs. Rebel uses new item IDs, harvest fields, process benches, and NUI so both can exist without overwriting each other.
 
 ## Features
 
-- **10 Texas-themed drugs** plus a Cayo Perico exclusive
+- **10 Rebel county drugs** plus a Cayo Perico exclusive
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and street deals
 - **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
 - **35% bad-sale snitch** that pings Project Sloth dispatch (`DrugSale`)
 - **Ground-snapped props** on harvest spots and process benches
-- **Sell ranks & leaderboard** with KVP persistence
+- **Sell ranks & leaderboard** with KVP persistence (Prospect → Outlaw → Road Captain → Shot Caller → Rebel Kingpin)
 - **Admin boost events** (2x/3x/4x sell + harvest)
 - **Anti-exploit** server validation (proximity to the configured pool, cooldowns, token-based sales)
+- **Crazier use effects** — sprint capped at 1.49, heavier armor, screen FX on the full set
 
 ## Drugs
 
 | Drug | Pay | Effects |
 |------|-----|---------|
-| Lone Star Kush | cash | Calm / no screen FX |
-| Hill Country Haze | cash | Light sprint / no screen FX |
-| Houston Snow | black_money | Armor + run / light screen |
-| West Texas Ice | black_money | Fast run / screen FX |
-| Border Brick | black_money | Armor / screen FX |
-| Sixth Street Rolls | black_money | Fast run / screen FX |
-| Purple Drank | black_money | Stress relief / no screen FX |
-| Rig Juice | black_money | Armor + fast run / no screen FX |
-| Panhandle Dust | black_money | Fast run / screen FX |
-| Perico Gold | black_money | Heavy armor / no screen FX |
+| Longhorn Kush | cash | Run + drunk haze / screen FX |
+| Dirt Road Haze | cash | 1.40x sprint / screen FX |
+| Chrome Snow | black_money | 45% armor + 1.38x run / alien screen |
+| Sandlot Ice | black_money | 1.49x run / clown screen |
+| Outlaw Brick | black_money | 55% armor + health / drunk wreck |
+| Honkytonk Rolls | black_money | 1.49x sprint / alien screen |
+| Swamp Lean | black_money | Heavy drunk wreck / stress dump |
+| Truck Juice | black_money | 45% armor + 1.49x run / screen FX |
+| Gravel Dust | black_money | 1.49x run / clown screen |
+| Cayo Crown | black_money | 65% armor + run / alien screen |
+| Honda Pills | black_money | Player-owned — 1.49x run + armor |
+| Stab Juice | black_money | Player-owned — 45% armor + 50 HP |
+| Black Lotus | black_money | Player-owned — 50% armor + screen FX |
+| Diesels Pack | black_money | Player-owned — 60% armor + 1.49x run |
 
 Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
+
+The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) each use **3 ingredients**. Harvest spots sit in places people rarely check (dirt track, dam, cemetery, cult camp, lighthouse, observatory, wind farm).
 
 ## Dependencies
 
 - [ox_lib](https://github.com/overextended/ox_lib)
 - [ox_target](https://github.com/overextended/ox_target)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
-- [qbx_core](https://github.com/Qbox-project/qbx_core)
+- [qbx_core](https://github.com/Qbox-Project/qbx_core)
 - [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — 35% snitch chance on `/trap` sales pings LEO
-
-Street prices sit a little under the previous ranges. A completed sale still pays; when the buyer snitches, Project Sloth `DrugSale` fires at your coords.
 
 ## Installation
 
@@ -54,6 +61,8 @@ add_ace group.admin djdrugsv2.boost allow
 ensure ps-dispatch
 ensure djfivem-drugsv2
 ```
+
+If you already run the Envy version, do **not** overwrite Envy items or images. Rebel IDs (`longhorn_kush`, `truck_juice`, `cayo_crown`, …) are separate from Envy IDs (`lone_star_kush`, `rig_juice`, `perico_gold`, …).
 
 ## Commands
 

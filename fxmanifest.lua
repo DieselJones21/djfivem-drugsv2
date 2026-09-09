@@ -4,7 +4,7 @@ lua54 'yes'
 
 name 'djfivem-drugsv2'
 author 'DieselJones21'
-description 'Envy Roleplay Texas harvest → process → /trap sell drug economy (QBX + ox_inventory + custom NUI)'
+description 'Rebel Roleplay outlaw harvest → process → /trap sell drug economy (QBX + ox_inventory + custom NUI)'
 version '2.0.0'
 
 shared_scripts {

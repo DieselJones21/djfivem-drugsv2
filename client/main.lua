@@ -10,7 +10,7 @@ Client = {
 
 function Client.Notify(description, nType)
     lib.notify({
-        title = Config.Brand or 'Envy Roleplay',
+        title = Config.Brand or 'Rebel Roleplay',
         description = description,
         type = nType or 'inform',
     })
@@ -212,5 +212,5 @@ CreateThread(function()
     Harvest.Init()
     Process.Init()
     Sell.Init()
-    Utils.Debug('client ready (qbx) — Envy Roleplay theme')
+    Utils.Debug('client ready (qbx) — Rebel Roleplay theme')
 end)
