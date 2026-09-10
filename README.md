@@ -11,6 +11,7 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 - **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
 - **[darktrovx/interact](https://github.com/darktrovx/interact)** on harvest props and bulk crates (E prompt). Process NPCs, ingredient dealers, and street buyers stay on **ox_target** (3rd eye)
 - **Cook NPCs at every process location** — 3rd eye the ped, not a bench
+- **One ingredient dealer per recipe** — 3rd eye; the other ingredients stay harvest fields
 - **Varied recipes** — some cooks are efficient (Swamp Lean, Diesels Pack, Longhorn), some are expensive (Cayo Crown, Truck Juice, Black Lotus)
 - Street buyers **talk** on good deals, snitches, haggling, and walk-offs
 - **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
