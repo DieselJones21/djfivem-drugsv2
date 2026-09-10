@@ -62,7 +62,13 @@ function Process.Init()
             }
 
             local spawned = nil
-            if p.prop and p.prop.model then
+            if p.ped and p.ped.model then
+                local heading = p.ped.heading or p.heading or 0.0
+                spawned = Client.SpawnTargetPed(p.ped.model, groundCoords, heading, options, {
+                    scenario = p.ped.scenario,
+                    placeOnGround = true,
+                })
+            elseif p.prop and p.prop.model then
                 local heading = p.prop.heading or p.heading or 0.0
                 local pos = groundCoords + (p.prop.offset or vec3(0.0, 0.0, 0.0))
                 spawned = Client.SpawnTargetProp(p.prop.model, pos, heading, options, true, {

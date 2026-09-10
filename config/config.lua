@@ -21,8 +21,8 @@ Config.FrameworkMoneyTypes = {
 Config.InteractDistance = 2.2
 Config.ProgressCancelOnMove = true
 
--- Harvest/process/bulk crates: darktrovx/interact (E on the prop).
--- Street buyer peds stay on ox_target (3rd eye) — interact fights with networked peds.
+-- Harvest props + bulk crates: darktrovx/interact (E on the prop).
+-- Process NPCs, a couple of ingredient dealers, and street buyers stay on ox_target (3rd eye).
 Config.Target = {
     resource = 'interact',
     fallback = 'ox_target',
@@ -114,6 +114,53 @@ Config.Trap = {
                 counterChance = 25,
                 walkAwayChance = 35,
             },
+        },
+    },
+    -- Lines the street buyer says out loud (3D text + ambient speech).
+    talk = {
+        good = {
+            'Hell yeah. That is the good shit.',
+            'Clean pack. I will be back.',
+            'We are good. Do not follow me.',
+            'That is a deal. Stay low.',
+        },
+        snitch = {
+            'Cops on me — you set me up!',
+            'I am calling this in, asshole!',
+            'Nah, this is heat. Five-oh!',
+        },
+        fail = {
+            'Forget it. Keep your trash.',
+            'I am not touching that.',
+        },
+        walk = {
+            'You are wasting my time.',
+            'Forget it. I am gone.',
+        },
+        refuse = {
+            'I ain\'t paying that.',
+            'Lower it or I am walking.',
+        },
+        haggle = {
+            'Alright, alright — I will bump it.',
+            'Fine. Do not get greedy.',
+        },
+        counter = {
+            'Meet in the middle. Take it or leave it.',
+            'That is as high as I go.',
+        },
+        decline = {
+            'Whatever. Stay away from me.',
+        },
+        speech = {
+            good = 'GENERIC_THANKS',
+            snitch = 'GENERIC_INSULT_HIGH',
+            fail = 'GENERIC_INSULT_MED',
+            walk = 'GENERIC_FRIGHTENED_HIGH',
+            refuse = 'GENERIC_NO',
+            haggle = 'GENERIC_THANKS',
+            counter = 'GENERIC_HI',
+            decline = 'GENERIC_INSULT_MED',
         },
     },
 }
@@ -239,6 +286,20 @@ local function field(opts)
     return opts
 end
 
+--- Single contact ped (3rd eye). Only a couple of ingredients use this.
+local function pedSpot(opts)
+    opts.type = 'ped'
+    opts.amount = opts.amount or Config.IngredientAmount or { min = 5, max = 10 }
+    opts.cooldown = opts.cooldown or Config.IngredientCooldown or 10
+    opts.clientUnique = false
+    opts.heading = opts.heading or 0.0
+    opts.model = opts.model or `g_m_y_mexgoon_01`
+    opts.scenario = opts.scenario or 'WORLD_HUMAN_DRUG_DEALER'
+    opts.anim = opts.anim or { dict = 'mp_common', clip = 'givetake1_a' }
+    opts.blip = opts.blip or { enabled = false, sprite = 501, color = 3, label = opts.label }
+    return opts
+end
+
 Config.Harvest = {
     --------------------------------------------------
     -- LONGHORN KUSH (Grapeseed)
@@ -255,17 +316,15 @@ Config.Harvest = {
         duration = 6500,
         blip = { enabled = true, sprite = 469, color = 1, label = 'Horn Nugs' },
     }),
-    field({
+    pedSpot({
         id = 'zip_bags_supply',
         item = 'zip_bags',
-        label = 'Grab Zip Bags',
-        plant = false,
+        label = 'Buy Zip Bags',
         coords = vec3(1703.44, 3596.21, 35.47),
-        radius = 7.0,
-        pool = 12,
-        model = `prop_cs_cardbox_01`,
+        heading = 90.0,
+        model = `g_m_y_ballasout_01`,
+        scenario = 'WORLD_HUMAN_DRUG_DEALER',
         duration = 5000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 478, color = 0, label = 'Zip Bags' },
     }),
 
@@ -603,17 +662,15 @@ Config.Harvest = {
     --------------------------------------------------
     -- PLAYER-OWNED: HONDA PILLS (Redwood Lights / Land Act / mansion garden)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'civic_bolts',
         item = 'civic_bolts',
-        label = 'Scrape Civic Bolts',
-        plant = false,
-        coords = vec3(1042.35, 2283.18, 49.67),
-        radius = 8.0,
-        pool = 12,
-        model = `prop_toolchest_01`,
+        label = 'Buy Civic Bolts',
+        coords = vec3(-1461.35, 183.97, 55.92),
+        heading = 255.12,
+        model = `s_m_m_autoshop_02`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 402, color = 1, label = 'Civic Bolts' },
     }),
     field({
@@ -621,7 +678,7 @@ Config.Harvest = {
         item = 'shift_powder',
         label = 'Sweep Shift Powder',
         plant = false,
-        coords = vec3(1661.42, -13.85, 173.77),
+        coords = vec3(-1240.56, 370.68, 79.98),
         radius = 7.0,
         pool = 12,
         model = `prop_feed_sack_01`,
@@ -634,7 +691,7 @@ Config.Harvest = {
         item = 'red_keycaps',
         label = 'Grab Red Keycaps',
         plant = false,
-        coords = vec3(-1504.22, 151.18, 55.67),
+        coords = vec3(-2210.24, 200.28, 174.59),
         radius = 7.0,
         pool = 12,
         model = `prop_cs_pills`,
@@ -694,7 +751,7 @@ Config.Harvest = {
         item = 'black_petals',
         label = 'Pick Black Petals',
         plant = true,
-        coords = vec3(-1762.88, -262.41, 48.14),
+        coords = vec3(763.31, -2207.10, 20.70),
         radius = 8.0,
         pool = 14,
         model = `prop_plant_01a`,
@@ -706,7 +763,7 @@ Config.Harvest = {
         item = 'temple_ash',
         label = 'Scoop Temple Ash',
         plant = false,
-        coords = vec3(-289.62, 2834.48, 55.50),
+        coords = vec3(-1999.00, 1881.05, 205.39),
         radius = 7.0,
         pool = 12,
         model = `prop_rock_4_c`,
@@ -719,7 +776,7 @@ Config.Harvest = {
         item = 'ink_resin',
         label = 'Tap Ink Resin',
         plant = false,
-        coords = vec3(-1048.55, -522.18, 36.07),
+        coords = vec3(-909.14, -191.47, 19.04),
         radius = 7.0,
         pool = 12,
         model = `prop_barrel_02b`,

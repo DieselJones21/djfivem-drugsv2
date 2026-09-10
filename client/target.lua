@@ -1,7 +1,7 @@
 --[[
     Interaction attach — prefers darktrovx/interact (E prompt on the prop).
     Falls back to ox_target if interact is not started.
-    Street buyers are attached in client/sell.lua with ox_target only.
+    Peds (process NPCs, a couple of ingredient dealers, street buyers) stay on ox_target.
 ]]
 
 Client.interactEntities = {} -- entity -> interact id
@@ -69,6 +69,28 @@ local function toInteractOptions(options)
         }
     end
     return list
+end
+
+--- ox_target only. Use this for peds so interact never attaches to them.
+function Client.AttachOxTarget(entity, options)
+    if not entity or entity == 0 or not DoesEntityExist(entity) then
+        return false
+    end
+    if not Client.HasOxTarget() then
+        Client.Notify('ox_target is required for this contact', 'error')
+        return false
+    end
+    pcall(function()
+        exports.ox_target:addLocalEntity(entity, options)
+    end)
+    return true
+end
+
+function Client.DetachOxTarget(entity)
+    if not entity or not Client.HasOxTarget() then return end
+    pcall(function()
+        exports.ox_target:removeLocalEntity(entity)
+    end)
 end
 
 function Client.AttachInteract(entity, options, extra)

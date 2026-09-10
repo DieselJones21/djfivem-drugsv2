@@ -21,18 +21,11 @@ end
 -- Street buyers stay on ox_target (3rd eye). darktrovx interact fights with
 -- networked peds, so harvest/process/bulk crates keep E and buyers do not.
 local function detachBuyerTarget(ped)
-    if not ped or GetResourceState('ox_target') ~= 'started' then return end
-    pcall(function()
-        exports.ox_target:removeLocalEntity(ped)
-    end)
+    Client.DetachOxTarget(ped)
 end
 
 local function attachBuyerTarget(ped, offer)
-    if GetResourceState('ox_target') ~= 'started' then
-        Client.Notify('ox_target is required to deal with street buyers', 'error')
-        return
-    end
-    exports.ox_target:addLocalEntity(ped, {
+    Client.AttachOxTarget(ped, {
         {
             name = 'djdrugsv2_sell_buyer',
             icon = 'fa-solid fa-comments-dollar',
@@ -43,6 +36,18 @@ local function attachBuyerTarget(ped, offer)
             end,
         },
     })
+end
+
+local function buyerSay(kind)
+    local talk = Config.Trap.talk
+    if not talk then return end
+    local lines = talk[kind]
+    if type(lines) ~= 'table' or #lines == 0 then return end
+    local text = lines[math.random(1, #lines)]
+    local speech = talk.speech and talk.speech[kind] or nil
+    if Trap.buyer and DoesEntityExist(Trap.buyer) then
+        Client.PedSay(Trap.buyer, text, speech)
+    end
 end
 
 local function deleteBuyer()
@@ -175,15 +180,29 @@ local function finishSale()
     if not offer then return end
 
     playDealAnim()
+    NUI.CloseSell()
 
-    local ok, message = lib.callback.await('djdrugsv2:server:completeSale', false, offer.token)
+    local ok, message, extra = lib.callback.await('djdrugsv2:server:completeSale', false, offer.token)
+    extra = extra or {}
+    local ped = Trap.buyer
     if ok then
+        if extra.snitch then
+            buyerSay('snitch')
+        else
+            buyerSay('good')
+        end
         Client.Notify(message or 'Sale complete', 'success')
     else
+        buyerSay('fail')
         Client.Notify(message or 'Sale failed', 'error')
     end
 
-    deleteBuyer()
+    CreateThread(function()
+        Wait(ok and 2200 or 1200)
+        if Trap.buyer == ped then
+            deleteBuyer()
+        end
+    end)
 end
 
 local function openDealUI()
@@ -200,8 +219,15 @@ function Sell.HandleNUIAction(data)
         finishSale()
         Trap.busy = false
     elseif data.action == 'decline' then
+        buyerSay('decline')
         Client.Notify('You waved the buyer off', 'inform')
-        deleteBuyer()
+        local ped = Trap.buyer
+        CreateThread(function()
+            Wait(1200)
+            if Trap.buyer == ped then
+                deleteBuyer()
+            end
+        end)
     elseif data.action == 'haggle' then
         Trap.busy = true
         local result = lib.callback.await('djdrugsv2:server:haggleOffer', false, Trap.offer.token, data.askId)
@@ -213,14 +239,29 @@ function Sell.HandleNUIAction(data)
         end
 
         if result.outcome == 'walk' or result.outcome == 'expired' then
+            buyerSay('walk')
             Client.Notify(result.message or 'Buyer left', 'error')
-            deleteBuyer()
+            local ped = Trap.buyer
+            CreateThread(function()
+                Wait(1600)
+                if Trap.buyer == ped then
+                    deleteBuyer()
+                end
+            end)
             return
         end
 
         if result.offer then
             Trap.offer = result.offer
             NUI.UpdateSell(Trap.offer)
+        end
+
+        if result.outcome == 'success' then
+            buyerSay('haggle')
+        elseif result.outcome == 'counter' then
+            buyerSay('counter')
+        elseif result.outcome == 'refuse' then
+            buyerSay('refuse')
         end
 
         Client.Notify(result.message or 'Buyer responded', result.outcome == 'success' and 'success' or 'inform')

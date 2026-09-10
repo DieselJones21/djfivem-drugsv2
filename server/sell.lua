@@ -296,7 +296,9 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
     local dispatch = Config.Dispatch or {}
     local chance = dispatch.chance or (Config.Police and Config.Police.alertChance) or 0
     local dispatchOn = dispatch.enabled ~= false
+    local snitched = false
     if dispatchOn and chance > 0 and math.random(1, 100) <= chance then
+        snitched = true
         TriggerClientEvent('djdrugsv2:client:badSell', source, {
             label = offer.label,
             item = offer.item,
@@ -316,5 +318,5 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
         dirty and ' (dirty)' or '',
         (offer.boostMultiplier and offer.boostMultiplier > 1) and (' [%sx boost]'):format(offer.boostMultiplier) or '',
         rankNote
-    )
+    ), { snitch = snitched }
 end)

@@ -56,6 +56,6 @@ dependencies {
     'ox_target',
 }
 
--- Preferred: ensure `interact` (darktrovx) before this resource so harvest/process/bulk crates use E.
--- Street buyers stay on ox_target (3rd eye). ox_target is also the fallback if interact is not started.
+-- Preferred: ensure `interact` (darktrovx) before this resource so harvest props and bulk crates use E.
+-- Process NPCs, a couple of ingredient dealers, and street buyers stay on ox_target (3rd eye).
 -- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.
