@@ -17,10 +17,12 @@ shared_scripts {
 
 client_scripts {
     'client/main.lua',
+    'client/target.lua',
     'client/nui.lua',
     'client/harvest.lua',
     'client/process.lua',
     'client/sell.lua',
+    'client/bulk.lua',
     'client/progress.lua',
     'client/effects.lua',
     'client/boost.lua',
@@ -32,6 +34,7 @@ server_scripts {
     'server/process.lua',
     'server/progress.lua',
     'server/sell.lua',
+    'server/bulk.lua',
     'server/effects.lua',
     'server/boost.lua',
 }
@@ -47,9 +50,11 @@ files {
 
 dependencies {
     'ox_lib',
-    'ox_target',
     'ox_inventory',
     'qbx_core',
+    'interact',
 }
 
+-- Preferred: ensure `interact` (darktrovx) before this resource so harvest/process/buyers use E.
+-- ox_target is only a fallback if interact is not started.
 -- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.

@@ -197,5 +197,29 @@ for _, item in ipairs(requiredImages) do
     if f then f:close() end
 end
 
+assert_eq(Config.Target.resource, 'interact', 'props use darktrovx interact')
+assert_true(Config.BulkSell ~= nil, 'bulk sell config exists')
+assert_eq(Config.BulkSell.command, 'drugbulksell', 'bulk command is /drugbulksell')
+assert_eq(Config.BulkSell.minQty, 100, 'bulk min is 100')
+assert_eq(Config.BulkSell.maxQty, 200, 'bulk max is 200')
+assert_true(Config.BulkSell.pricePercent < 1, 'bulk pays less than street min')
+assert_true(#Config.BulkSell.locations >= 8, 'multiple bulk drop locations')
+
+local locIds = {}
+for i = 1, #Config.BulkSell.locations do
+    local loc = Config.BulkSell.locations[i]
+    assert_true(loc.id ~= nil and loc.label ~= nil, 'bulk location has id and label')
+    assert_true(loc.coords ~= nil, loc.id .. ' has coords')
+    assert_true(locIds[loc.id] == nil, loc.id .. ' is unique')
+    locIds[loc.id] = true
+end
+
+for drugId, drug in pairs(Config.Drugs) do
+    local bulkEach = Utils.GetBulkPriceEach(drug, 1)
+    assert_true(bulkEach < drug.sell.minPrice, drugId .. ' bulk unit price is below street min')
+    local ranked = Utils.GetBulkPriceEach(drug, 1.18)
+    assert_true(ranked < drug.sell.minPrice, drugId .. ' bulk stays below street min even with kingpin rank')
+end
+
 print(('\n=== Results: %d passed, %d failed ==='):format(passed, failed))
 os.exit(failed > 0 and 1 or 0)

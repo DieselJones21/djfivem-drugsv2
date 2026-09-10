@@ -102,6 +102,14 @@ async function main() {
     await page.screenshot({ path: join(OUT_DIR, 'rebel-street-deal.png'), fullPage: false });
 
     await send('closeAll', {});
+    await send('updateBulk', {
+        quantity: 150, label: 'Longhorn Kush', locationLabel: 'Elysian crate yard',
+        total: 7425, remaining: 1199,
+    });
+    await page.screenshot({ path: join(OUT_DIR, 'rebel-bulk-hud.png'), fullPage: false });
+    await send('updateBulk', null);
+
+    await send('closeAll', {});
     await send('openLeaderboard', mockBoard);
     await send('updateBoost', mockBoost);
     await send('openSell', mockOffer);

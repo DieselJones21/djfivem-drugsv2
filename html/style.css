@@ -72,6 +72,34 @@ body {
     pointer-events: auto;
 }
 
+.bulk-hud {
+    top: auto;
+    bottom: 28px;
+    right: 20px;
+    left: auto;
+}
+
+.bulk-pill {
+    max-width: 420px;
+    border-radius: 14px;
+    align-items: flex-start;
+}
+
+.bulk-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.bulk-place {
+    font-size: 11px;
+    letter-spacing: 0.6px;
+    color: var(--text-dim);
+    text-transform: none;
+    font-weight: 600;
+}
+
 /* ── Boost HUD ── */
 .boost-hud {
     position: fixed;

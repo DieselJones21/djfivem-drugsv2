@@ -144,6 +144,18 @@ async function main() {
     await send('updateBoost', { sell: null, harvest: null });
     assert(await frame.locator('#boost-hud').isHidden(), 'Boost HUD hidden when no events');
 
+    // Bulk drop HUD
+    await send('updateBulk', {
+        quantity: 150, label: 'Longhorn Kush', locationLabel: 'Elysian crate yard',
+        total: 7425, remaining: 1199,
+    });
+    assert(await frame.locator('#bulk-hud').isVisible(), 'Bulk HUD visible with an active order');
+    assert((await frame.locator('#bulk-item').textContent()).includes('150'), 'Bulk HUD shows quantity');
+    assert((await frame.locator('#bulk-place').textContent()).includes('Elysian'), 'Bulk HUD shows drop name');
+    assert((await frame.locator('#bulk-pay').textContent()) === '$7,425', 'Bulk HUD formats payout');
+    await send('updateBulk', null);
+    assert(await frame.locator('#bulk-hud').isHidden(), 'Bulk HUD hidden when no order');
+
     // Sell mini
     await send('openSell', mockOffer);
     assert(await frame.locator('#sell-mini').isVisible(), 'Sell mini visible');

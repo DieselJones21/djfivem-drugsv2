@@ -21,6 +21,15 @@ Config.FrameworkMoneyTypes = {
 Config.InteractDistance = 2.2
 Config.ProgressCancelOnMove = true
 
+-- darktrovx/interact (E on the prop). ox_target is only a fallback.
+Config.Target = {
+    resource = 'interact',
+    fallback = 'ox_target',
+    distance = 8.0,
+    interactDst = 1.5,
+    offset = vec3(0.0, 0.0, 0.45),
+}
+
 Config.Police = {
     enabled = false, -- cop-count gate for /trap (leave false to always allow trapping)
     jobs = { 'police', 'sheriff' },
@@ -148,6 +157,54 @@ Config.Progression = {
 
 Config.Stores = {}
 Config.Machines = {}
+
+--[[
+    /drugbulksell — warehouse drops. 100–200 units at a cut below street
+    trap prices because the sale is instant and you pick the drop.
+]]
+Config.BulkSell = {
+    enabled = true,
+    command = 'drugbulksell',
+    cancelCommand = 'drugbulkcancel',
+    description = 'Take a bulk delivery order',
+    minQty = 100,
+    maxQty = 200,
+    pricePercent = 0.55, -- of street minPrice (rank may apply on top)
+    rankApplies = true,
+    boostApplies = false,
+    cooldown = 8 * 60,
+    cancelCooldown = 4 * 60,
+    jobTimeout = 20 * 60,
+    deliverDuration = 12000,
+    interactDistance = 2.2,
+    crateModel = `prop_box_wood02a`,
+    dispatchChance = 15,
+    anim = {
+        dict = 'anim@heists@box_carry@',
+        clip = 'idle',
+        flag = 49,
+    },
+    blip = {
+        enabled = true,
+        sprite = 478,
+        color = 1,
+        scale = 0.9,
+        route = true,
+        label = 'Bulk Drop',
+    },
+    locations = {
+        { id = 'elysian_crates', label = 'Elysian crate yard', coords = vec3(164.12, -3312.55, 5.96) },
+        { id = 'la_mesa_yard', label = 'La Mesa loading bay', coords = vec3(837.21, -1936.40, 28.97) },
+        { id = 'cypress_depot', label = 'Cypress flats depot', coords = vec3(913.55, -1561.22, 30.74) },
+        { id = 'sandy_hangar', label = 'Sandy Shores hangar', coords = vec3(1731.88, 3310.52, 41.22) },
+        { id = 'paleto_shed', label = 'Paleto lumber shed', coords = vec3(-84.22, 6496.10, 31.49) },
+        { id = 'harmony_motel', label = 'Harmony motel lot', coords = vec3(1142.40, 2663.90, 38.16) },
+        { id = 'del_perro_alley', label = 'Del Perro garage alley', coords = vec3(-1393.55, -588.10, 30.32) },
+        { id = 'terminal_stack', label = 'Port terminal stack', coords = vec3(1181.40, -3113.80, 6.03) },
+        { id = 'lsia_cargo', label = 'LSIA cargo fence', coords = vec3(-941.50, -2954.80, 13.95) },
+        { id = 'mirror_backlot', label = 'East LS backlot', coords = vec3(970.40, -126.55, 74.36) },
+    },
+}
 
 
 --[[

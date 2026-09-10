@@ -139,9 +139,13 @@ end
 function Client.DeleteProp(entity)
     if not entity or entity == 0 then return end
 
-    pcall(function()
-        exports.ox_target:removeLocalEntity(entity)
-    end)
+    if Client.DetachInteract then
+        Client.DetachInteract(entity)
+    else
+        pcall(function()
+            exports.ox_target:removeLocalEntity(entity)
+        end)
+    end
 
     if DoesEntityExist(entity) then
         SetEntityAsMissionEntity(entity, true, true)
@@ -167,10 +171,14 @@ end
 ---@param heading number|nil
 ---@param options table
 ---@param placeOnGround boolean|nil
-function Client.SpawnTargetProp(model, coords, heading, options, placeOnGround)
+function Client.SpawnTargetProp(model, coords, heading, options, placeOnGround, extra)
     local obj = Client.SpawnProp(model, coords, heading, placeOnGround)
     if not obj then return nil end
-    exports.ox_target:addLocalEntity(obj, options)
+    if Client.AttachInteract then
+        Client.AttachInteract(obj, options, extra)
+    else
+        exports.ox_target:addLocalEntity(obj, options)
+    end
     return obj
 end
 
@@ -180,13 +188,23 @@ local function cleanup()
         local ent = Client.spawnedProps[i]
         if DoesEntityExist(ent) then
             pcall(function()
-                exports.ox_target:removeLocalEntity(ent)
+                if Client.DetachInteract then
+                    Client.DetachInteract(ent)
+                else
+                    exports.ox_target:removeLocalEntity(ent)
+                end
             end)
             DeleteEntity(ent)
         end
     end
     Client.spawnedProps = {}
     Client.propPositions = {}
+
+    if Client.coordInteractions then
+        for id in pairs(Client.coordInteractions) do
+            Client.RemoveCoordInteract(id)
+        end
+    end
 
     for i = 1, #Client.blips do
         if DoesBlipExist(Client.blips[i]) then
@@ -202,6 +220,9 @@ AddEventHandler('onResourceStop', function(resource)
     if Trap and Trap.Stop then
         Trap.Stop(true)
     end
+    if Bulk and Bulk.Clear then
+        Bulk.Clear(true)
+    end
     if NUI then
         NUI.CloseAll()
     end
@@ -212,5 +233,8 @@ CreateThread(function()
     Harvest.Init()
     Process.Init()
     Sell.Init()
+    if Bulk and Bulk.Init then
+        Bulk.Init()
+    end
     Utils.Debug('client ready (qbx) — Rebel Roleplay theme')
 end)

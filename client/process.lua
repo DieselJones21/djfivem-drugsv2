@@ -10,22 +10,36 @@ local function recipeText(drug)
 end
 
 local function processDrug(drugId)
-    local drug = Utils.GetDrug(drugId)
-    if not drug or not drug.process then return end
+    if not Client.BeginAction() then return end
 
-    local hasItems = lib.callback.await('djdrugsv2:server:canProcess', false, drugId)
-    if not hasItems then
-        Client.Notify(('Missing ingredients: %s'):format(recipeText(drug)), 'error')
+    local drug = Utils.GetDrug(drugId)
+    if not drug or not drug.process then
+        Client.EndAction()
+        return
+    end
+
+    local started, durationOrReason = lib.callback.await('djdrugsv2:server:processStart', false, drugId)
+    if not started then
+        Client.Notify(durationOrReason or ('Missing ingredients: %s'):format(recipeText(drug)), 'error')
+        Client.EndAction()
         return
     end
 
     local p = drug.process
-    if not Client.Progress(p.label or ('Process ' .. drug.label), p.duration or 10000, p.anim) then
+    if not Client.Progress(p.label or ('Process ' .. drug.label), durationOrReason or p.duration or 10000, p.anim) then
         Client.Notify('Cancelled', 'error')
+        lib.callback.await('djdrugsv2:server:processCancel', false, drugId)
+        Client.EndAction()
         return
     end
 
-    TriggerServerEvent('djdrugsv2:server:process', drugId)
+    local ok, message = lib.callback.await('djdrugsv2:server:tryProcess', false, drugId)
+    Client.EndAction()
+    if ok then
+        Client.Notify(message or ('Processed %s'):format(drug.label), 'success')
+    else
+        Client.Notify(message or 'Processing failed', 'error')
+    end
 end
 
 function Process.Init()
@@ -51,18 +65,25 @@ function Process.Init()
             if p.prop and p.prop.model then
                 local heading = p.prop.heading or p.heading or 0.0
                 local pos = groundCoords + (p.prop.offset or vec3(0.0, 0.0, 0.0))
-                spawned = Client.SpawnTargetProp(p.prop.model, pos, heading, options, true)
+                spawned = Client.SpawnTargetProp(p.prop.model, pos, heading, options, true, {
+                    id = 'djdrugsv2_process_' .. drugId,
+                    offset = vec3(0.0, 0.0, 0.6),
+                    ignoreLos = true,
+                    interactDst = Config.InteractDistance or 1.5,
+                })
             end
 
             if not spawned then
-                local zoneId = exports.ox_target:addBoxZone({
+                Client.AddCoordInteract({
+                    id = 'djdrugsv2_process_' .. drugId,
                     coords = groundCoords,
-                    size = p.size or vec3(1.6, 1.6, 2.0),
+                    label = p.label or ('Process ' .. drug.label),
                     rotation = p.rotation or p.heading or 0.0,
-                    debug = Config.Debug,
-                    options = options,
+                    size = p.size or vec3(1.6, 1.6, 2.0),
+                    onSelect = function()
+                        processDrug(drugId)
+                    end,
                 })
-                Client.processZones[#Client.processZones + 1] = zoneId
             end
         end
     end
