@@ -20,7 +20,11 @@ end
 
 local function deleteBuyer()
     if Trap.buyer and DoesEntityExist(Trap.buyer) then
-        exports.ox_target:removeLocalEntity(Trap.buyer)
+        if Client.DetachInteract then
+            Client.DetachInteract(Trap.buyer, 'djdrugsv2_sell_buyer')
+        else
+            exports.ox_target:removeLocalEntity(Trap.buyer)
+        end
         local ped = Trap.buyer
         Trap.buyer = nil
         SetBlockingOfNonTemporaryEvents(ped, false)
@@ -44,6 +48,7 @@ function Trap.Stop(silent)
         RemoveBlip(Trap.blip)
         Trap.blip = nil
     end
+    TriggerServerEvent('djdrugsv2:server:stopTrap')
     if not silent then
         Client.Notify('Trap mode stopped', 'inform')
     end
@@ -235,7 +240,7 @@ local function spawnBuyer()
     Trap.buyer = ped
     Trap.offer = offer
 
-    exports.ox_target:addLocalEntity(ped, {
+    Client.AttachInteract(ped, {
         {
             name = 'djdrugsv2_sell_buyer',
             icon = 'fa-solid fa-comments-dollar',
@@ -245,6 +250,12 @@ local function spawnBuyer()
                 Sell.HandleBuyer()
             end,
         },
+    }, {
+        id = 'djdrugsv2_sell_buyer',
+        offset = vec3(0.0, 0.0, 0.35),
+        ignoreLos = false,
+        interactDst = 2.0,
+        distance = 8.0,
     })
 
     CreateThread(function()
@@ -307,7 +318,7 @@ function Sell.Init()
 
         Trap.active = true
         createTrapBlip()
-        Client.Notify('Trap mode on — a buyer is coming. Use 3rd eye on them.', 'success')
+        Client.Notify('Trap mode on — a buyer is coming. Walk up and press E.', 'success')
         spawnBuyer()
     end, false)
 

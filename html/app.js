@@ -251,6 +251,24 @@ function hideSellMini() {
     setSellBusy(false);
 }
 
+function renderBulk(job) {
+    const hud = $('#bulk-hud');
+    if (!hud) return;
+    if (!job) {
+        hud.classList.add('hidden');
+        return;
+    }
+    hud.classList.remove('hidden');
+    const item = $('#bulk-item');
+    const place = $('#bulk-place');
+    const pay = $('#bulk-pay');
+    const time = $('#bulk-time');
+    if (item) item.textContent = `${job.quantity}× ${job.label || 'Product'}`;
+    if (place) place.textContent = job.locationLabel || 'Bulk drop';
+    if (pay) pay.textContent = formatMoney(job.total);
+    if (time) time.textContent = formatTime(job.remaining);
+}
+
 /* ── Event Listeners ── */
 window.addEventListener('message', (event) => {
     const { action, data } = event.data || {};
@@ -275,6 +293,9 @@ window.addEventListener('message', (event) => {
             break;
         case 'closeSell':
             hideSellMini();
+            break;
+        case 'updateBulk':
+            renderBulk(data);
             break;
         case 'closeAll':
             hideAllPanels();

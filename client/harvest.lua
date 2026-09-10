@@ -51,7 +51,12 @@ local function spawnFieldProp(spot, index)
                 Harvest.TryCollect(spot, entityKey)
             end,
         },
-    }, true)
+    }, true, {
+        id = 'djdrugsv2_prop_' .. entityKey,
+        offset = spot.plant and vec3(0.0, 0.0, 0.55) or vec3(0.0, 0.0, 0.4),
+        ignoreLos = true,
+        interactDst = Config.InteractDistance or 1.5,
+    })
 
     if not obj or obj == 0 or not DoesEntityExist(obj) then
         return false
@@ -138,16 +143,31 @@ function Harvest.Relocate(spot, entityKey)
 end
 
 function Harvest.TryCollect(spot, entityKey)
-    local key = entityKey or spot.id
-    if onCooldown(key, spot.cooldown) then return end
+    if not Client.BeginAction() then return end
 
-    if not Client.Progress(spot.label, spot.duration or 5000, spot.anim) then
+    local key = entityKey or spot.id
+    if onCooldown(key, spot.cooldown) then
+        Client.EndAction()
+        return
+    end
+
+    local started, duration = lib.callback.await('djdrugsv2:server:harvestStart', false, spot.id, entityKey)
+    if not started then
+        cooldowns[key] = nil
+        Client.EndAction()
+        return
+    end
+
+    if not Client.Progress(spot.label, duration or spot.duration or 5000, spot.anim) then
         Client.Notify('Cancelled', 'error')
         cooldowns[key] = nil
+        lib.callback.await('djdrugsv2:server:harvestCancel', false, spot.id, entityKey)
+        Client.EndAction()
         return
     end
 
     local ok = lib.callback.await('djdrugsv2:server:tryHarvest', false, spot.id, entityKey)
+    Client.EndAction()
     if not ok then
         cooldowns[key] = nil
         return
@@ -187,16 +207,23 @@ local function setupBench(spot)
         },
     }
 
-    Client.SpawnProp(propData.model, spot.coords, heading, placeOnGround)
-
-    local zoneId = exports.ox_target:addBoxZone({
-        coords = groundCoords,
-        size = spot.size or vec3(1.6, 1.6, 2.0),
-        rotation = heading,
-        debug = Config.Debug,
-        options = options,
-    })
-    Client.harvestZones[#Client.harvestZones + 1] = zoneId
+    local obj = Client.SpawnProp(propData.model, spot.coords, heading, placeOnGround)
+    if obj then
+        Client.AttachInteract(obj, options, {
+            id = 'djdrugsv2_harvest_' .. spot.id,
+            offset = vec3(0.0, 0.0, 0.5),
+            ignoreLos = true,
+        })
+    else
+        Client.AddCoordInteract({
+            id = 'djdrugsv2_harvest_' .. spot.id,
+            coords = groundCoords,
+            label = spot.label,
+            onSelect = function()
+                Harvest.TryCollect(spot, spot.id)
+            end,
+        })
+    end
 end
 
 --- Per-player subset of a position pool. Harvest deletes that prop; another grows later.

@@ -100,6 +100,27 @@ function Utils.GetRankPayoutMultiplier(sold)
     return mult
 end
 
+--- Bulk drop pays a cut of street minPrice (easier than trapping).
+function Utils.GetBulkPriceEach(drug, rankMult)
+    if not drug or not drug.sell then return 0 end
+    local bulk = Config.BulkSell or {}
+    local pct = tonumber(bulk.pricePercent) or 0.55
+    if pct < 0.1 then pct = 0.1 end
+    if pct > 0.95 then pct = 0.95 end
+    local base = math.floor(((drug.sell.minPrice or 0) * pct) + 0.5)
+    if bulk.rankApplies ~= false then
+        local rank = tonumber(rankMult) or 1
+        if rank > 1 then
+            base = math.floor((base * rank) + 0.5)
+        end
+    end
+    local streetMin = drug.sell.minPrice or 0
+    if base >= streetMin and streetMin > 0 then
+        base = math.max(1, streetMin - 1)
+    end
+    return math.max(1, base)
+end
+
 function Utils.FormatMoney(n)
     n = math.floor(tonumber(n) or 0)
     local s = tostring(n)

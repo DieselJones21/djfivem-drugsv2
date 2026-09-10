@@ -171,6 +171,11 @@ AddEventHandler('playerDropped', function()
     Server.machineCooldown[src] = nil
     Server.processCooldown[src] = nil
     Server.offers[src] = nil
+    if Server.harvestPending then Server.harvestPending[src] = nil end
+    if Server.processPending then Server.processPending[src] = nil end
+    if Server.trapActive then Server.trapActive[src] = nil end
+    if Server.bulkJobs then Server.bulkJobs[src] = nil end
+    if Server.bulkPending then Server.bulkPending[src] = nil end
 end)
 
 CreateThread(function()

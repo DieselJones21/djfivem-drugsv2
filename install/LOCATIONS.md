@@ -67,6 +67,25 @@ Benches snap to the ground. Heading is the fourth `vector4` value.
 | Black Lotus | -411.52, 1173.18, 325.64 | 165.00 | `prop_tool_bench02` |
 | Diesels Pack | 2137.42, 4795.88, 41.14 | 25.00 | `bkr_prop_weed_table_01a` |
 
+## Bulk drop locations (`/drugbulksell`)
+
+Orders are **100–200** units of one finished drug you already hold. Payout is **55% of that drug's street min price** (rank can still apply, but it stays below street min). The server picks a random drop from this list; canceling or finishing starts a cooldown so you cannot shop locations.
+
+| Drop | Coords |
+|------|--------|
+| Elysian crate yard | 164.12, -3312.55, 5.96 |
+| La Mesa loading bay | 837.21, -1936.40, 28.97 |
+| Cypress flats depot | 913.55, -1561.22, 30.74 |
+| Sandy Shores hangar | 1731.88, 3310.52, 41.22 |
+| Paleto lumber shed | -84.22, 6496.10, 31.49 |
+| Harmony motel lot | 1142.40, 2663.90, 38.16 |
+| Del Perro garage alley | -1393.55, -588.10, 30.32 |
+| Port terminal stack | 1181.40, -3113.80, 6.03 |
+| LSIA cargo fence | -941.50, -2954.80, 13.95 |
+| East LS backlot | 970.40, -126.55, 74.36 |
+
+Walk up and press **E** on the crate (darktrovx `interact`).
+
 Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
 
 ## Commands
@@ -74,5 +93,7 @@ Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
 | Command | Description |
 |---------|-------------|
 | `/trap` | Street selling |
+| `/drugbulksell` | Bulk warehouse drop |
+| `/drugbulkcancel` | Cancel bulk drop |
 | `/drugboard` | County leaderboard |
 | `/drugboost` | Admin boost panel |

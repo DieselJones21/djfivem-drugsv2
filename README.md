@@ -7,9 +7,11 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 ## Features
 
 - **10 Rebel county drugs** plus a Cayo Perico exclusive
-- **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), and street deals
+- **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), street deals, and bulk-drop HUD
 - **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
-- **35% bad-sale snitch** that pings Project Sloth dispatch (`DrugSale`)
+- **[darktrovx/interact](https://github.com/darktrovx/interact)** on every harvest prop, process bench, street buyer, and bulk crate (E prompt). ox_target is only a fallback
+- **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
+- **35% bad-sale snitch** on street traps (15% on bulk drops) that pings Project Sloth dispatch (`DrugSale`)
 - **Ground-snapped props** on harvest spots and process benches
 - **Sell ranks & leaderboard** with KVP persistence (Prospect → Outlaw → Road Captain → Shot Caller → Rebel Kingpin)
 - **Admin boost events** (2x/3x/4x sell + harvest)
@@ -42,10 +44,10 @@ The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels
 ## Dependencies
 
 - [ox_lib](https://github.com/overextended/ox_lib)
-- [ox_target](https://github.com/overextended/ox_target)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [qbx_core](https://github.com/Qbox-Project/qbx_core)
-- [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — 35% snitch chance on `/trap` sales pings LEO
+- [interact](https://github.com/darktrovx/interact) — E prompt on harvest/process/buyers/bulk crates
+- [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — snitch chance on `/trap` and bulk drops pings LEO
 
 ## Installation
 
@@ -58,6 +60,7 @@ Process bench coordinates are listed in `install/LOCATIONS.md`.
 
 ```cfg
 add_ace group.admin djdrugsv2.boost allow
+ensure interact
 ensure ps-dispatch
 ensure djfivem-drugsv2
 ```
@@ -68,7 +71,9 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 
 | Command | Description |
 |---------|-------------|
-| `/trap` | Start/stop street selling |
+| `/trap` | Start/stop street selling (press **E** on the buyer) |
+| `/drugbulksell` | Take a 100–200 unit drop at a random warehouse (pays less than `/trap`) |
+| `/drugbulkcancel` | Cancel the current bulk drop (starts a shorter cooldown) |
 | `/drugboard` | Open the sell leaderboard |
 | `/drugboost` | Admin boost event panel |
 
@@ -76,7 +81,7 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 
 Default rule: **5 of each ingredient → 7 finished product**
 
-Flow: Harvest scattered props → Process at bench → `/trap` to sell
+Flow: Harvest scattered props → Process at bench → `/trap` for street prices, or stockpile 100–200 and `/drugbulksell` for a cheaper warehouse drop.
 
 ## Tests
 

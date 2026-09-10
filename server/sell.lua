@@ -54,6 +54,10 @@ local function offerPayload(offer)
 end
 
 lib.callback.register('djdrugsv2:server:canTrap', function(source)
+    if Server.bulkJobs and Server.bulkJobs[source] then
+        return false, 'Finish or cancel your bulk drop first'
+    end
+
     if Config.Police.enabled then
         local cops = Server.GetOnDutyPolice()
         if cops < (Config.Police.minimum or 0) then
@@ -68,10 +72,24 @@ lib.callback.register('djdrugsv2:server:canTrap', function(source)
         end
     end
 
+    Server.trapActive = Server.trapActive or {}
+    Server.trapActive[source] = true
     return true
 end)
 
+RegisterNetEvent('djdrugsv2:server:stopTrap', function()
+    local src = source
+    Server.trapActive = Server.trapActive or {}
+    Server.trapActive[src] = nil
+    Server.offers[src] = nil
+end)
+
 lib.callback.register('djdrugsv2:server:createOffer', function(source)
+    Server.trapActive = Server.trapActive or {}
+    if not Server.trapActive[source] then
+        return nil
+    end
+
     local stock = playerSellableStock(source)
     local pick
 
@@ -110,6 +128,9 @@ lib.callback.register('djdrugsv2:server:createOffer', function(source)
         or (sell.clean == true and (Config.MoneyType or 'cash'))
         or (Config.DirtyMoneyType or 'black_money')
 
+    local ped = GetPlayerPed(source)
+    local origin = ped and ped ~= 0 and GetEntityCoords(ped) or nil
+
     Server.offers[source] = {
         token = token,
         drugId = pick.id,
@@ -127,6 +148,7 @@ lib.callback.register('djdrugsv2:server:createOffer', function(source)
         maxAttempts = haggle.maxAttempts or 2,
         haggleEnabled = haggle.enabled ~= false,
         expires = os.time() + 90,
+        origin = origin,
     }
 
     return offerPayload(Server.offers[source])
@@ -216,6 +238,11 @@ lib.callback.register('djdrugsv2:server:haggleOffer', function(source, token, as
 end)
 
 lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
+    Server.trapActive = Server.trapActive or {}
+    if not Server.trapActive[source] then
+        return false, 'Trap mode is not active'
+    end
+
     local offer = Server.offers[source]
     if not offer or offer.token ~= token then
         return false, 'Offer expired'
@@ -224,6 +251,20 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
     if offer.expires < os.time() then
         Server.offers[source] = nil
         return false, 'Offer expired'
+    end
+
+    if offer.origin then
+        local ped = GetPlayerPed(source)
+        if not ped or ped == 0 then
+            return false, 'Sale failed'
+        end
+        local now = GetEntityCoords(ped)
+        local dx = now.x - offer.origin.x
+        local dy = now.y - offer.origin.y
+        if (dx * dx + dy * dy) > (40.0 * 40.0) then
+            Server.offers[source] = nil
+            return false, 'Buyer lost you'
+        end
     end
 
     local count = Server.ItemCount(source, offer.item)
