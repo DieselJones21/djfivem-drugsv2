@@ -92,7 +92,7 @@ Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
 
 | Command | Description |
 |---------|-------------|
-| `/trap` | Street selling |
+| `/trap` | Street selling (3rd eye on the buyer) |
 | `/drugbulksell` | Bulk warehouse drop |
 | `/drugbulkcancel` | Cancel bulk drop |
 | `/drugboard` | County leaderboard |

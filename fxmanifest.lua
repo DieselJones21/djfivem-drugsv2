@@ -53,8 +53,9 @@ dependencies {
     'ox_inventory',
     'qbx_core',
     'interact',
+    'ox_target',
 }
 
--- Preferred: ensure `interact` (darktrovx) before this resource so harvest/process/buyers use E.
--- ox_target is only a fallback if interact is not started.
+-- Preferred: ensure `interact` (darktrovx) before this resource so harvest/process/bulk crates use E.
+-- Street buyers stay on ox_target (3rd eye). ox_target is also the fallback if interact is not started.
 -- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.
