@@ -9,7 +9,7 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 - **10 Rebel county drugs** plus a Cayo Perico exclusive
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), street deals, and bulk-drop HUD
 - **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
-- **[darktrovx/interact](https://github.com/darktrovx/interact)** on every harvest prop, process bench, street buyer, and bulk crate (E prompt). ox_target is only a fallback
+- **[darktrovx/interact](https://github.com/darktrovx/interact)** on harvest props, process benches, and bulk crates (E prompt). Street buyers stay on **ox_target** (3rd eye) so networked peds do not fight the E prompt
 - **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
 - **35% bad-sale snitch** on street traps (15% on bulk drops) that pings Project Sloth dispatch (`DrugSale`)
 - **Ground-snapped props** on harvest spots and process benches
@@ -46,7 +46,8 @@ The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels
 - [ox_lib](https://github.com/overextended/ox_lib)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [qbx_core](https://github.com/Qbox-Project/qbx_core)
-- [interact](https://github.com/darktrovx/interact) — E prompt on harvest/process/buyers/bulk crates
+- [interact](https://github.com/darktrovx/interact) — E prompt on harvest/process/bulk crates
+- [ox_target](https://github.com/overextended/ox_target) — 3rd eye on street buyers (`/trap`)
 - [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — snitch chance on `/trap` and bulk drops pings LEO
 
 ## Installation
@@ -60,6 +61,7 @@ Process bench coordinates are listed in `install/LOCATIONS.md`.
 
 ```cfg
 add_ace group.admin djdrugsv2.boost allow
+ensure ox_target
 ensure interact
 ensure ps-dispatch
 ensure djfivem-drugsv2
@@ -71,7 +73,7 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 
 | Command | Description |
 |---------|-------------|
-| `/trap` | Start/stop street selling (press **E** on the buyer) |
+| `/trap` | Start/stop street selling (use **3rd eye** on the buyer) |
 | `/drugbulksell` | Take a 100–200 unit drop at a random warehouse (pays less than `/trap`) |
 | `/drugbulkcancel` | Cancel the current bulk drop (starts a shorter cooldown) |
 | `/drugboard` | Open the sell leaderboard |

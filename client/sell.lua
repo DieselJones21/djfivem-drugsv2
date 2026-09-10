@@ -18,13 +18,36 @@ local function loadAnimDict(dict)
     return true
 end
 
+-- Street buyers stay on ox_target (3rd eye). darktrovx interact fights with
+-- networked peds, so harvest/process/bulk crates keep E and buyers do not.
+local function detachBuyerTarget(ped)
+    if not ped or GetResourceState('ox_target') ~= 'started' then return end
+    pcall(function()
+        exports.ox_target:removeLocalEntity(ped)
+    end)
+end
+
+local function attachBuyerTarget(ped, offer)
+    if GetResourceState('ox_target') ~= 'started' then
+        Client.Notify('ox_target is required to deal with street buyers', 'error')
+        return
+    end
+    exports.ox_target:addLocalEntity(ped, {
+        {
+            name = 'djdrugsv2_sell_buyer',
+            icon = 'fa-solid fa-comments-dollar',
+            label = ('Deal %s'):format(offer.label),
+            distance = 2.2,
+            onSelect = function()
+                Sell.HandleBuyer()
+            end,
+        },
+    })
+end
+
 local function deleteBuyer()
     if Trap.buyer and DoesEntityExist(Trap.buyer) then
-        if Client.DetachInteract then
-            Client.DetachInteract(Trap.buyer, 'djdrugsv2_sell_buyer')
-        else
-            exports.ox_target:removeLocalEntity(Trap.buyer)
-        end
+        detachBuyerTarget(Trap.buyer)
         local ped = Trap.buyer
         Trap.buyer = nil
         SetBlockingOfNonTemporaryEvents(ped, false)
@@ -240,23 +263,7 @@ local function spawnBuyer()
     Trap.buyer = ped
     Trap.offer = offer
 
-    Client.AttachInteract(ped, {
-        {
-            name = 'djdrugsv2_sell_buyer',
-            icon = 'fa-solid fa-comments-dollar',
-            label = ('Deal %s'):format(offer.label),
-            distance = 2.2,
-            onSelect = function()
-                Sell.HandleBuyer()
-            end,
-        },
-    }, {
-        id = 'djdrugsv2_sell_buyer',
-        offset = vec3(0.0, 0.0, 0.35),
-        ignoreLos = false,
-        interactDst = 2.0,
-        distance = 8.0,
-    })
+    attachBuyerTarget(ped, offer)
 
     CreateThread(function()
         local arriveDeadline = GetGameTimer() + (Config.Trap.buyerApproachTime * 1000)
@@ -318,7 +325,7 @@ function Sell.Init()
 
         Trap.active = true
         createTrapBlip()
-        Client.Notify('Trap mode on — a buyer is coming. Walk up and press E.', 'success')
+        Client.Notify('Trap mode on — a buyer is coming. Use 3rd eye on them.', 'success')
         spawnBuyer()
     end, false)
 

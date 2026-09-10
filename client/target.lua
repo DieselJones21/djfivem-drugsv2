@@ -1,6 +1,7 @@
 --[[
     Interaction attach — prefers darktrovx/interact (E prompt on the prop).
     Falls back to ox_target if interact is not started.
+    Street buyers are attached in client/sell.lua with ox_target only.
 ]]
 
 Client.interactEntities = {} -- entity -> interact id

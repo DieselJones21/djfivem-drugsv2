@@ -198,6 +198,23 @@ for _, item in ipairs(requiredImages) do
 end
 
 assert_eq(Config.Target.resource, 'interact', 'props use darktrovx interact')
+assert_eq(Config.Target.fallback, 'ox_target', 'street buyers / fallback use ox_target')
+
+do
+    local sellSrc = io.open('client/sell.lua', 'r')
+    assert_true(sellSrc ~= nil, 'client/sell.lua readable')
+    local body = sellSrc:read('*a')
+    sellSrc:close()
+    assert_true(body:find('exports.ox_target:addLocalEntity', 1, true) ~= nil, 'street buyers attach with ox_target')
+    assert_true(body:find('Client.AttachInteract', 1, true) == nil, 'street buyers do not use interact')
+    assert_true(body:find('3rd eye', 1, true) ~= nil, 'trap notify mentions 3rd eye')
+end
+
+for _, spot in ipairs(Config.Harvest) do
+    local r = spot.radius or 8.0
+    assert_true(r <= 12.0, (spot.id or '?') .. ' harvest radius is compact')
+    assert_true(r >= 5.0, (spot.id or '?') .. ' harvest radius is still a field')
+end
 assert_true(Config.BulkSell ~= nil, 'bulk sell config exists')
 assert_eq(Config.BulkSell.command, 'drugbulksell', 'bulk command is /drugbulksell')
 assert_eq(Config.BulkSell.minQty, 100, 'bulk min is 100')
