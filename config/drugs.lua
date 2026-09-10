@@ -3,9 +3,9 @@
 
     Branched from Envy. Item IDs are new so both versions can exist on one inventory if needed.
 
-    Default craft: 5 of each ingredient → 7 finished product
-    Weed strains pay clean cash; everything else pays black_money.
-    Effects are cranked (sprint cap 1.49, heavy armor, screen FX).
+    Each recipe has its own input/output so some cooks are efficient and some
+    are expensive on purpose. Weed strains pay clean cash; everything else
+    pays black_money. Effects are cranked (sprint cap 1.49, heavy armor, screen FX).
 ]]
 
 local function processAnim()
@@ -22,6 +22,14 @@ local function bagAnim()
     }
 end
 
+local function cooker(model, heading, scenario)
+    return {
+        model = model,
+        heading = heading,
+        scenario = scenario or 'WORLD_HUMAN_STAND_IMPATIENT',
+    }
+end
+
 Config.Drugs = {
     --------------------------------------------------
     -- Longhorn Kush — ranch weed — cash, run + drunk haze
@@ -32,18 +40,18 @@ Config.Drugs = {
         description = 'Outlaw ranch kush that hits harder than it looks',
         theme = 'Grapeseed',
         ingredients = {
-            { item = 'horn_nugs', amount = 5 },
-            { item = 'zip_bags', amount = 5 },
+            { item = 'horn_nugs', amount = 2 },
+            { item = 'zip_bags', amount = 1 },
         },
         process = {
             label = 'Bag Longhorn Kush',
             coords = vec3(1960.85, 5174.22, 47.94),
             heading = 140.0,
             duration = 9000,
-            prop = { model = `bkr_prop_weed_table_01a`, heading = 140.0 },
+            ped = cooker(`a_m_m_farmer_01`, 140.0, 'WORLD_HUMAN_SMOKING'),
             anim = bagAnim(),
-            output = { item = 'longhorn_kush', amount = 7 },
-            blip = { enabled = false, sprite = 469, color = 1, label = 'Longhorn Kush Bench' },
+            output = { item = 'longhorn_kush', amount = 8 },
+            blip = { enabled = false, sprite = 469, color = 1, label = 'Longhorn Kush Cook' },
         },
         sell = {
             enabled = true,
@@ -79,18 +87,18 @@ Config.Drugs = {
         description = 'Chaparral haze that lights up the legs',
         theme = 'Great Chaparral',
         ingredients = {
-            { item = 'road_nugs', amount = 5 },
-            { item = 'zip_bags', amount = 5 },
+            { item = 'road_nugs', amount = 4 },
+            { item = 'zip_bags', amount = 2 },
         },
         process = {
             label = 'Bag Dirt Road Haze',
             coords = vec3(-2194.40, 4290.10, 49.17),
             heading = 235.0,
             duration = 9000,
-            prop = { model = `bkr_prop_weed_table_01a`, heading = 235.0 },
+            ped = cooker(`a_m_o_salton_01`, 235.0, 'WORLD_HUMAN_LEANING'),
             anim = bagAnim(),
-            output = { item = 'dirt_road_haze', amount = 7 },
-            blip = { enabled = false, sprite = 469, color = 1, label = 'Dirt Road Haze Bench' },
+            output = { item = 'dirt_road_haze', amount = 5 },
+            blip = { enabled = false, sprite = 469, color = 1, label = 'Dirt Road Haze Cook' },
         },
         sell = {
             enabled = true,
@@ -126,18 +134,18 @@ Config.Drugs = {
         theme = 'La Mesa',
         ingredients = {
             { item = 'bush_leaves', amount = 5 },
-            { item = 'lab_solvent', amount = 5 },
-            { item = 'zip_bags', amount = 5 },
+            { item = 'lab_solvent', amount = 4 },
+            { item = 'zip_bags', amount = 2 },
         },
         process = {
             label = 'Cut Chrome Snow',
             coords = vec3(968.20, -1828.40, 31.24),
             heading = 85.0,
             duration = 12000,
-            prop = { model = `bkr_prop_coke_table01a`, heading = 85.0 },
+            ped = cooker(`g_m_y_mexgoon_01`, 85.0, 'WORLD_HUMAN_STAND_IMPATIENT'),
             anim = processAnim(),
-            output = { item = 'chrome_snow', amount = 7 },
-            blip = { enabled = false, sprite = 501, color = 0, label = 'Chrome Snow Table' },
+            output = { item = 'chrome_snow', amount = 4 },
+            blip = { enabled = false, sprite = 501, color = 0, label = 'Chrome Snow Cook' },
         },
         sell = {
             enabled = true,
@@ -173,19 +181,19 @@ Config.Drugs = {
         description = 'Sandy-cooked ice that redlines the legs',
         theme = 'Sandy Shores',
         ingredients = {
-            { item = 'lithium_rocks', amount = 5 },
+            { item = 'lithium_rocks', amount = 6 },
             { item = 'camp_fuel', amount = 5 },
-            { item = 'lab_solvent', amount = 5 },
+            { item = 'lab_solvent', amount = 4 },
         },
         process = {
             label = 'Cook Sandlot Ice',
             coords = vec3(1391.55, 3606.80, 38.94),
             heading = 200.0,
             duration = 13000,
-            prop = { model = `bkr_prop_meth_table01a`, heading = 200.0 },
+            ped = cooker(`a_m_m_rurmeth_01`, 200.0, 'WORLD_HUMAN_CLIPBOARD'),
             anim = processAnim(),
-            output = { item = 'sandlot_ice', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 17, label = 'Sandlot Ice Lab' },
+            output = { item = 'sandlot_ice', amount = 4 },
+            blip = { enabled = false, sprite = 499, color = 17, label = 'Sandlot Ice Cook' },
         },
         sell = {
             enabled = true,
@@ -221,19 +229,19 @@ Config.Drugs = {
         description = 'Dock-wrapped brick that drops you in the mud',
         theme = 'Elysian Island',
         ingredients = {
-            { item = 'raw_tar', amount = 5 },
-            { item = 'wrap_tape', amount = 5 },
-            { item = 'zip_bags', amount = 5 },
+            { item = 'raw_tar', amount = 4 },
+            { item = 'wrap_tape', amount = 3 },
+            { item = 'zip_bags', amount = 2 },
         },
         process = {
             label = 'Wrap Outlaw Brick',
             coords = vec3(154.40, -3078.20, 5.98),
             heading = 270.0,
             duration = 12000,
-            prop = { model = `prop_tool_bench02`, heading = 270.0 },
+            ped = cooker(`g_m_y_lost_01`, 270.0, 'WORLD_HUMAN_STAND_MOBILE'),
             anim = bagAnim(),
-            output = { item = 'outlaw_brick', amount = 7 },
-            blip = { enabled = false, sprite = 501, color = 1, label = 'Outlaw Brick Bench' },
+            output = { item = 'outlaw_brick', amount = 3 },
+            blip = { enabled = false, sprite = 501, color = 1, label = 'Outlaw Brick Cook' },
         },
         sell = {
             enabled = true,
@@ -269,18 +277,18 @@ Config.Drugs = {
         description = 'Pressed club rolls that blow the roof off',
         theme = 'Alta',
         ingredients = {
-            { item = 'club_crystals', amount = 5 },
-            { item = 'press_capsules', amount = 5 },
-            { item = 'stamp_dies', amount = 5 },
+            { item = 'club_crystals', amount = 2 },
+            { item = 'press_capsules', amount = 2 },
+            { item = 'stamp_dies', amount = 1 },
         },
         process = {
             label = 'Press Honkytonk Rolls',
             coords = vec3(372.80, -1267.40, 32.51),
             heading = 50.0,
             duration = 11000,
-            prop = { model = `prop_tool_bench02`, heading = 50.0 },
+            ped = cooker(`a_m_y_hipster_01`, 50.0, 'WORLD_HUMAN_DRINKING'),
             anim = bagAnim(),
-            output = { item = 'honkytonk_rolls', amount = 7 },
+            output = { item = 'honkytonk_rolls', amount = 8 },
             blip = { enabled = false, sprite = 51, color = 1, label = 'Honkytonk Press' },
         },
         sell = {
@@ -318,21 +326,21 @@ Config.Drugs = {
         description = 'South-side lean that turns the world purple',
         theme = 'Davis',
         ingredients = {
-            { item = 'purple_syrup', amount = 5 },
-            { item = 'crushed_ice', amount = 5 },
-            { item = 'foam_cups', amount = 5 },
-            { item = 'spark_soda', amount = 5 },
-            { item = 'hard_candy', amount = 5 },
+            { item = 'purple_syrup', amount = 2 },
+            { item = 'crushed_ice', amount = 2 },
+            { item = 'foam_cups', amount = 2 },
+            { item = 'spark_soda', amount = 1 },
+            { item = 'hard_candy', amount = 1 },
         },
         process = {
             label = 'Pour Swamp Lean',
             coords = vec3(113.20, -1966.80, 21.33),
             heading = 15.0,
             duration = 10000,
-            prop = { model = `prop_tool_bench02`, heading = 15.0 },
+            ped = cooker(`g_m_y_famca_01`, 15.0, 'WORLD_HUMAN_DRUG_DEALER'),
             anim = bagAnim(),
-            output = { item = 'swamp_lean', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 27, label = 'Swamp Lean Bench' },
+            output = { item = 'swamp_lean', amount = 10 },
+            blip = { enabled = false, sprite = 499, color = 27, label = 'Swamp Lean Cook' },
         },
         sell = {
             enabled = true,
@@ -367,19 +375,19 @@ Config.Drugs = {
         description = 'Diesel stim that keeps crews redlined',
         theme = 'Power station oil',
         ingredients = {
-            { item = 'oil_sludge', amount = 5 },
-            { item = 'spark_caps', amount = 5 },
-            { item = 'camp_fuel', amount = 5 },
+            { item = 'oil_sludge', amount = 6 },
+            { item = 'spark_caps', amount = 4 },
+            { item = 'camp_fuel', amount = 3 },
         },
         process = {
             label = 'Mix Truck Juice',
             coords = vec3(2748.10, 1454.60, 24.50),
             heading = 75.0,
             duration = 11000,
-            prop = { model = `bkr_prop_meth_table01a`, heading = 75.0 },
+            ped = cooker(`s_m_y_construct_01`, 75.0, 'WORLD_HUMAN_SMOKING'),
             anim = processAnim(),
-            output = { item = 'truck_juice', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 17, label = 'Truck Juice Lab' },
+            output = { item = 'truck_juice', amount = 3 },
+            blip = { enabled = false, sprite = 499, color = 17, label = 'Truck Juice Cook' },
         },
         sell = {
             enabled = true,
@@ -414,19 +422,19 @@ Config.Drugs = {
         description = 'Desert speed that rips the horizon',
         theme = 'Grand Senora Desert',
         ingredients = {
-            { item = 'desert_dust', amount = 5 },
-            { item = 'baking_soda', amount = 5 },
-            { item = 'zip_bags', amount = 5 },
+            { item = 'desert_dust', amount = 3 },
+            { item = 'baking_soda', amount = 2 },
+            { item = 'zip_bags', amount = 1 },
         },
         process = {
             label = 'Cut Gravel Dust',
             coords = vec3(1980.40, 3049.70, 47.22),
             heading = 145.0,
             duration = 10000,
-            prop = { model = `prop_tool_bench02`, heading = 145.0 },
+            ped = cooker(`a_m_m_hillbilly_01`, 145.0, 'WORLD_HUMAN_LEANING'),
             anim = bagAnim(),
-            output = { item = 'gravel_dust', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 5, label = 'Gravel Dust Bench' },
+            output = { item = 'gravel_dust', amount = 6 },
+            blip = { enabled = false, sprite = 51, color = 5, label = 'Gravel Dust Cook' },
         },
         sell = {
             enabled = true,
@@ -461,20 +469,20 @@ Config.Drugs = {
         description = 'Island gold that makes you feel untouchable',
         theme = 'Cayo Perico',
         ingredients = {
-            { item = 'cayo_palm_leaf', amount = 5 },
-            { item = 'reef_coral', amount = 5 },
+            { item = 'cayo_palm_leaf', amount = 8 },
+            { item = 'reef_coral', amount = 6 },
             { item = 'perico_resin', amount = 5 },
-            { item = 'gold_capsules', amount = 5 },
+            { item = 'gold_capsules', amount = 4 },
         },
         process = {
             label = 'Press Cayo Crown',
             coords = vec3(4904.80, -5743.20, 26.35),
             heading = 330.0,
             duration = 15000,
-            prop = { model = `prop_tool_bench02`, heading = 330.0 },
+            ped = cooker(`u_m_y_party_01`, 330.0, 'WORLD_HUMAN_STAND_IMPATIENT'),
             anim = bagAnim(),
-            output = { item = 'cayo_crown', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 5, label = 'Cayo Crown Press' },
+            output = { item = 'cayo_crown', amount = 2 },
+            blip = { enabled = false, sprite = 51, color = 5, label = 'Cayo Crown Cook' },
         },
         sell = {
             enabled = true,
@@ -504,8 +512,8 @@ Config.Drugs = {
 
     --------------------------------------------------
     -- PLAYER-OWNED CUSTOM SET
-    -- Signature recipes. Same 5x3 → 7 craft rule. Harvest spots are
-    -- intentionally off the usual farm/port/warehouse loop.
+    -- Signature recipes. Yields are not equal — Diesels Pack cooks fat,
+    -- Black Lotus is expensive, Honda is in the middle.
     --------------------------------------------------
 
     honda_pills = {
@@ -513,21 +521,21 @@ Config.Drugs = {
         item = 'honda_pills',
         playerOwned = true,
         description = 'Player-owned racing pills — Civic bolts, shift powder, red keycaps',
-        theme = 'Redwood Lights / Paleto garage',
+        theme = 'Rockford Hills garage',
         ingredients = {
-            { item = 'civic_bolts', amount = 5 },
-            { item = 'shift_powder', amount = 5 },
-            { item = 'red_keycaps', amount = 5 },
+            { item = 'civic_bolts', amount = 3 },
+            { item = 'shift_powder', amount = 3 },
+            { item = 'red_keycaps', amount = 2 },
         },
         process = {
             label = 'Press Honda Pills',
-            coords = vec3(107.17, 6629.63, 31.79),
-            heading = 45.0,
+            coords = vec3(-1345.90, 55.78, 55.25),
+            heading = 277.80,
             duration = 11000,
-            prop = { model = `prop_tool_bench02`, heading = 45.0 },
+            ped = cooker(`s_m_m_autoshop_02`, 277.80, 'WORLD_HUMAN_CLIPBOARD'),
             anim = bagAnim(),
-            output = { item = 'honda_pills', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 1, label = 'Honda Pills Press' },
+            output = { item = 'honda_pills', amount = 5 },
+            blip = { enabled = false, sprite = 51, color = 1, label = 'Honda Pills Cook' },
         },
         sell = {
             enabled = true,
@@ -560,19 +568,19 @@ Config.Drugs = {
         description = 'Player-owned combat tonic — rust needles, iodine swabs, alley tonic',
         theme = 'Chiliad cult / Cape Catfish',
         ingredients = {
-            { item = 'rust_needles', amount = 5 },
-            { item = 'iodine_swabs', amount = 5 },
-            { item = 'alley_tonic', amount = 5 },
+            { item = 'rust_needles', amount = 4 },
+            { item = 'iodine_swabs', amount = 3 },
+            { item = 'alley_tonic', amount = 3 },
         },
         process = {
             label = 'Brew Stab Juice',
             coords = vec3(3328.86, 5169.42, 18.31),
             heading = 290.0,
             duration = 12000,
-            prop = { model = `bkr_prop_meth_table01a`, heading = 290.0 },
+            ped = cooker(`g_m_y_mexgoon_02`, 290.0, 'WORLD_HUMAN_DRUG_DEALER'),
             anim = processAnim(),
-            output = { item = 'stab_juice', amount = 7 },
-            blip = { enabled = false, sprite = 499, color = 1, label = 'Stab Juice Still' },
+            output = { item = 'stab_juice', amount = 4 },
+            blip = { enabled = false, sprite = 499, color = 1, label = 'Stab Juice Cook' },
         },
         sell = {
             enabled = true,
@@ -604,21 +612,21 @@ Config.Drugs = {
         item = 'black_lotus',
         playerOwned = true,
         description = 'Player-owned night bloom — black petals, temple ash, ink resin',
-        theme = 'Pacific Bluffs cemetery / observatory',
+        theme = 'Cypress Flats / Lake Vinewood / Rockford',
         ingredients = {
             { item = 'black_petals', amount = 5 },
-            { item = 'temple_ash', amount = 5 },
-            { item = 'ink_resin', amount = 5 },
+            { item = 'temple_ash', amount = 4 },
+            { item = 'ink_resin', amount = 4 },
         },
         process = {
             label = 'Bind Black Lotus',
-            coords = vec3(-411.52, 1173.18, 325.64),
-            heading = 165.0,
+            coords = vec3(1087.81, -212.98, 59.07),
+            heading = 351.50,
             duration = 14000,
-            prop = { model = `prop_tool_bench02`, heading = 165.0 },
+            ped = cooker(`a_f_y_hippie_01`, 351.50, 'WORLD_HUMAN_SMOKING'),
             anim = bagAnim(),
-            output = { item = 'black_lotus', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 27, label = 'Black Lotus Altar' },
+            output = { item = 'black_lotus', amount = 3 },
+            blip = { enabled = false, sprite = 51, color = 27, label = 'Black Lotus Cook' },
         },
         sell = {
             enabled = true,
@@ -653,19 +661,19 @@ Config.Drugs = {
         description = 'Player-owned house pack — diesel nugs, grease wrap, iron filters',
         theme = 'Wind farm / McKenzie Field',
         ingredients = {
-            { item = 'diesel_nugs', amount = 5 },
-            { item = 'grease_wrap', amount = 5 },
-            { item = 'iron_filters', amount = 5 },
+            { item = 'diesel_nugs', amount = 3 },
+            { item = 'grease_wrap', amount = 2 },
+            { item = 'iron_filters', amount = 2 },
         },
         process = {
             label = 'Bag Diesels Pack',
             coords = vec3(2137.42, 4795.88, 41.14),
             heading = 25.0,
             duration = 13000,
-            prop = { model = `bkr_prop_weed_table_01a`, heading = 25.0 },
+            ped = cooker(`s_m_y_construct_02`, 25.0, 'WORLD_HUMAN_SMOKING'),
             anim = bagAnim(),
-            output = { item = 'diesels_pack', amount = 7 },
-            blip = { enabled = false, sprite = 469, color = 5, label = 'Diesels Pack Bench' },
+            output = { item = 'diesels_pack', amount = 10 },
+            blip = { enabled = false, sprite = 469, color = 5, label = 'Diesels Pack Cook' },
         },
         sell = {
             enabled = true,

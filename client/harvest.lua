@@ -267,12 +267,56 @@ local function setupPropField(spot)
     end
 end
 
+--- Single contact ped. Stays in place; cooldown is the gate, not despawn.
+local function setupPed(spot)
+    Client.AddBlip(spot.coords, spot.blip)
+
+    local model = spot.model or (spot.ped and spot.ped.model)
+    if not model then
+        Utils.Debug('harvest ped missing model', spot.id)
+        return
+    end
+
+    local heading = spot.heading or 0.0
+    local groundCoords = Client.GetGroundCoords(spot.coords)
+    registerPropPosition(spot.id, spot.id, groundCoords)
+
+    local options = {
+        {
+            name = 'djdrugsv2_harvest_' .. spot.id,
+            icon = 'fa-solid fa-comments',
+            label = spot.label,
+            distance = Config.InteractDistance,
+            onSelect = function()
+                Harvest.TryCollect(spot, spot.id)
+            end,
+        },
+    }
+
+    local ped = Client.SpawnTargetPed(model, groundCoords, heading, options, {
+        scenario = spot.scenario,
+        placeOnGround = true,
+    })
+    if not ped then
+        Client.AddCoordInteract({
+            id = 'djdrugsv2_harvest_' .. spot.id,
+            coords = groundCoords,
+            label = spot.label,
+            onSelect = function()
+                Harvest.TryCollect(spot, spot.id)
+            end,
+        })
+    end
+end
+
 function Harvest.Init()
     Harvest.running = true
     math.randomseed(GetGameTimer() + (PlayerId() * 7919))
     for i = 1, #Config.Harvest do
         local spot = Config.Harvest[i]
-        if spot.type == 'propField' or spot.type == 'prop' then
+        if spot.type == 'ped' then
+            setupPed(spot)
+        elseif spot.type == 'propField' or spot.type == 'prop' then
             setupPropField(spot)
         else
             setupBench(spot)

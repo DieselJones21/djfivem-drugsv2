@@ -135,13 +135,95 @@ function Client.SpawnProp(model, coords, heading, placeOnGround)
     return obj
 end
 
---- Force-delete a local harvest/process prop (hide first so it never "sticks").
+function Client.SpawnLocalPed(model, coords, heading, extra)
+    extra = extra or {}
+    local hash = Client.LoadModel(model)
+    if not hash then return nil end
+
+    local pos = coords
+    if extra.placeOnGround ~= false then
+        pos = Client.GetGroundCoords(coords)
+    end
+
+    local ped = CreatePed(4, hash, pos.x, pos.y, pos.z, heading or 0.0, false, true)
+    SetModelAsNoLongerNeeded(hash)
+    if not ped or ped == 0 or not DoesEntityExist(ped) then
+        return nil
+    end
+
+    SetEntityAsMissionEntity(ped, true, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    SetPedFleeAttributes(ped, 0, false)
+    SetPedCanRagdollFromPlayerImpact(ped, false)
+    SetPedCanBeTargetted(ped, false)
+    SetEntityInvincible(ped, true)
+    FreezeEntityPosition(ped, true)
+    SetPedDiesWhenInjured(ped, false)
+    SetPedKeepTask(ped, true)
+
+    if extra.scenario then
+        TaskStartScenarioInPlace(ped, extra.scenario, 0, true)
+    end
+
+    Client.spawnedProps[#Client.spawnedProps + 1] = ped
+    return ped
+end
+
+function Client.SpawnTargetPed(model, coords, heading, options, extra)
+    extra = extra or {}
+    local ped = Client.SpawnLocalPed(model, coords, heading, extra)
+    if not ped then return nil end
+    Client.AttachOxTarget(ped, options)
+    return ped
+end
+
+function Client.DrawText3D(coords, text)
+    if not coords or not text then return end
+    SetDrawOrigin(coords.x, coords.y, coords.z, 0)
+    SetTextScale(0.32, 0.32)
+    SetTextFont(4)
+    SetTextProportional(true)
+    SetTextColour(255, 255, 255, 220)
+    SetTextCentre(true)
+    SetTextDropshadow(1, 0, 0, 0, 180)
+    BeginTextCommandDisplayText('STRING')
+    AddTextComponentSubstringPlayerName(text)
+    EndTextCommandDisplayText(0.0, 0.0)
+    ClearDrawOrigin()
+end
+
+--- Make a ped speak a line (3D text over their head + GTA ambient speech).
+function Client.PedSay(ped, text, speech)
+    if not ped or ped == 0 or not DoesEntityExist(ped) or not text or text == '' then
+        return
+    end
+
+    if speech and speech ~= '' then
+        pcall(function()
+            PlayPedAmbientSpeechNative(ped, speech, 'SPEECH_PARAMS_FORCE_NORMAL')
+        end)
+    end
+
+    CreateThread(function()
+        local untilTime = GetGameTimer() + 3200
+        while GetGameTimer() < untilTime and DoesEntityExist(ped) do
+            local c = GetEntityCoords(ped)
+            Client.DrawText3D(vec3(c.x, c.y, c.z + 1.05), text)
+            Wait(0)
+        end
+    end)
+end
+
+--- Force-delete a local harvest/process prop or ped (hide first so it never "sticks").
 function Client.DeleteProp(entity)
     if not entity or entity == 0 then return end
 
+    if Client.DetachOxTarget then
+        Client.DetachOxTarget(entity)
+    end
     if Client.DetachInteract then
         Client.DetachInteract(entity)
-    else
+    elseif not Client.DetachOxTarget then
         pcall(function()
             exports.ox_target:removeLocalEntity(entity)
         end)
@@ -153,7 +235,11 @@ function Client.DeleteProp(entity)
         SetEntityCollision(entity, false, false)
         SetEntityAlpha(entity, 0, false)
         SetEntityVisible(entity, false, false)
-        DeleteObject(entity)
+        if IsPed(entity) then
+            DeletePed(entity)
+        else
+            DeleteObject(entity)
+        end
         if DoesEntityExist(entity) then
             DeleteEntity(entity)
         end

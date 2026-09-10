@@ -21,8 +21,8 @@ Config.FrameworkMoneyTypes = {
 Config.InteractDistance = 2.2
 Config.ProgressCancelOnMove = true
 
--- Harvest/process/bulk crates: darktrovx/interact (E on the prop).
--- Street buyer peds stay on ox_target (3rd eye) — interact fights with networked peds.
+-- Harvest props + bulk crates: darktrovx/interact (E on the prop).
+-- Process NPCs, one ingredient dealer per recipe, and street buyers stay on ox_target (3rd eye).
 Config.Target = {
     resource = 'interact',
     fallback = 'ox_target',
@@ -114,6 +114,53 @@ Config.Trap = {
                 counterChance = 25,
                 walkAwayChance = 35,
             },
+        },
+    },
+    -- Lines the street buyer says out loud (3D text + ambient speech).
+    talk = {
+        good = {
+            'Hell yeah. That is the good shit.',
+            'Clean pack. I will be back.',
+            'We are good. Do not follow me.',
+            'That is a deal. Stay low.',
+        },
+        snitch = {
+            'Cops on me — you set me up!',
+            'I am calling this in, asshole!',
+            'Nah, this is heat. Five-oh!',
+        },
+        fail = {
+            'Forget it. Keep your trash.',
+            'I am not touching that.',
+        },
+        walk = {
+            'You are wasting my time.',
+            'Forget it. I am gone.',
+        },
+        refuse = {
+            'I ain\'t paying that.',
+            'Lower it or I am walking.',
+        },
+        haggle = {
+            'Alright, alright — I will bump it.',
+            'Fine. Do not get greedy.',
+        },
+        counter = {
+            'Meet in the middle. Take it or leave it.',
+            'That is as high as I go.',
+        },
+        decline = {
+            'Whatever. Stay away from me.',
+        },
+        speech = {
+            good = 'GENERIC_THANKS',
+            snitch = 'GENERIC_INSULT_HIGH',
+            fail = 'GENERIC_INSULT_MED',
+            walk = 'GENERIC_FRIGHTENED_HIGH',
+            refuse = 'GENERIC_NO',
+            haggle = 'GENERIC_THANKS',
+            counter = 'GENERIC_HI',
+            decline = 'GENERIC_INSULT_MED',
         },
     },
 }
@@ -239,6 +286,20 @@ local function field(opts)
     return opts
 end
 
+--- One ingredient dealer ped per recipe (3rd eye). Remaining ingredients stay fields.
+local function pedSpot(opts)
+    opts.type = 'ped'
+    opts.amount = opts.amount or Config.IngredientAmount or { min = 5, max = 10 }
+    opts.cooldown = opts.cooldown or Config.IngredientCooldown or 10
+    opts.clientUnique = false
+    opts.heading = opts.heading or 0.0
+    opts.model = opts.model or `g_m_y_mexgoon_01`
+    opts.scenario = opts.scenario or 'WORLD_HUMAN_DRUG_DEALER'
+    opts.anim = opts.anim or { dict = 'mp_common', clip = 'givetake1_a' }
+    opts.blip = opts.blip or { enabled = false, sprite = 501, color = 3, label = opts.label }
+    return opts
+end
+
 Config.Harvest = {
     --------------------------------------------------
     -- LONGHORN KUSH (Grapeseed)
@@ -255,17 +316,15 @@ Config.Harvest = {
         duration = 6500,
         blip = { enabled = true, sprite = 469, color = 1, label = 'Horn Nugs' },
     }),
-    field({
+    pedSpot({
         id = 'zip_bags_supply',
         item = 'zip_bags',
-        label = 'Grab Zip Bags',
-        plant = false,
+        label = 'Buy Zip Bags',
         coords = vec3(1703.44, 3596.21, 35.47),
-        radius = 7.0,
-        pool = 12,
-        model = `prop_cs_cardbox_01`,
+        heading = 90.0,
+        model = `g_m_y_ballasout_01`,
+        scenario = 'WORLD_HUMAN_DRUG_DEALER',
         duration = 5000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 478, color = 0, label = 'Zip Bags' },
     }),
 
@@ -317,17 +376,15 @@ Config.Harvest = {
     --------------------------------------------------
     -- SANDLOT ICE (Sandy Shores)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'lithium_rocks',
         item = 'lithium_rocks',
-        label = 'Break Lithium Rocks',
-        plant = false,
+        label = 'Buy Lithium Rocks',
         coords = vec3(2954.22, 2788.10, 41.50),
-        radius = 10.0,
-        pool = 16,
-        model = `prop_rock_4_c`,
+        heading = 200.0,
+        model = `s_m_y_construct_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 7000,
-        anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
         blip = { enabled = false, sprite = 501, color = 17, label = 'Lithium Rocks' },
     }),
     field({
@@ -377,15 +434,14 @@ Config.Harvest = {
     --------------------------------------------------
     -- HONKYTONK ROLLS (Alta / downtown)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'club_crystals',
         item = 'club_crystals',
-        label = 'Harvest Club Crystals',
-        plant = false,
+        label = 'Buy Club Crystals',
         coords = vec3(239.10, -34.80, 69.90),
-        radius = 9.0,
-        pool = 16,
-        model = `prop_box_wood05a`,
+        heading = 50.0,
+        model = `a_m_y_hipster_02`,
+        scenario = 'WORLD_HUMAN_DRUG_DEALER',
         duration = 7000,
         blip = { enabled = false, sprite = 51, color = 1, label = 'Club Crystals' },
     }),
@@ -419,17 +475,15 @@ Config.Harvest = {
     --------------------------------------------------
     -- SWAMP LEAN (Davis / Strawberry)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'purple_syrup_stash',
         item = 'purple_syrup',
-        label = 'Steal Purple Syrup',
-        plant = false,
+        label = 'Buy Purple Syrup',
         coords = vec3(243.40, -1785.20, 28.70),
-        radius = 8.0,
-        pool = 14,
-        model = `prop_drug_bottle`,
+        heading = 15.0,
+        model = `g_m_y_famdnf_01`,
+        scenario = 'WORLD_HUMAN_DRUG_DEALER',
         duration = 7500,
-        anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer' },
         blip = { enabled = false, sprite = 403, color = 27, label = 'Purple Syrup' },
     }),
     field({
@@ -488,17 +542,15 @@ Config.Harvest = {
     --------------------------------------------------
     -- TRUCK JUICE (oil / power station)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'oil_sludge',
         item = 'oil_sludge',
-        label = 'Scoop Oil Sludge',
-        plant = false,
+        label = 'Buy Oil Sludge',
         coords = vec3(2735.80, 1551.20, 24.50),
-        radius = 10.0,
-        pool = 16,
-        model = `prop_barrel_01a`,
+        heading = 75.0,
+        model = `s_m_y_construct_02`,
+        scenario = 'WORLD_HUMAN_SMOKING',
         duration = 7000,
-        anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
         blip = { enabled = true, sprite = 499, color = 1, label = 'Oil Sludge' },
     }),
     field({
@@ -586,34 +638,30 @@ Config.Harvest = {
         anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
         blip = { enabled = false, sprite = 51, color = 5, label = 'Perico Resin' },
     }),
-    field({
+    pedSpot({
         id = 'gold_capsules',
         item = 'gold_capsules',
-        label = 'Collect Gold Capsules',
-        plant = false,
+        label = 'Buy Gold Capsules',
         coords = vec3(4991.10, -5716.40, 19.88),
-        radius = 8.0,
-        pool = 12,
-        model = `prop_box_wood05a`,
+        heading = 330.0,
+        model = `u_m_y_party_01`,
+        scenario = 'WORLD_HUMAN_STAND_IMPATIENT',
         duration = 6500,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 51, color = 5, label = 'Gold Capsules' },
     }),
 
     --------------------------------------------------
     -- PLAYER-OWNED: HONDA PILLS (Redwood Lights / Land Act / mansion garden)
     --------------------------------------------------
-    field({
+    pedSpot({
         id = 'civic_bolts',
         item = 'civic_bolts',
-        label = 'Scrape Civic Bolts',
-        plant = false,
-        coords = vec3(1042.35, 2283.18, 49.67),
-        radius = 8.0,
-        pool = 12,
-        model = `prop_toolchest_01`,
+        label = 'Buy Civic Bolts',
+        coords = vec3(-1461.35, 183.97, 55.92),
+        heading = 255.12,
+        model = `s_m_m_autoshop_02`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 402, color = 1, label = 'Civic Bolts' },
     }),
     field({
@@ -621,7 +669,7 @@ Config.Harvest = {
         item = 'shift_powder',
         label = 'Sweep Shift Powder',
         plant = false,
-        coords = vec3(1661.42, -13.85, 173.77),
+        coords = vec3(-1240.56, 370.68, 79.98),
         radius = 7.0,
         pool = 12,
         model = `prop_feed_sack_01`,
@@ -634,7 +682,7 @@ Config.Harvest = {
         item = 'red_keycaps',
         label = 'Grab Red Keycaps',
         plant = false,
-        coords = vec3(-1504.22, 151.18, 55.67),
+        coords = vec3(-2210.24, 200.28, 174.59),
         radius = 7.0,
         pool = 12,
         model = `prop_cs_pills`,
@@ -659,17 +707,15 @@ Config.Harvest = {
         anim = { dict = 'amb@world_human_gardener_plant@male@base', clip = 'base' },
         blip = { enabled = false, sprite = 499, color = 1, label = 'Rust Needles' },
     }),
-    field({
+    pedSpot({
         id = 'iodine_swabs',
         item = 'iodine_swabs',
-        label = 'Steal Iodine Swabs',
-        plant = false,
+        label = 'Buy Iodine Swabs',
         coords = vec3(3808.15, 4478.62, 4.15),
-        radius = 7.0,
-        pool = 12,
-        model = `prop_cs_script_bottle`,
+        heading = 90.0,
+        model = `s_m_m_doctor_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 403, color = 1, label = 'Iodine Swabs' },
     }),
     field({
@@ -694,7 +740,7 @@ Config.Harvest = {
         item = 'black_petals',
         label = 'Pick Black Petals',
         plant = true,
-        coords = vec3(-1762.88, -262.41, 48.14),
+        coords = vec3(763.31, -2207.10, 20.70),
         radius = 8.0,
         pool = 14,
         model = `prop_plant_01a`,
@@ -706,7 +752,7 @@ Config.Harvest = {
         item = 'temple_ash',
         label = 'Scoop Temple Ash',
         plant = false,
-        coords = vec3(-289.62, 2834.48, 55.50),
+        coords = vec3(-1999.00, 1881.05, 205.39),
         radius = 7.0,
         pool = 12,
         model = `prop_rock_4_c`,
@@ -714,17 +760,15 @@ Config.Harvest = {
         anim = { dict = 'amb@prop_human_parking_meter@male@idle_a', clip = 'idle_a' },
         blip = { enabled = false, sprite = 51, color = 27, label = 'Temple Ash' },
     }),
-    field({
+    pedSpot({
         id = 'ink_resin',
         item = 'ink_resin',
-        label = 'Tap Ink Resin',
-        plant = false,
-        coords = vec3(-1048.55, -522.18, 36.07),
-        radius = 7.0,
-        pool = 12,
-        model = `prop_barrel_02b`,
+        label = 'Buy Ink Resin',
+        coords = vec3(-909.14, -191.47, 19.04),
+        heading = 165.0,
+        model = `a_m_m_eastsa_02`,
+        scenario = 'WORLD_HUMAN_SMOKING',
         duration = 7000,
-        anim = { dict = 'anim@amb@business@coc@coc_unpack_cut@', clip = 'fullcut_cycle_v6_cokecutter' },
         blip = { enabled = false, sprite = 499, color = 27, label = 'Ink Resin' },
     }),
 
@@ -743,17 +787,15 @@ Config.Harvest = {
         duration = 6500,
         blip = { enabled = false, sprite = 469, color = 5, label = 'Diesel Nugs' },
     }),
-    field({
+    pedSpot({
         id = 'grease_wrap',
         item = 'grease_wrap',
-        label = 'Grab Grease Wrap',
-        plant = false,
+        label = 'Buy Grease Wrap',
         coords = vec3(454.23, -1151.39, 29.29),
-        radius = 7.0,
-        pool = 12,
-        model = `prop_cs_cardbox_01`,
+        heading = 180.0,
+        model = `s_m_m_autoshop_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 5000,
-        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 478, color = 5, label = 'Grease Wrap' },
     }),
     field({

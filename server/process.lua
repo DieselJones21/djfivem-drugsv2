@@ -36,7 +36,7 @@ lib.callback.register('djdrugsv2:server:processStart', function(source, drugId)
 
     local p = drug.process
     if not Server.IsNearCoords(source, p.coords, 4.0) then
-        return false, 'Too far from the bench'
+        return false, 'Too far from the cook'
     end
 
     if not hasIngredients(source, drug) then
@@ -76,7 +76,7 @@ local function tryProcess(src, drugId)
 
     local p = drug.process
     if not Server.IsNearCoords(src, p.coords, 4.0) then
-        return false, 'Too far from the bench'
+        return false, 'Too far from the cook'
     end
 
     local bucket = pendingBucket()
