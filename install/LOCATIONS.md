@@ -4,7 +4,7 @@ This is the **Rebel** branch. Harvest fields and process NPCs are **not** the En
 
 Harvest fields are **client-sided**. Each player sees a subset of the position pool; after a successful harvest that prop despawns and another grows in a free slot. Props snap to the ground at each pool point.
 
-Two ingredients are **dealer peds** (3rd eye): zip bags and civic bolts. Every process location is a cook NPC (3rd eye), not a bench.
+One ingredient per recipe is a **dealer ped** (3rd eye). The rest of that recipe stays a harvest field. Every process location is a cook NPC (3rd eye), not a bench.
 
 ## Harvest fields
 
@@ -15,37 +15,37 @@ Two ingredients are **dealer peds** (3rd eye): zip bags and civic bolts. Every p
 | Road Nugs | -1888.40, 2045.10, 140.98 | `prop_weed_01` |
 | Bush Leaves | 1142.55, -1486.22, 34.69 | `prop_plant_01a` |
 | Lab Solvent | 2763.18, 1675.44, 24.53 | `prop_barrel_exp_01a` |
-| Lithium Rocks | 2954.22, 2788.10, 41.50 | `prop_rock_4_c` |
+| Lithium Rocks | 2954.22, 2788.10, 41.50 | ped `s_m_y_construct_01` |
 | Camp Fuel | 724.80, 4191.40, 40.71 | `prop_jerrycan_01a` |
 | Raw Tar | 38.22, -2678.55, 6.01 | `prop_barrel_02b` |
 | Wrap Tape | 808.40, -2158.90, 29.62 | `prop_box_wood05a` |
-| Club Crystals | 239.10, -34.80, 69.90 | `prop_box_wood05a` |
+| Club Crystals | 239.10, -34.80, 69.90 | ped `a_m_y_hipster_02` |
 | Press Capsules | -1154.20, -2005.40, 13.18 | `prop_box_wood05a` |
 | Stamp Dies | 1240.60, -3179.20, 7.13 | `prop_box_wood05a` |
-| Purple Syrup | 243.40, -1785.20, 28.70 | `prop_drug_bottle` |
+| Purple Syrup | 243.40, -1785.20, 28.70 | ped `g_m_y_famdnf_01` |
 | Crushed Ice | 29.80, -1340.10, 29.50 | `prop_coolbox_01` |
 | Foam Cups | 1126.40, -645.80, 56.82 | `prop_food_bs_cups01` |
 | Spark Soda | -2972.10, 390.40, 15.04 | `prop_crate_11e` |
 | Hard Candy | -822.50, -1083.20, 11.13 | `prop_candy_pqs` |
-| Oil Sludge | 2735.80, 1551.20, 24.50 | `prop_barrel_01a` |
+| Oil Sludge | 2735.80, 1551.20, 24.50 | ped `s_m_y_construct_02` |
 | Spark Caps | 1543.20, 2185.40, 78.80 | `prop_battery_01` |
 | Desert Dust | 2354.10, 3125.40, 48.21 | `prop_rock_4_c` |
 | Baking Soda | 1963.40, 3744.10, 32.34 | `prop_feed_sack_01` |
 | Cayo Palm Leaf | 4890.20, -4921.40, 3.37 | `prop_plant_01a` |
 | Reef Coral | 5132.80, -5115.60, 2.20 | `prop_rock_4_c` |
 | Perico Resin | 5136.40, -5524.10, 54.19 | `prop_barrel_01a` |
-| Gold Capsules | 4991.10, -5716.40, 19.88 | `prop_box_wood05a` |
+| Gold Capsules | 4991.10, -5716.40, 19.88 | ped `u_m_y_party_01` |
 | Civic Bolts | -1461.35, 183.97, 55.92 (h 255.12) | ped `s_m_m_autoshop_02` |
 | Shift Powder | -1240.56, 370.68, 79.98 | `prop_feed_sack_01` |
 | Red Keycaps | -2210.24, 200.28, 174.59 | `prop_cs_pills` |
 | Rust Needles | -1167.72, 4926.44, 223.26 | `prop_ld_health_pack` |
-| Iodine Swabs | 3808.15, 4478.62, 4.15 | `prop_cs_script_bottle` |
+| Iodine Swabs | 3808.15, 4478.62, 4.15 | ped `s_m_m_doctor_01` |
 | Alley Tonic | -3192.48, 1296.22, 14.43 | `prop_drug_bottle` |
 | Black Petals | 763.31, -2207.10, 20.70 | `prop_plant_01a` |
 | Temple Ash | -1999.00, 1881.05, 205.39 | `prop_rock_4_c` |
-| Ink Resin | -909.14, -191.47, 19.04 | `prop_barrel_02b` |
+| Ink Resin | -909.14, -191.47, 19.04 | ped `a_m_m_eastsa_02` |
 | Diesel Nugs | 2354.18, 1835.62, 102.10 | `prop_weed_01` |
-| Grease Wrap | 454.23, -1151.39, 29.29 | `prop_cs_cardbox_01` |
+| Grease Wrap | 454.23, -1151.39, 29.29 | ped `s_m_m_autoshop_01` |
 | Iron Filters | 267.45, 2885.92, 43.61 | `prop_oilcan_01a` |
 
 ## Process NPCs

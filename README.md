@@ -1,6 +1,6 @@
 # djfivem-drugsv2 — Rebel Roleplay
 
-Outlaw drug economy for FiveM (QBX + ox_inventory) branded for **Rebel Roleplay**. Harvest ingredients from client-side props (and a couple of dealer peds), process with a cook NPC, and sell via `/trap`.
+Outlaw drug economy for FiveM (QBX + ox_inventory) branded for **Rebel Roleplay**. Harvest ingredients from client-side props and one dealer ped per recipe, process with a cook NPC, and sell via `/trap`.
 
 This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / Envy PRs. Rebel uses new item IDs, harvest fields, cook NPCs, and NUI so both can exist without overwriting each other.
 
@@ -42,7 +42,7 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 
 Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
 
-The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) each use **3 ingredients**. Honda Pills and Black Lotus use the listed Rockford / Cypress spots. Civic bolts come from a mechanic ped; zip bags come from a bagman ped. Everything else is still a field.
+The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) each use **3 ingredients**. One ingredient per recipe is a dealer ped (3rd eye); the rest stay harvest fields. Zip bags is the shared bagman for the cooks that use it.
 
 ## Dependencies
 

@@ -145,7 +145,7 @@ for i = 1, #Config.Harvest do
     end
 end
 assert_true(propFieldCount >= 20, 'most harvest spots are propField type')
-assert_eq(pedHarvestCount, 2, 'exactly two ingredient contacts are peds')
+assert_true(pedHarvestCount >= 10, 'each recipe has a dealer ped ingredient')
 assert_true(plantFields >= 3, 'plant fields exist for client-side relocate')
 print(('  Harvest fields: %d propField spots, %d pool props, %d plant fields, %d peds'):format(propFieldCount, totalProps, plantFields, pedHarvestCount))
 
@@ -256,8 +256,33 @@ end
 assert_eq(harvestByItem.civic_bolts.type, 'ped', 'civic bolts is a contact ped')
 assert_true(math.abs(harvestByItem.civic_bolts.coords.x - (-1461.35)) < 0.05, 'civic bolts at listed ped')
 assert_eq(harvestByItem.zip_bags.type, 'ped', 'zip bags is a contact ped')
+assert_eq(harvestByItem.lithium_rocks.type, 'ped', 'lithium rocks is a contact ped')
+assert_eq(harvestByItem.club_crystals.type, 'ped', 'club crystals is a contact ped')
+assert_eq(harvestByItem.purple_syrup.type, 'ped', 'purple syrup is a contact ped')
+assert_eq(harvestByItem.oil_sludge.type, 'ped', 'oil sludge is a contact ped')
+assert_eq(harvestByItem.gold_capsules.type, 'ped', 'gold capsules is a contact ped')
+assert_eq(harvestByItem.iodine_swabs.type, 'ped', 'iodine swabs is a contact ped')
+assert_eq(harvestByItem.ink_resin.type, 'ped', 'ink resin is a contact ped')
+assert_eq(harvestByItem.grease_wrap.type, 'ped', 'grease wrap is a contact ped')
 assert_true(math.abs(harvestByItem.black_petals.coords.x - 763.31) < 0.05, 'black petals at listed field')
 assert_true(math.abs(harvestByItem.shift_powder.coords.x - (-1240.56)) < 0.05, 'shift powder at listed field')
+
+local pedItems = {}
+for _, spot in ipairs(Config.Harvest) do
+    if spot.type == 'ped' then
+        pedItems[spot.item] = true
+    end
+end
+for drugId, drug in pairs(Config.Drugs) do
+    local pedIng = 0
+    for j = 1, #drug.ingredients do
+        if pedItems[drug.ingredients[j].item] then
+            pedIng = pedIng + 1
+        end
+    end
+    assert_true(pedIng >= 1, drugId .. ' has one dealer-ped ingredient')
+    assert_true(pedIng < #drug.ingredients, drugId .. ' still has field ingredients')
+end
 
 assert_true(Config.BulkSell ~= nil, 'bulk sell config exists')
 assert_eq(Config.BulkSell.command, 'drugbulksell', 'bulk command is /drugbulksell')

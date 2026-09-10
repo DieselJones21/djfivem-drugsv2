@@ -1,7 +1,7 @@
 --[[
     Interaction attach — prefers darktrovx/interact (E prompt on the prop).
     Falls back to ox_target if interact is not started.
-    Peds (process NPCs, a couple of ingredient dealers, street buyers) stay on ox_target.
+    Peds (process NPCs, one ingredient dealer per recipe, street buyers) stay on ox_target.
 ]]
 
 Client.interactEntities = {} -- entity -> interact id

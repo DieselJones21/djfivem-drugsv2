@@ -57,5 +57,5 @@ dependencies {
 }
 
 -- Preferred: ensure `interact` (darktrovx) before this resource so harvest props and bulk crates use E.
--- Process NPCs, a couple of ingredient dealers, and street buyers stay on ox_target (3rd eye).
+-- Process NPCs, one ingredient dealer per recipe, and street buyers stay on ox_target (3rd eye).
 -- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.
