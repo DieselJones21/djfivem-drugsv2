@@ -54,6 +54,9 @@ local function jobPayload(job)
         remaining = math.max(0, job.expires - os.time()),
         expires = job.expires,
         moneyType = job.moneyType,
+        laced = job.laced == true,
+        laceNeed = job.laceNeed or 0,
+        laceLabel = job.laceLabel,
     }
 end
 
@@ -140,6 +143,18 @@ lib.callback.register('djdrugsv2:server:startBulk', function(source)
         rankMult = Progress.GetPayoutMultiplier(source)
     end
     local priceEach = Utils.GetBulkPriceEach(pick.drug, rankMult)
+    local lace = Config.Lace or {}
+    local laceItem = lace.item or 'street_lace'
+    local laceNeed = Utils.GetLaceNeed(quantity)
+    local laced = lace.applyToBulk ~= false and Server.ItemCount(source, laceItem) >= laceNeed
+    if laced then
+        local lacedEach = Utils.ApplyLacePrice(priceEach, true)
+        local streetMin = pick.drug.sell.minPrice or 0
+        if streetMin > 0 and lacedEach >= streetMin then
+            lacedEach = math.max(1, streetMin - 1)
+        end
+        priceEach = lacedEach
+    end
     local moneyType = pick.drug.sell.moneyType
         or (pick.drug.sell.clean == true and (Config.MoneyType or 'cash'))
         or (Config.DirtyMoneyType or 'black_money')
@@ -159,6 +174,10 @@ lib.callback.register('djdrugsv2:server:startBulk', function(source)
         coords = location.coords,
         expires = os.time() + timeout,
         rankMultiplier = rankMult,
+        laced = laced,
+        laceNeed = laced and laceNeed or 0,
+        laceItem = laced and laceItem or nil,
+        laceLabel = laced and (lace.label or 'Street Lace') or nil,
     }
 
     Server.bulkJobs[source] = job
@@ -300,8 +319,23 @@ lib.callback.register('djdrugsv2:server:completeBulk', function(source, token)
         return false, 'Could not remove product'
     end
 
+    if job.laced then
+        local laceItem = job.laceItem or (Config.Lace and Config.Lace.item) or 'street_lace'
+        local laceNeed = job.laceNeed or Utils.GetLaceNeed(qty)
+        if Server.ItemCount(source, laceItem) < laceNeed or not Server.RemoveItem(source, laceItem, laceNeed) then
+            Server.AddItem(source, job.item, qty)
+            job.locked = false
+            Server.bulkPending[source] = nil
+            return false, 'Missing Street Lace for this drop'
+        end
+    end
+
     if not Server.AddMoney(source, job.total, job.moneyType) then
         Server.AddItem(source, job.item, qty)
+        if job.laced then
+            local laceItem = job.laceItem or (Config.Lace and Config.Lace.item) or 'street_lace'
+            Server.AddItem(source, laceItem, job.laceNeed or Utils.GetLaceNeed(qty))
+        end
         job.locked = false
         Server.bulkPending[source] = nil
         return false, 'Payment failed'
@@ -328,19 +362,23 @@ lib.callback.register('djdrugsv2:server:completeBulk', function(source, token)
     local chance = cfg().dispatchChance or 0
     local dispatch = Config.Dispatch or {}
     if dispatch.enabled ~= false and chance > 0 and math.random(1, 100) <= chance then
-        TriggerClientEvent('djdrugsv2:client:badSell', source, {
+        Server.AlertDrugSale(source, {
+            kind = 'bulk',
             label = payload.label,
             item = payload.item,
             quantity = payload.quantity,
+            location = payload.locationLabel,
         })
     end
 
     local dirty = payload.moneyType and payload.moneyType ~= (Config.MoneyType or 'cash')
-    return true, ('Dropped %sx %s for $%s ($%s each)%s — bulk rate'):format(
+    local laceNote = job.laced and ' (laced)' or ''
+    return true, ('Dropped %sx %s for $%s ($%s each)%s%s — bulk rate'):format(
         payload.quantity,
         payload.label,
         payload.total,
         payload.priceEach,
-        dirty and ' (dirty)' or ''
+        dirty and ' (dirty)' or '',
+        laceNote
     )
 end)

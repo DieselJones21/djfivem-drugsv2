@@ -163,9 +163,45 @@ rank = Utils.GetRankForSold(4500)
 assert_eq(rank.label, 'Rebel Kingpin', '4500 sold = Rebel Kingpin')
 
 assert_eq(Config.Dispatch.chance, 35, 'bad sell chance is 35%')
-assert_eq(Config.Dispatch.resource, 'ps-dispatch', 'dispatch uses Project Sloth')
-assert_eq(Config.HarvestRespawn.min, 10, 'harvest respawn min is 10s')
-assert_eq(Config.HarvestRespawn.max, 15, 'harvest respawn max is 15s')
+assert_eq(Config.Dispatch.resource, 'wasabi_mdt', 'primary dispatch is Wasabi MDT')
+assert_eq(Config.Dispatch.fallback, 'ps-dispatch', 'ps-dispatch is the fallback')
+assert_eq(Config.Dispatch.dispatchType, 'disturbance', 'Wasabi type is a stock DispatchTypes key')
+assert_eq(Config.Dispatch.title, 'Drug Sale', 'Wasabi call title is Drug Sale')
+assert_eq(Config.Dispatch.senderName, 'Anonymous tip', 'Wasabi sender is an anonymous tip')
+assert_eq(Config.Dispatch.priority, 3, 'Wasabi priority is 3')
+assert_eq(Config.Dispatch.code, '10-66', 'radio code is 10-66')
+
+local function read_file(path)
+    local f = assert(io.open(path, 'r'))
+    local src = f:read('*a')
+    f:close()
+    return src
+end
+
+local dispatchSrc = read_file('server/dispatch.lua')
+assert_true(dispatchSrc:find('wasabi_mdt', 1, true) ~= nil, 'server dispatch targets wasabi_mdt')
+assert_true(dispatchSrc:find('CreateDispatch', 1, true) ~= nil, 'server uses Wasabi CreateDispatch')
+assert_true(dispatchSrc:find('senderName', 1, true) ~= nil, 'server CreateDispatch sets senderName')
+assert_true(dispatchSrc:find('function Server.AlertDrugSale', 1, true) ~= nil, 'AlertDrugSale is the shared snitch entry')
+assert_true(dispatchSrc:find('GetResourceState', 1, true) ~= nil, 'Wasabi is optional (resource state check)')
+
+local clientSellSrc = read_file('client/sell.lua')
+assert_true(clientSellSrc:find('payload.wasabi', 1, true) ~= nil, 'client skips ps-dispatch when Wasabi already alerted')
+assert_true(clientSellSrc:find('cfg.fallback', 1, true) ~= nil, 'client ps-dispatch uses Config.Dispatch.fallback')
+
+local fxSrc = read_file('fxmanifest.lua')
+assert_true(fxSrc:find('server/dispatch.lua', 1, true) ~= nil, 'fxmanifest starts server/dispatch.lua')
+assert_true(fxSrc:find("'wasabi_mdt'", 1, true) == nil, 'wasabi_mdt is optional (not a hard dependency)')
+
+local sellSrc = read_file('server/sell.lua')
+assert_true(sellSrc:find('Server.AlertDrugSale', 1, true) ~= nil, 'street sales call AlertDrugSale')
+assert_true(sellSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'street sales do not fire the client event directly')
+
+local bulkSrc = read_file('server/bulk.lua')
+assert_true(bulkSrc:find('Server.AlertDrugSale', 1, true) ~= nil, 'bulk sales call AlertDrugSale')
+assert_true(bulkSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'bulk sales do not fire the client event directly')
+assert_eq(Config.HarvestRespawn.min, 3, 'harvest respawn min is 3s')
+assert_eq(Config.HarvestRespawn.max, 6, 'harvest respawn max is 6s')
 assert_true(Config.Drugs.longhorn_kush.sell.minPrice >= 80, 'longhorn street prices are Rebel-tier')
 assert_true(Config.Drugs.chrome_snow.sell.maxPrice >= 400, 'chrome snow pays a city brick rate')
 assert_true(Utils.IsFrameworkMoney('cash'), 'cash is framework money')
@@ -201,6 +237,7 @@ local requiredImages = {
     'rust_needles', 'iodine_swabs', 'alley_tonic',
     'black_petals', 'temple_ash', 'ink_resin',
     'diesel_nugs', 'grease_wrap', 'iron_filters',
+    'street_lace',
 }
 for _, item in ipairs(requiredImages) do
     local f = io.open(imageDir .. item .. '.png', 'r')
@@ -228,14 +265,14 @@ assert_true(#Config.Trap.talk.snitch >= 2, 'snitch talk lines')
 
 local honda = Config.Drugs.honda_pills
 assert_true(math.abs(honda.process.coords.x - (-1345.90)) < 0.05, 'honda process at Rockford ped')
-assert_eq(honda.process.output.amount, 5, 'honda pills yield 5')
+assert_eq(honda.process.output.amount, 7, 'honda pills yield 7')
 
 local lotus = Config.Drugs.black_lotus
 assert_true(math.abs(lotus.process.coords.x - 1087.81) < 0.05, 'black lotus process at listed ped')
-assert_eq(lotus.process.output.amount, 3, 'black lotus is a low-yield cook')
+assert_eq(lotus.process.output.amount, 6, 'black lotus yields 6')
 
 assert_true(Config.Drugs.diesels_pack.process.output.amount >= 8, 'diesels pack is a fat cook')
-assert_true(Config.Drugs.cayo_crown.process.output.amount <= 3, 'cayo crown is an expensive cook')
+assert_true(Config.Drugs.cayo_crown.process.output.amount >= 9, 'cayo crown returns at least as much as it eats')
 assert_true(Config.Drugs.longhorn_kush.process.output.amount > Config.Drugs.dirt_road_haze.process.output.amount, 'longhorn yields more than dirt road haze')
 
 local outputAmounts = {}
@@ -248,6 +285,18 @@ for _, drug in pairs(Config.Drugs) do
     end
 end
 assert_true(distinctOutputs >= 4, 'recipes do not all output the same amount')
+
+for drugId, drug in pairs(Config.Drugs) do
+    local input = Utils.RecipeInputTotal(drug)
+    local output = drug.process.output.amount
+    assert_true(output >= input, drugId .. ' output is at least the ingredient total')
+end
+
+assert_true(Config.Lace ~= nil, 'street lace config exists')
+assert_eq(Config.Lace.item, 'street_lace', 'lace item is street_lace')
+assert_true(Config.Lace.pricePercent > 0, 'lace pays extra')
+assert_eq(Utils.ApplyLacePrice(100, false), 100, 'unlaced price is unchanged')
+assert_eq(Utils.ApplyLacePrice(100, true), 135, 'laced price is +35%')
 
 local harvestByItem = {}
 for _, spot in ipairs(Config.Harvest) do
@@ -264,7 +313,9 @@ assert_eq(harvestByItem.gold_capsules.type, 'ped', 'gold capsules is a contact p
 assert_eq(harvestByItem.iodine_swabs.type, 'ped', 'iodine swabs is a contact ped')
 assert_eq(harvestByItem.ink_resin.type, 'ped', 'ink resin is a contact ped')
 assert_eq(harvestByItem.grease_wrap.type, 'ped', 'grease wrap is a contact ped')
-assert_true(math.abs(harvestByItem.black_petals.coords.x - 763.31) < 0.05, 'black petals at listed field')
+assert_true(math.abs(harvestByItem.black_petals.coords.x - 760.19) < 0.05, 'black petals at listed field')
+assert_true(math.abs((harvestByItem.black_petals.heading or 0) - 178.86) < 0.05, 'black petals uses listed heading')
+assert_eq(harvestByItem.street_lace.type, 'propField', 'street lace is a harvest field')
 assert_true(math.abs(harvestByItem.shift_powder.coords.x - (-1240.56)) < 0.05, 'shift powder at listed field')
 
 local pedItems = {}

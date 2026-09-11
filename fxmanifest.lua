@@ -30,6 +30,7 @@ client_scripts {
 
 server_scripts {
     'server/main.lua',
+    'server/dispatch.lua',
     'server/harvest.lua',
     'server/process.lua',
     'server/progress.lua',
@@ -58,4 +59,6 @@ dependencies {
 
 -- Preferred: ensure `interact` (darktrovx) before this resource so harvest props and bulk crates use E.
 -- Process NPCs, one ingredient dealer per recipe, and street buyers stay on ox_target (3rd eye).
--- Optional: start ps-dispatch before this resource for bad-sale LEO alerts.
+-- Optional: start wasabi_mdt (preferred) and/or ps-dispatch for snitch sale alerts.
+-- Wasabi must be created from the SERVER CreateDispatch export — civilian
+-- client CreateDispatch is rejected. ps-dispatch is the fallback only.

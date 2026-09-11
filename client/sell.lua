@@ -100,13 +100,17 @@ local function createTrapBlip()
     Trap.blip = blip
 end
 
-local function dispatchResource()
+local function psDispatchResource()
     local cfg = Config.Dispatch or {}
-    return cfg.resource or 'ps-dispatch'
+    local primary = cfg.resource or 'wasabi_mdt'
+    if primary ~= 'wasabi_mdt' then
+        return primary
+    end
+    return cfg.fallback or 'ps-dispatch'
 end
 
 local function sendPsDispatch(data)
-    local res = dispatchResource()
+    local res = psDispatchResource()
     if GetResourceState(res) ~= 'started' then
         Utils.Debug('dispatch resource not started', res)
         return false
@@ -149,7 +153,12 @@ local function sendPsDispatch(data)
 end
 
 RegisterNetEvent('djdrugsv2:client:badSell', function(payload)
+    payload = payload or {}
     Client.Notify('The buyer snitched — cops are incoming', 'error')
+    if payload.wasabi then
+        -- Wasabi MDT / dispatch already has the call. Do not also ping ps-dispatch.
+        return
+    end
     sendPsDispatch(payload)
 end)
 
