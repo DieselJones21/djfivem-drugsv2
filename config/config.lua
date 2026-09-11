@@ -38,16 +38,26 @@ Config.Police = {
     alertChance = 35,
 }
 
--- Project Sloth dispatch on a "bad" street sale (buyer snitches).
--- Sale still pays; police get a DrugSale ping.
+-- Snitch ping after a "bad" street / bulk sale. Sale still pays.
+-- Primary: wasabi_mdt server CreateDispatch (MDT + Wasabi dispatch HUD).
+-- Do NOT use the client CreateDispatch for this — Wasabi only accepts that
+-- from players who can open the MDT, and the snitch is a civilian.
+-- dispatchType must exist in Wasabi Config.DispatchTypes (disturbance is stock).
+-- Departments come from Wasabi's own config; there is no jobs field on CreateDispatch.
+-- Fallback: ps-dispatch client DrugSale / CustomAlert if Wasabi is missing.
 Config.Dispatch = {
     enabled = true,
-    resource = 'ps-dispatch',
+    resource = 'wasabi_mdt',
+    fallback = 'ps-dispatch',
     chance = 35,
     code = '10-66',
+    dispatchType = 'disturbance',
+    title = 'Drug Sale',
     message = 'Suspicious street sale',
-    description = 'Drug Sale',
-    jobs = { 'leo', 'police', 'sheriff' },
+    description = 'A civilian reported a street drug sale.',
+    senderName = 'Anonymous tip',
+    priority = 3,
+    jobs = { 'leo', 'police', 'sheriff' }, -- ps-dispatch fallback only
     sprite = 51,
     color = 1,
     scale = 1.0,

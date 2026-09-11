@@ -333,7 +333,8 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
     local snitched = false
     if dispatchOn and chance > 0 and math.random(1, 100) <= chance then
         snitched = true
-        TriggerClientEvent('djdrugsv2:client:badSell', source, {
+        Server.AlertDrugSale(source, {
+            kind = 'street',
             label = offer.label,
             item = offer.item,
             quantity = offer.quantity,

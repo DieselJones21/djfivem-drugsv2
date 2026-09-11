@@ -8,14 +8,14 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 
 - **10 Rebel county drugs** plus a Cayo Perico exclusive
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), street deals, and bulk-drop HUD
-- **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 10–15 seconds later in a different spot in the same field
+- **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 3–6 seconds later in a different spot in the same field
 - **[darktrovx/interact](https://github.com/darktrovx/interact)** on harvest props and bulk crates (E prompt). Process NPCs, ingredient dealers, and street buyers stay on **ox_target** (3rd eye)
 - **Cook NPCs at every process location** — 3rd eye the ped, not a bench
 - **One ingredient dealer per recipe** — 3rd eye; the other ingredients stay harvest fields
 - **Varied recipes** — some cooks are efficient (Swamp Lean, Diesels Pack, Longhorn), some are expensive (Cayo Crown, Truck Juice, Black Lotus)
 - **Street Lace** — one map-wide cut. Sweep it at La Puerta scrap and lace any finished drug on `/trap` or bulk for **+35%**
 - **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
-- **35% bad-sale snitch** on street traps (15% on bulk drops) that pings Project Sloth dispatch (`DrugSale`)
+- **35% bad-sale snitch** on street traps (15% on bulk drops) that creates a Wasabi MDT / dispatch call (`10-66 Drug Sale`). Falls back to ps-dispatch if Wasabi is not started
 - **Ground-snapped props** on harvest spots
 - **Sell ranks & leaderboard** with KVP persistence (Prospect → Outlaw → Road Captain → Shot Caller → Rebel Kingpin)
 - **Admin boost events** (2x/3x/4x sell + harvest)
@@ -52,7 +52,8 @@ The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels
 - [qbx_core](https://github.com/Qbox-Project/qbx_core)
 - [interact](https://github.com/darktrovx/interact) — E prompt on harvest props and bulk crates
 - [ox_target](https://github.com/overextended/ox_target) — 3rd eye on process NPCs, ingredient dealers, and street buyers
-- [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — snitch chance on `/trap` and bulk drops pings LEO
+- [wasabi_mdt](https://docs.wasabiscripts.com/advanced-series/wasabi-mdt/) — preferred snitch alerts (server `CreateDispatch` into MDT + dispatch). Folder must be named `wasabi_mdt`
+- [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — fallback if Wasabi is not started
 
 ## Installation
 
@@ -67,9 +68,12 @@ Process NPC coordinates are listed in `install/LOCATIONS.md`.
 add_ace group.admin djdrugsv2.boost allow
 ensure ox_target
 ensure interact
+ensure wasabi_mdt
 ensure ps-dispatch
 ensure djfivem-drugsv2
 ```
+
+`wasabi_mdt` is optional but preferred. Snitch alerts use the **server** `CreateDispatch` export so a civilian dealer can still generate the call. The client export will not work here — Wasabi only accepts that from players who can open the MDT. If Wasabi is not started, the client falls back to `ps-dispatch`. Do not fire both; Wasabi can also mirror the same call into ps-dispatch from its own config.
 
 If you already run the Envy version, do **not** overwrite Envy items or images. Rebel IDs (`longhorn_kush`, `truck_juice`, `cayo_crown`, …) are separate from Envy IDs (`lone_star_kush`, `rig_juice`, `perico_gold`, …).
 

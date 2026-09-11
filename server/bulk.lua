@@ -362,10 +362,12 @@ lib.callback.register('djdrugsv2:server:completeBulk', function(source, token)
     local chance = cfg().dispatchChance or 0
     local dispatch = Config.Dispatch or {}
     if dispatch.enabled ~= false and chance > 0 and math.random(1, 100) <= chance then
-        TriggerClientEvent('djdrugsv2:client:badSell', source, {
+        Server.AlertDrugSale(source, {
+            kind = 'bulk',
             label = payload.label,
             item = payload.item,
             quantity = payload.quantity,
+            location = payload.locationLabel,
         })
     end
 

@@ -163,7 +163,43 @@ rank = Utils.GetRankForSold(4500)
 assert_eq(rank.label, 'Rebel Kingpin', '4500 sold = Rebel Kingpin')
 
 assert_eq(Config.Dispatch.chance, 35, 'bad sell chance is 35%')
-assert_eq(Config.Dispatch.resource, 'ps-dispatch', 'dispatch uses Project Sloth')
+assert_eq(Config.Dispatch.resource, 'wasabi_mdt', 'primary dispatch is Wasabi MDT')
+assert_eq(Config.Dispatch.fallback, 'ps-dispatch', 'ps-dispatch is the fallback')
+assert_eq(Config.Dispatch.dispatchType, 'disturbance', 'Wasabi type is a stock DispatchTypes key')
+assert_eq(Config.Dispatch.title, 'Drug Sale', 'Wasabi call title is Drug Sale')
+assert_eq(Config.Dispatch.senderName, 'Anonymous tip', 'Wasabi sender is an anonymous tip')
+assert_eq(Config.Dispatch.priority, 3, 'Wasabi priority is 3')
+assert_eq(Config.Dispatch.code, '10-66', 'radio code is 10-66')
+
+local function read_file(path)
+    local f = assert(io.open(path, 'r'))
+    local src = f:read('*a')
+    f:close()
+    return src
+end
+
+local dispatchSrc = read_file('server/dispatch.lua')
+assert_true(dispatchSrc:find('wasabi_mdt', 1, true) ~= nil, 'server dispatch targets wasabi_mdt')
+assert_true(dispatchSrc:find('CreateDispatch', 1, true) ~= nil, 'server uses Wasabi CreateDispatch')
+assert_true(dispatchSrc:find('senderName', 1, true) ~= nil, 'server CreateDispatch sets senderName')
+assert_true(dispatchSrc:find('function Server.AlertDrugSale', 1, true) ~= nil, 'AlertDrugSale is the shared snitch entry')
+assert_true(dispatchSrc:find('GetResourceState', 1, true) ~= nil, 'Wasabi is optional (resource state check)')
+
+local clientSellSrc = read_file('client/sell.lua')
+assert_true(clientSellSrc:find('payload.wasabi', 1, true) ~= nil, 'client skips ps-dispatch when Wasabi already alerted')
+assert_true(clientSellSrc:find('cfg.fallback', 1, true) ~= nil, 'client ps-dispatch uses Config.Dispatch.fallback')
+
+local fxSrc = read_file('fxmanifest.lua')
+assert_true(fxSrc:find('server/dispatch.lua', 1, true) ~= nil, 'fxmanifest starts server/dispatch.lua')
+assert_true(fxSrc:find("'wasabi_mdt'", 1, true) == nil, 'wasabi_mdt is optional (not a hard dependency)')
+
+local sellSrc = read_file('server/sell.lua')
+assert_true(sellSrc:find('Server.AlertDrugSale', 1, true) ~= nil, 'street sales call AlertDrugSale')
+assert_true(sellSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'street sales do not fire the client event directly')
+
+local bulkSrc = read_file('server/bulk.lua')
+assert_true(bulkSrc:find('Server.AlertDrugSale', 1, true) ~= nil, 'bulk sales call AlertDrugSale')
+assert_true(bulkSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'bulk sales do not fire the client event directly')
 assert_eq(Config.HarvestRespawn.min, 3, 'harvest respawn min is 3s')
 assert_eq(Config.HarvestRespawn.max, 6, 'harvest respawn max is 6s')
 assert_true(Config.Drugs.longhorn_kush.sell.minPrice >= 80, 'longhorn street prices are Rebel-tier')
