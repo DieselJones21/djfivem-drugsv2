@@ -3,9 +3,9 @@
 
     Branched from Envy. Item IDs are new so both versions can exist on one inventory if needed.
 
-    Each recipe has its own input/output so some cooks are efficient and some
-    are expensive on purpose. Weed strains pay clean cash; everything else
-    pays black_money. Effects are cranked (sprint cap 1.49, heavy armor, screen FX).
+    Each recipe returns at least as much product as the ingredients it eats.
+    Some cooks still run fatter than others. Weed strains pay clean cash;
+    everything else pays black_money. Effects are cranked (sprint cap 1.49).
 ]]
 
 local function processAnim()
@@ -87,7 +87,7 @@ Config.Drugs = {
         description = 'Chaparral haze that lights up the legs',
         theme = 'Great Chaparral',
         ingredients = {
-            { item = 'road_nugs', amount = 4 },
+            { item = 'road_nugs', amount = 3 },
             { item = 'zip_bags', amount = 2 },
         },
         process = {
@@ -97,7 +97,7 @@ Config.Drugs = {
             duration = 9000,
             ped = cooker(`a_m_o_salton_01`, 235.0, 'WORLD_HUMAN_LEANING'),
             anim = bagAnim(),
-            output = { item = 'dirt_road_haze', amount = 5 },
+            output = { item = 'dirt_road_haze', amount = 6 },
             blip = { enabled = false, sprite = 469, color = 1, label = 'Dirt Road Haze Cook' },
         },
         sell = {
@@ -133,8 +133,8 @@ Config.Drugs = {
         description = 'City brick cut until it shines',
         theme = 'La Mesa',
         ingredients = {
-            { item = 'bush_leaves', amount = 5 },
-            { item = 'lab_solvent', amount = 4 },
+            { item = 'bush_leaves', amount = 3 },
+            { item = 'lab_solvent', amount = 2 },
             { item = 'zip_bags', amount = 2 },
         },
         process = {
@@ -144,7 +144,7 @@ Config.Drugs = {
             duration = 12000,
             ped = cooker(`g_m_y_mexgoon_01`, 85.0, 'WORLD_HUMAN_STAND_IMPATIENT'),
             anim = processAnim(),
-            output = { item = 'chrome_snow', amount = 4 },
+            output = { item = 'chrome_snow', amount = 8 },
             blip = { enabled = false, sprite = 501, color = 0, label = 'Chrome Snow Cook' },
         },
         sell = {
@@ -181,9 +181,9 @@ Config.Drugs = {
         description = 'Sandy-cooked ice that redlines the legs',
         theme = 'Sandy Shores',
         ingredients = {
-            { item = 'lithium_rocks', amount = 6 },
-            { item = 'camp_fuel', amount = 5 },
-            { item = 'lab_solvent', amount = 4 },
+            { item = 'lithium_rocks', amount = 3 },
+            { item = 'camp_fuel', amount = 2 },
+            { item = 'lab_solvent', amount = 2 },
         },
         process = {
             label = 'Cook Sandlot Ice',
@@ -192,7 +192,7 @@ Config.Drugs = {
             duration = 13000,
             ped = cooker(`a_m_m_rurmeth_01`, 200.0, 'WORLD_HUMAN_CLIPBOARD'),
             anim = processAnim(),
-            output = { item = 'sandlot_ice', amount = 4 },
+            output = { item = 'sandlot_ice', amount = 7 },
             blip = { enabled = false, sprite = 499, color = 17, label = 'Sandlot Ice Cook' },
         },
         sell = {
@@ -229,8 +229,8 @@ Config.Drugs = {
         description = 'Dock-wrapped brick that drops you in the mud',
         theme = 'Elysian Island',
         ingredients = {
-            { item = 'raw_tar', amount = 4 },
-            { item = 'wrap_tape', amount = 3 },
+            { item = 'raw_tar', amount = 3 },
+            { item = 'wrap_tape', amount = 2 },
             { item = 'zip_bags', amount = 2 },
         },
         process = {
@@ -240,7 +240,7 @@ Config.Drugs = {
             duration = 12000,
             ped = cooker(`g_m_y_lost_01`, 270.0, 'WORLD_HUMAN_STAND_MOBILE'),
             anim = bagAnim(),
-            output = { item = 'outlaw_brick', amount = 3 },
+            output = { item = 'outlaw_brick', amount = 7 },
             blip = { enabled = false, sprite = 501, color = 1, label = 'Outlaw Brick Cook' },
         },
         sell = {
@@ -328,7 +328,7 @@ Config.Drugs = {
         ingredients = {
             { item = 'purple_syrup', amount = 2 },
             { item = 'crushed_ice', amount = 2 },
-            { item = 'foam_cups', amount = 2 },
+            { item = 'foam_cups', amount = 1 },
             { item = 'spark_soda', amount = 1 },
             { item = 'hard_candy', amount = 1 },
         },
@@ -375,9 +375,9 @@ Config.Drugs = {
         description = 'Diesel stim that keeps crews redlined',
         theme = 'Power station oil',
         ingredients = {
-            { item = 'oil_sludge', amount = 6 },
-            { item = 'spark_caps', amount = 4 },
-            { item = 'camp_fuel', amount = 3 },
+            { item = 'oil_sludge', amount = 3 },
+            { item = 'spark_caps', amount = 2 },
+            { item = 'camp_fuel', amount = 2 },
         },
         process = {
             label = 'Mix Truck Juice',
@@ -386,7 +386,7 @@ Config.Drugs = {
             duration = 11000,
             ped = cooker(`s_m_y_construct_01`, 75.0, 'WORLD_HUMAN_SMOKING'),
             anim = processAnim(),
-            output = { item = 'truck_juice', amount = 3 },
+            output = { item = 'truck_juice', amount = 7 },
             blip = { enabled = false, sprite = 499, color = 17, label = 'Truck Juice Cook' },
         },
         sell = {
@@ -422,7 +422,7 @@ Config.Drugs = {
         description = 'Desert speed that rips the horizon',
         theme = 'Grand Senora Desert',
         ingredients = {
-            { item = 'desert_dust', amount = 3 },
+            { item = 'desert_dust', amount = 2 },
             { item = 'baking_soda', amount = 2 },
             { item = 'zip_bags', amount = 1 },
         },
@@ -469,10 +469,10 @@ Config.Drugs = {
         description = 'Island gold that makes you feel untouchable',
         theme = 'Cayo Perico',
         ingredients = {
-            { item = 'cayo_palm_leaf', amount = 8 },
-            { item = 'reef_coral', amount = 6 },
-            { item = 'perico_resin', amount = 5 },
-            { item = 'gold_capsules', amount = 4 },
+            { item = 'cayo_palm_leaf', amount = 3 },
+            { item = 'reef_coral', amount = 2 },
+            { item = 'perico_resin', amount = 2 },
+            { item = 'gold_capsules', amount = 2 },
         },
         process = {
             label = 'Press Cayo Crown',
@@ -481,7 +481,7 @@ Config.Drugs = {
             duration = 15000,
             ped = cooker(`u_m_y_party_01`, 330.0, 'WORLD_HUMAN_STAND_IMPATIENT'),
             anim = bagAnim(),
-            output = { item = 'cayo_crown', amount = 2 },
+            output = { item = 'cayo_crown', amount = 10 },
             blip = { enabled = false, sprite = 51, color = 5, label = 'Cayo Crown Cook' },
         },
         sell = {
@@ -523,9 +523,9 @@ Config.Drugs = {
         description = 'Player-owned racing pills — Civic bolts, shift powder, red keycaps',
         theme = 'Rockford Hills garage',
         ingredients = {
-            { item = 'civic_bolts', amount = 3 },
-            { item = 'shift_powder', amount = 3 },
-            { item = 'red_keycaps', amount = 2 },
+            { item = 'civic_bolts', amount = 2 },
+            { item = 'shift_powder', amount = 2 },
+            { item = 'red_keycaps', amount = 1 },
         },
         process = {
             label = 'Press Honda Pills',
@@ -534,7 +534,7 @@ Config.Drugs = {
             duration = 11000,
             ped = cooker(`s_m_m_autoshop_02`, 277.80, 'WORLD_HUMAN_CLIPBOARD'),
             anim = bagAnim(),
-            output = { item = 'honda_pills', amount = 5 },
+            output = { item = 'honda_pills', amount = 7 },
             blip = { enabled = false, sprite = 51, color = 1, label = 'Honda Pills Cook' },
         },
         sell = {
@@ -568,9 +568,9 @@ Config.Drugs = {
         description = 'Player-owned combat tonic — rust needles, iodine swabs, alley tonic',
         theme = 'Chiliad cult / Cape Catfish',
         ingredients = {
-            { item = 'rust_needles', amount = 4 },
-            { item = 'iodine_swabs', amount = 3 },
-            { item = 'alley_tonic', amount = 3 },
+            { item = 'rust_needles', amount = 2 },
+            { item = 'iodine_swabs', amount = 2 },
+            { item = 'alley_tonic', amount = 2 },
         },
         process = {
             label = 'Brew Stab Juice',
@@ -579,7 +579,7 @@ Config.Drugs = {
             duration = 12000,
             ped = cooker(`g_m_y_mexgoon_02`, 290.0, 'WORLD_HUMAN_DRUG_DEALER'),
             anim = processAnim(),
-            output = { item = 'stab_juice', amount = 4 },
+            output = { item = 'stab_juice', amount = 6 },
             blip = { enabled = false, sprite = 499, color = 1, label = 'Stab Juice Cook' },
         },
         sell = {
@@ -614,9 +614,9 @@ Config.Drugs = {
         description = 'Player-owned night bloom — black petals, temple ash, ink resin',
         theme = 'Cypress Flats / Lake Vinewood / Rockford',
         ingredients = {
-            { item = 'black_petals', amount = 5 },
-            { item = 'temple_ash', amount = 4 },
-            { item = 'ink_resin', amount = 4 },
+            { item = 'black_petals', amount = 2 },
+            { item = 'temple_ash', amount = 2 },
+            { item = 'ink_resin', amount = 2 },
         },
         process = {
             label = 'Bind Black Lotus',
@@ -625,7 +625,7 @@ Config.Drugs = {
             duration = 14000,
             ped = cooker(`a_f_y_hippie_01`, 351.50, 'WORLD_HUMAN_SMOKING'),
             anim = bagAnim(),
-            output = { item = 'black_lotus', amount = 3 },
+            output = { item = 'black_lotus', amount = 6 },
             blip = { enabled = false, sprite = 51, color = 27, label = 'Black Lotus Cook' },
         },
         sell = {

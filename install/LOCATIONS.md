@@ -41,12 +41,13 @@ One ingredient per recipe is a **dealer ped** (3rd eye). The rest of that recipe
 | Rust Needles | -1167.72, 4926.44, 223.26 | `prop_ld_health_pack` |
 | Iodine Swabs | 3808.15, 4478.62, 4.15 | ped `s_m_m_doctor_01` |
 | Alley Tonic | -3192.48, 1296.22, 14.43 | `prop_drug_bottle` |
-| Black Petals | 763.31, -2207.10, 20.70 | `prop_plant_01a` |
+| Black Petals | 760.19, -2233.98, 20.73 (h 178.86) | `prop_plant_01a` |
 | Temple Ash | -1999.00, 1881.05, 205.39 | `prop_rock_4_c` |
 | Ink Resin | -909.14, -191.47, 19.04 | ped `a_m_m_eastsa_02` |
 | Diesel Nugs | 2354.18, 1835.62, 102.10 | `prop_weed_01` |
 | Grease Wrap | 454.23, -1151.39, 29.29 | ped `s_m_m_autoshop_01` |
 | Iron Filters | 267.45, 2885.92, 43.61 | `prop_oilcan_01a` |
+| Street Lace | -468.55, -1718.10, 18.69 | `prop_cs_pills` |
 
 ## Process NPCs
 

@@ -50,6 +50,10 @@ local function offerPayload(offer)
         maxAttempts = offer.maxAttempts,
         haggleEnabled = offer.haggleEnabled,
         boostMultiplier = offer.boostMultiplier or 1,
+        laced = offer.laced == true,
+        laceNeed = offer.laceNeed or 0,
+        laceLabel = offer.laceLabel,
+        lacePercent = offer.lacePercent or 0,
     }
 end
 
@@ -122,6 +126,18 @@ lib.callback.register('djdrugsv2:server:createOffer', function(source)
     local maxPrice = math.floor((sell.maxPrice * mult * rankMult) + 0.5)
     local priceEach = biasedPrice(minPrice, maxPrice, haggle.openingBias or 0.35)
     priceEach = math.max(minPrice, math.min(maxPrice, priceEach))
+
+    local lace = Config.Lace or {}
+    local laceItem = lace.item or 'street_lace'
+    local laceNeed = Utils.GetLaceNeed(quantity)
+    local laced = Server.ItemCount(source, laceItem) >= laceNeed
+    if laced then
+        minPrice = Utils.ApplyLacePrice(minPrice, true)
+        maxPrice = Utils.ApplyLacePrice(maxPrice, true)
+        priceEach = Utils.ApplyLacePrice(priceEach, true)
+        priceEach = math.max(minPrice, math.min(maxPrice, priceEach))
+    end
+
     local total = priceEach * quantity
     local token = newToken()
     local moneyType = sell.moneyType
@@ -149,6 +165,11 @@ lib.callback.register('djdrugsv2:server:createOffer', function(source)
         haggleEnabled = haggle.enabled ~= false,
         expires = os.time() + 90,
         origin = origin,
+        laced = laced,
+        laceNeed = laced and laceNeed or 0,
+        laceItem = laced and laceItem or nil,
+        laceLabel = laced and (lace.label or 'Street Lace') or nil,
+        lacePercent = laced and (lace.pricePercent or 0.35) or 0,
     }
 
     return offerPayload(Server.offers[source])
@@ -281,8 +302,21 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
         return false, 'Could not remove product'
     end
 
+    if offer.laced then
+        local laceItem = offer.laceItem or (Config.Lace and Config.Lace.item) or 'street_lace'
+        local laceNeed = offer.laceNeed or Utils.GetLaceNeed(offer.quantity)
+        if Server.ItemCount(source, laceItem) < laceNeed or not Server.RemoveItem(source, laceItem, laceNeed) then
+            Server.AddItem(source, offer.item, offer.quantity)
+            return false, 'Missing Street Lace for this bag'
+        end
+    end
+
     if not Server.AddMoney(source, offer.total, offer.moneyType) then
         Server.AddItem(source, offer.item, offer.quantity)
+        if offer.laced then
+            local laceItem = offer.laceItem or (Config.Lace and Config.Lace.item) or 'street_lace'
+            Server.AddItem(source, laceItem, offer.laceNeed or Utils.GetLaceNeed(offer.quantity))
+        end
         return false, 'Payment failed'
     end
 
@@ -310,12 +344,14 @@ lib.callback.register('djdrugsv2:server:completeSale', function(source, token)
     local rankNote = (offer.rankMultiplier and offer.rankMultiplier > 1)
         and (' [%sx rank]'):format(offer.rankMultiplier)
         or ''
-    return true, ('Sold %sx %s for $%s ($%s each)%s%s%s'):format(
+    local laceNote = offer.laced and ' (laced)' or ''
+    return true, ('Sold %sx %s for $%s ($%s each)%s%s%s%s'):format(
         offer.quantity,
         offer.label,
         offer.total,
         offer.priceEach,
         dirty and ' (dirty)' or '',
+        laceNote,
         (offer.boostMultiplier and offer.boostMultiplier > 1) and (' [%sx boost]'):format(offer.boostMultiplier) or '',
         rankNote
     ), { snitch = snitched }

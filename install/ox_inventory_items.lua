@@ -70,6 +70,7 @@ return {
     ['diesel_nugs'] = { label = 'Diesel Nugs', weight = 30, stack = true, close = true, description = 'House nugs for Diesels Pack' },
     ['grease_wrap'] = { label = 'Grease Wrap', weight = 15, stack = true, close = true, description = 'Shop wrap for Diesels Pack' },
     ['iron_filters'] = { label = 'Iron Filters', weight = 35, stack = true, close = true, description = 'Engine filters for Diesels Pack' },
+    ['street_lace'] = { label = 'Street Lace', weight = 15, stack = true, close = true, description = 'Universal cut — lace any finished drug to sell for more' },
 
     ['honda_pills'] = { label = 'Honda Pills', weight = 25, stack = true, close = true, description = 'Player-owned racing pills — 1.49x run + armor', server = drugUse },
     ['stab_juice'] = { label = 'Stab Juice', weight = 80, stack = true, close = true, description = 'Player-owned combat tonic — 45% armor + 50 HP', server = drugUse },

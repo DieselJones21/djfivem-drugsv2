@@ -121,6 +121,34 @@ function Utils.GetBulkPriceEach(drug, rankMult)
     return math.max(1, base)
 end
 
+function Utils.GetLaceConfig()
+    return Config.Lace or {}
+end
+
+function Utils.GetLaceNeed(quantity)
+    local lace = Utils.GetLaceConfig()
+    local per = math.max(1, math.floor(tonumber(lace.perUnit) or 1))
+    return math.max(1, math.floor((tonumber(quantity) or 1) * per))
+end
+
+function Utils.ApplyLacePrice(amount, laced)
+    amount = math.floor(tonumber(amount) or 0)
+    if not laced then return amount end
+    local pct = tonumber(Utils.GetLaceConfig().pricePercent) or 0.35
+    if pct < 0 then pct = 0 end
+    if pct > 1 then pct = 1 end
+    return math.max(1, math.floor(amount * (1 + pct) + 0.5))
+end
+
+function Utils.RecipeInputTotal(drug)
+    if not drug or not drug.ingredients then return 0 end
+    local n = 0
+    for i = 1, #drug.ingredients do
+        n = n + (tonumber(drug.ingredients[i].amount) or 0)
+    end
+    return n
+end
+
 function Utils.FormatMoney(n)
     n = math.floor(tonumber(n) or 0)
     local s = tostring(n)

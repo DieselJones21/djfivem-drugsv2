@@ -57,8 +57,17 @@ Config.Dispatch = {
 -- After a successful harvest the prop deletes immediately, then a new one
 -- grows at a different pool point inside the field radius.
 Config.HarvestRespawn = {
-    min = 10,
-    max = 15,
+    min = 3,
+    max = 6,
+}
+
+-- Universal cut. 1 lace per unit sold on /trap (and bulk) pays extra.
+Config.Lace = {
+    item = 'street_lace',
+    label = 'Street Lace',
+    pricePercent = 0.35,
+    perUnit = 1,
+    applyToBulk = true,
 }
 
 Config.Trap = {
@@ -171,7 +180,7 @@ Config.StressEvent = 'hud:server:RelieveStress'
 Config.StressGainEvent = nil
 
 Config.IngredientAmount = { min = 5, max = 10 }
-Config.IngredientCooldown = 10
+Config.IngredientCooldown = 4
 
 Config.Boost = {
     command = 'drugboost',
@@ -740,9 +749,10 @@ Config.Harvest = {
         item = 'black_petals',
         label = 'Pick Black Petals',
         plant = true,
-        coords = vec3(763.31, -2207.10, 20.70),
-        radius = 8.0,
-        pool = 14,
+        coords = vec3(760.19, -2233.98, 20.73),
+        heading = 178.86,
+        radius = 5.0,
+        pool = 12,
         model = `prop_plant_01a`,
         duration = 6500,
         blip = { enabled = false, sprite = 469, color = 27, label = 'Black Petals' },
@@ -810,5 +820,22 @@ Config.Harvest = {
         duration = 6000,
         anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
         blip = { enabled = false, sprite = 499, color = 5, label = 'Iron Filters' },
+    }),
+
+    --------------------------------------------------
+    -- STREET LACE — universal cut for any finished drug
+    --------------------------------------------------
+    field({
+        id = 'street_lace_field',
+        item = 'street_lace',
+        label = 'Sweep Street Lace',
+        plant = false,
+        coords = vec3(-468.55, -1718.10, 18.69),
+        radius = 7.0,
+        pool = 14,
+        model = `prop_cs_pills`,
+        duration = 5000,
+        anim = { dict = 'mini@repair', clip = 'fixing_a_ped' },
+        blip = { enabled = true, sprite = 501, color = 5, label = 'Street Lace' },
     }),
 }

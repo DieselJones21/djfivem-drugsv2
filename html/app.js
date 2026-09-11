@@ -224,6 +224,15 @@ function renderSellMini(offer) {
     $('#sell-mini').classList.toggle('is-boosted', (offer.boostMultiplier || 1) > 1);
     $('#sell-drug-name').textContent = offer.label || 'Product';
     $('#sell-qty').textContent = `${offer.quantity}x @ ${formatMoney(offer.priceEach)} each`;
+    const laceEl = $('#sell-lace');
+    if (laceEl) {
+        laceEl.classList.toggle('hidden', !offer.laced);
+        const laceText = $('#sell-lace-text');
+        if (laceText && offer.laced) {
+            const pct = Math.round((offer.lacePercent || 0.35) * 100);
+            laceText.textContent = `Laced +${pct}%`;
+        }
+    }
     $('#sell-total').textContent = formatMoney(offer.total);
 
     let range = `Range ${formatMoney(offer.minPrice)}–${formatMoney(offer.maxPrice)}`;

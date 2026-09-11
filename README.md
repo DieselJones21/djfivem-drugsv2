@@ -13,7 +13,7 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 - **Cook NPCs at every process location** — 3rd eye the ped, not a bench
 - **One ingredient dealer per recipe** — 3rd eye; the other ingredients stay harvest fields
 - **Varied recipes** — some cooks are efficient (Swamp Lean, Diesels Pack, Longhorn), some are expensive (Cayo Crown, Truck Juice, Black Lotus)
-- Street buyers **talk** on good deals, snitches, haggling, and walk-offs
+- **Street Lace** — one map-wide cut. Sweep it at La Puerta scrap and lace any finished drug on `/trap` or bulk for **+35%**
 - **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
 - **35% bad-sale snitch** on street traps (15% on bulk drops) that pings Project Sloth dispatch (`DrugSale`)
 - **Ground-snapped props** on harvest spots
@@ -88,19 +88,21 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 | Drug | Recipe | Output | Notes |
 |------|--------|--------|-------|
 | Longhorn Kush | 2 horn nugs + 1 zip bag | **8** | Best weed yield |
-| Dirt Road Haze | 4 road nugs + 2 zip bags | 5 | Worse than Longhorn |
-| Chrome Snow | 5 bush + 4 solvent + 2 zip | 4 | City brick |
-| Sandlot Ice | 6 lithium + 5 fuel + 4 solvent | 4 | Heavy cook |
-| Outlaw Brick | 4 tar + 3 tape + 2 zip | 3 | Low yield, high pay |
+| Dirt Road Haze | 3 road nugs + 2 zip bags | 6 | Solid cook |
+| Chrome Snow | 3 bush + 2 solvent + 2 zip | 8 | City brick |
+| Sandlot Ice | 3 lithium + 2 fuel + 2 solvent | 7 | Even cook |
+| Outlaw Brick | 3 tar + 2 tape + 2 zip | 7 | Even cook |
 | Honkytonk Rolls | 2 crystals + 2 capsules + 1 die | **8** | Efficient press |
-| Swamp Lean | 2+2+2+1+1 mixers | **10** | Easy pour |
-| Truck Juice | 6 sludge + 4 caps + 3 fuel | 3 | Hard, high pay |
-| Gravel Dust | 3 dust + 2 soda + 1 zip | 6 | Decent |
-| Cayo Crown | 8 palm + 6 coral + 5 resin + 4 gold | **2** | Worst yield, best pay |
-| Honda Pills | 3 bolts + 3 powder + 2 keycaps | 5 | Mid |
-| Stab Juice | 4 needles + 3 swabs + 3 tonic | 4 | Combat tonic |
-| Black Lotus | 5 petals + 4 ash + 4 resin | 3 | Expensive ritual |
+| Swamp Lean | 2+2+1+1+1 mixers | **10** | Easy pour |
+| Truck Juice | 3 sludge + 2 caps + 2 fuel | 7 | Even cook |
+| Gravel Dust | 2 dust + 2 soda + 1 zip | 6 | Decent |
+| Cayo Crown | 3 palm + 2 coral + 2 resin + 2 gold | **10** | Island fat cook |
+| Honda Pills | 2 bolts + 2 powder + 1 keycap | 7 | Mid |
+| Stab Juice | 2 needles + 2 swabs + 2 tonic | 6 | Combat tonic |
+| Black Lotus | 2 petals + 2 ash + 2 resin | 6 | Ritual cook |
 | Diesels Pack | 3 nugs + 2 wrap + 2 filters | **10** | Best player-owned yield |
+
+Every recipe returns **at least as much product as it eats**. Sweep **Street Lace** and the buyer pays **+35%** if you have 1 lace per unit sold.
 
 Flow: Harvest scattered props or talk to a dealer ped → 3rd eye a cook NPC → `/trap` for street prices, or stockpile 100–200 and `/drugbulksell` for a cheaper warehouse drop.
 

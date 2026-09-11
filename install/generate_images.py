@@ -27,6 +27,7 @@ REQUIRED = [
     'rust_needles', 'iodine_swabs', 'alley_tonic',
     'black_petals', 'temple_ash', 'ink_resin',
     'diesel_nugs', 'grease_wrap', 'iron_filters',
+    'street_lace',
 ]
 
 
