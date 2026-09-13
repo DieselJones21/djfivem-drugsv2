@@ -33,6 +33,12 @@ if not vec3 then
     end
 end
 
+if not GetConvar then
+    function GetConvar(_, default)
+        return default
+    end
+end
+
 local function dofile_fivem(path)
     local f = assert(io.open(path, 'r'))
     local src = f:read('*a')
@@ -72,8 +78,10 @@ for drugId, drug in pairs(Config.Drugs) do
     assert_true(drug.item ~= nil, drugId .. ' has item')
     assert_true(drug.ingredients and #drug.ingredients > 0, drugId .. ' has ingredients')
     assert_true(drug.process and drug.process.coords, drugId .. ' has process coords')
-    assert_true(drug.process.ped and drug.process.ped.model, drugId .. ' cooks at a ped')
-    assert_true(not drug.process.prop, drugId .. ' does not use a process bench prop')
+    assert_true(drug.process.prop and drug.process.prop.model, drugId .. ' cooks at a bench')
+    assert_true(not drug.process.ped, drugId .. ' does not use a cook ped')
+    assert_true(drug.minLevel >= 1 and drug.minLevel <= 5, drugId .. ' has a rank gate')
+    assert_true(drug.kind == 'weed' or drug.kind == 'hard' or drug.kind == 'personal', drugId .. ' has a bench kind')
     assert_true(drug.sell and drug.sell.enabled ~= false, drugId .. ' is sellable')
     assert_true(drug.effects and drug.effects.enabled ~= false, drugId .. ' has effects')
     assert_true(drug.sell.minPrice and drug.sell.maxPrice and drug.sell.maxPrice >= drug.sell.minPrice, drugId .. ' has valid payout range')
@@ -144,10 +152,10 @@ for i = 1, #Config.Harvest do
         assert_true(r >= 5.0, (spot.id or '?') .. ' harvest radius is still a field')
     end
 end
-assert_true(propFieldCount >= 20, 'most harvest spots are propField type')
-assert_true(pedHarvestCount >= 10, 'each recipe has a dealer ped ingredient')
-assert_true(plantFields >= 3, 'plant fields exist for client-side relocate')
-print(('  Harvest fields: %d propField spots, %d pool props, %d plant fields, %d peds'):format(propFieldCount, totalProps, plantFields, pedHarvestCount))
+assert_eq(propFieldCount, 3, 'only the three weed fields stay as props')
+assert_true(pedHarvestCount >= 30, 'every non-weed ingredient is a ped')
+assert_eq(plantFields, 3, 'weed plants still relocate like a grow')
+print(('  Harvest: %d weed fields, %d pool props, %d peds'):format(propFieldCount, totalProps, pedHarvestCount))
 
 local levels = Utils.GetProgressLevels()
 assert_eq(#levels, 5, '5 progression ranks')
@@ -200,10 +208,18 @@ assert_true(sellSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'street sa
 local bulkSrc = read_file('server/bulk.lua')
 assert_true(bulkSrc:find('Server.AlertDrugSale', 1, true) ~= nil, 'bulk sales call AlertDrugSale')
 assert_true(bulkSrc:find("djdrugsv2:client:badSell", 1, true) == nil, 'bulk sales do not fire the client event directly')
-assert_eq(Config.HarvestRespawn.min, 3, 'harvest respawn min is 3s')
-assert_eq(Config.HarvestRespawn.max, 6, 'harvest respawn max is 6s')
+assert_eq(Config.WeedRespawn.min, 45, 'weed grow-back is at least 45s')
+assert_eq(Config.WeedRespawn.max, 90, 'weed grow-back is at most 90s')
 assert_true(Config.Drugs.longhorn_kush.sell.minPrice >= 80, 'longhorn street prices are Rebel-tier')
-assert_true(Config.Drugs.chrome_snow.sell.maxPrice >= 400, 'chrome snow pays a city brick rate')
+assert_true(Config.Drugs.chrome_snow.sell.maxPrice >= 350, 'chrome snow pays a city brick rate')
+assert_eq(Config.Drugs.longhorn_kush.minLevel, 1, 'weed starts at Prospect')
+assert_eq(Config.Drugs.cayo_crown.minLevel, 5, 'cayo is kingpin-only')
+assert_eq(Config.Drugs.diesels_pack.minLevel, 5, 'diesels is kingpin-only')
+assert_true(Utils.CanAccessDrug(0, 'longhorn_kush'), 'prospect can bag longhorn')
+assert_true(not Utils.CanAccessDrug(0, 'cayo_crown'), 'prospect cannot cook cayo')
+assert_true(Utils.CanAccessDrug(4500, 'cayo_crown'), 'kingpin can cook cayo')
+assert_true(Utils.CanAccessHarvestItem(0, 'street_lace'), 'lace is always collectable')
+assert_true(not Utils.CanAccessHarvestItem(0, 'gold_capsules'), 'cayo supplies stay hidden')
 assert_true(Utils.IsFrameworkMoney('cash'), 'cash is framework money')
 assert_true(not Utils.IsFrameworkMoney('black_money'), 'black_money is inventory item')
 
@@ -265,15 +281,18 @@ assert_true(#Config.Trap.talk.snitch >= 2, 'snitch talk lines')
 
 local honda = Config.Drugs.honda_pills
 assert_true(math.abs(honda.process.coords.x - (-1345.90)) < 0.05, 'honda process at Rockford ped')
-assert_eq(honda.process.output.amount, 7, 'honda pills yield 7')
+assert_eq(honda.process.output.amount, 6, 'honda pills yield 6')
+assert_true(tostring(honda.process.prop.model):find('v_ret_ml_tableb', 1, true) ~= nil, 'honda uses the personal table')
 
 local lotus = Config.Drugs.black_lotus
 assert_true(math.abs(lotus.process.coords.x - 1087.81) < 0.05, 'black lotus process at listed ped')
 assert_eq(lotus.process.output.amount, 6, 'black lotus yields 6')
 
 assert_true(Config.Drugs.diesels_pack.process.output.amount >= 8, 'diesels pack is a fat cook')
-assert_true(Config.Drugs.cayo_crown.process.output.amount >= 9, 'cayo crown returns at least as much as it eats')
+assert_true(Config.Drugs.cayo_crown.process.output.amount >= 8, 'cayo crown returns at least as much as it eats')
 assert_true(Config.Drugs.longhorn_kush.process.output.amount > Config.Drugs.dirt_road_haze.process.output.amount, 'longhorn yields more than dirt road haze')
+assert_true(tostring(Config.Drugs.longhorn_kush.process.prop.model):find('weed_table', 1, true) ~= nil, 'weed cooks on the weed table')
+assert_true(tostring(Config.Drugs.chrome_snow.process.prop.model):find('coke_table01a', 1, true) ~= nil, 'hard cooks on the coke table')
 
 local outputAmounts = {}
 local distinctOutputs = 0
@@ -313,10 +332,14 @@ assert_eq(harvestByItem.gold_capsules.type, 'ped', 'gold capsules is a contact p
 assert_eq(harvestByItem.iodine_swabs.type, 'ped', 'iodine swabs is a contact ped')
 assert_eq(harvestByItem.ink_resin.type, 'ped', 'ink resin is a contact ped')
 assert_eq(harvestByItem.grease_wrap.type, 'ped', 'grease wrap is a contact ped')
-assert_true(math.abs(harvestByItem.black_petals.coords.x - 760.19) < 0.05, 'black petals at listed field')
+assert_eq(harvestByItem.black_petals.type, 'ped', 'black petals is a sidewalk ped')
+assert_true(math.abs(harvestByItem.black_petals.coords.x - 760.19) < 0.05, 'black petals at listed sidewalk')
 assert_true(math.abs((harvestByItem.black_petals.heading or 0) - 178.86) < 0.05, 'black petals uses listed heading')
-assert_eq(harvestByItem.street_lace.type, 'propField', 'street lace is a harvest field')
-assert_true(math.abs(harvestByItem.shift_powder.coords.x - (-1240.56)) < 0.05, 'shift powder at listed field')
+assert_eq(harvestByItem.street_lace.type, 'ped', 'street lace is a contact ped')
+assert_eq(harvestByItem.shift_powder.type, 'ped', 'shift powder is a contact ped')
+assert_eq(harvestByItem.horn_nugs.type, 'propField', 'horn nugs stay a weed field')
+assert_eq(harvestByItem.road_nugs.type, 'propField', 'road nugs stay a weed field')
+assert_eq(harvestByItem.diesel_nugs.type, 'propField', 'diesel nugs stay a weed field')
 
 local pedItems = {}
 for _, spot in ipairs(Config.Harvest) do
@@ -325,15 +348,51 @@ for _, spot in ipairs(Config.Harvest) do
     end
 end
 for drugId, drug in pairs(Config.Drugs) do
-    local pedIng = 0
+    local pedIng, weedIng = 0, 0
     for j = 1, #drug.ingredients do
-        if pedItems[drug.ingredients[j].item] then
+        local item = drug.ingredients[j].item
+        if pedItems[item] then
             pedIng = pedIng + 1
         end
+        local spot = harvestByItem[item]
+        if spot and spot.type == 'propField' then
+            weedIng = weedIng + 1
+        end
     end
-    assert_true(pedIng >= 1, drugId .. ' has one dealer-ped ingredient')
-    assert_true(pedIng < #drug.ingredients, drugId .. ' still has field ingredients')
+    if drug.kind == 'weed' or drugId == 'diesels_pack' then
+        assert_true(weedIng >= 1, drugId .. ' still uses a weed field')
+        assert_true(pedIng >= 1, drugId .. ' still has a supply ped')
+    else
+        assert_eq(pedIng, #drug.ingredients, drugId .. ' ingredients are all peds')
+    end
 end
+
+local signatures = {}
+for drugId, drug in pairs(Config.Drugs) do
+    local sig = Utils.RecipeSignature(drug)
+    assert_true(signatures[sig] == nil, drugId .. ' recipe is unique')
+    signatures[sig] = drugId
+end
+
+assert_true(Config.Informant ~= nil, 'informant config exists')
+assert_eq(Config.Informant.cooldown, 3600, 'informant cooldown is 1 hour')
+assert_true(Config.Informant.singlePrice >= 20000, 'one mark is expensive')
+assert_true(Config.Informant.allPrice > Config.Informant.singlePrice, 'full book costs more')
+assert_eq(Config.Help.command, 'drughelp', 'player help command is /drughelp')
+assert_eq(Config.Boost.warningSeconds, 15 * 60, 'boost lead-in is 15 minutes')
+assert_eq(Config.Boost.endingWarningSeconds, 15 * 60, 'boost ending warning is 15 minutes')
+
+local harvestIds = {}
+for i = 1, #Config.Harvest do
+    local spot = Config.Harvest[i]
+    assert_true(harvestIds[spot.item] == nil, spot.item .. ' has only one harvest contact')
+    harvestIds[spot.item] = true
+end
+
+assert_true(fxSrc:find('server/informant.lua', 1, true) ~= nil, 'fxmanifest starts informant')
+assert_true(fxSrc:find('client/help.lua', 1, true) ~= nil, 'fxmanifest starts help')
+assert_true(read_file('server/boost.lua'):find('discord.com/api/webhooks', 1, true) ~= nil, 'boost posts to Discord webhooks')
+assert_true(read_file('client/harvest.lua'):find('useInteract = true', 1, true) ~= nil, 'ingredient peds use interact')
 
 assert_true(Config.BulkSell ~= nil, 'bulk sell config exists')
 assert_eq(Config.BulkSell.command, 'drugbulksell', 'bulk command is /drugbulksell')

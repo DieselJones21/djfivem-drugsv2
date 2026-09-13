@@ -106,8 +106,8 @@ local function unusedIndices(spot, avoidIndex)
     return free
 end
 
-local function respawnDelayMs()
-    local cfg = Config.HarvestRespawn or {}
+local function respawnDelayMs(spot)
+    local cfg = (spot and Utils.IsWeedHarvest(spot) and Config.WeedRespawn) or Config.HarvestRespawn or {}
     local minS = math.max(1, math.floor(cfg.min or 10))
     local maxS = math.max(minS, math.floor(cfg.max or 15))
     return math.random(minS, maxS) * 1000
@@ -120,7 +120,7 @@ function Harvest.Relocate(spot, entityKey)
     local harvestedIndex = despawnFieldProp(spot, entityKey)
     if not harvestedIndex then return end
 
-    local delay = respawnDelayMs()
+    local delay = respawnDelayMs(spot)
     CreateThread(function()
         Wait(delay)
         if not Harvest.running then return end
@@ -296,6 +296,10 @@ local function setupPed(spot)
     local ped = Client.SpawnTargetPed(model, groundCoords, heading, options, {
         scenario = spot.scenario,
         placeOnGround = true,
+        useInteract = true,
+        id = 'djdrugsv2_harvest_' .. spot.id,
+        offset = vec3(0.0, 0.0, 1.0),
+        interactDst = Config.InteractDistance or 1.5,
     })
     if not ped then
         Client.AddCoordInteract({
@@ -309,17 +313,22 @@ local function setupPed(spot)
     end
 end
 
+local startedSpots = {}
+
 function Harvest.Init()
     Harvest.running = true
     math.randomseed(GetGameTimer() + (PlayerId() * 7919))
     for i = 1, #Config.Harvest do
         local spot = Config.Harvest[i]
-        if spot.type == 'ped' then
-            setupPed(spot)
-        elseif spot.type == 'propField' or spot.type == 'prop' then
-            setupPropField(spot)
-        else
-            setupBench(spot)
+        if not startedSpots[spot.id] and Client.CanAccessHarvestItem(spot.item) then
+            startedSpots[spot.id] = true
+            if spot.type == 'ped' then
+                setupPed(spot)
+            elseif spot.type == 'propField' or spot.type == 'prop' then
+                setupPropField(spot)
+            else
+                setupBench(spot)
+            end
         end
     end
 end

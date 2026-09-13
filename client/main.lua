@@ -151,6 +151,14 @@ function Client.SpawnLocalPed(model, coords, heading, extra)
         return nil
     end
 
+    if extra.placeOnGround ~= false then
+        local c = GetEntityCoords(ped)
+        local found, groundZ = GetGroundZFor_3dCoord(c.x, c.y, c.z + 50.0, false)
+        if found then
+            SetEntityCoordsNoOffset(ped, c.x, c.y, groundZ, false, false, false)
+        end
+    end
+
     SetEntityAsMissionEntity(ped, true, true)
     SetBlockingOfNonTemporaryEvents(ped, true)
     SetPedFleeAttributes(ped, 0, false)
@@ -173,8 +181,37 @@ function Client.SpawnTargetPed(model, coords, heading, options, extra)
     extra = extra or {}
     local ped = Client.SpawnLocalPed(model, coords, heading, extra)
     if not ped then return nil end
-    Client.AttachOxTarget(ped, options)
+    if extra.useInteract then
+        Client.AttachInteract(ped, options, extra.interact or {
+            id = extra.id,
+            offset = extra.offset or vec3(0.0, 0.0, 1.0),
+            ignoreLos = true,
+            interactDst = extra.interactDst or Config.InteractDistance or 1.5,
+        })
+    else
+        Client.AttachOxTarget(ped, options)
+    end
     return ped
+end
+
+Client.rankSold = 0
+Client.rankLevel = 1
+
+function Client.SyncRank()
+    local data = lib.callback.await('djdrugsv2:server:getMyRank', false)
+    if type(data) == 'table' then
+        Client.rankSold = tonumber(data.sold) or 0
+        Client.rankLevel = tonumber(data.level) or 1
+    end
+    return Client.rankSold, Client.rankLevel
+end
+
+function Client.CanAccessDrug(drugId)
+    return Utils.CanAccessDrug(Client.rankSold or 0, drugId)
+end
+
+function Client.CanAccessHarvestItem(item)
+    return Utils.CanAccessHarvestItem(Client.rankSold or 0, item)
 end
 
 function Client.DrawText3D(coords, text)
@@ -314,8 +351,20 @@ AddEventHandler('onResourceStop', function(resource)
     end
 end)
 
+RegisterNetEvent('djdrugsv2:client:rankUpdated', function(payload)
+    if type(payload) == 'table' then
+        Client.rankSold = tonumber(payload.sold) or Client.rankSold
+        Client.rankLevel = tonumber(payload.level) or Client.rankLevel
+    else
+        Client.SyncRank()
+    end
+    if Harvest and Harvest.Init then Harvest.Init() end
+    if Process and Process.Init then Process.Init() end
+end)
+
 CreateThread(function()
     Wait(500)
+    Client.SyncRank()
     Harvest.Init()
     Process.Init()
     Sell.Init()

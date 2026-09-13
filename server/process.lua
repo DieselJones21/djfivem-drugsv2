@@ -34,9 +34,13 @@ lib.callback.register('djdrugsv2:server:processStart', function(source, drugId)
         return false, 'Unknown recipe'
     end
 
+    if not Utils.CanAccessDrug(Progress.GetSold(source), drugId) then
+        return false, 'This cook is still locked'
+    end
+
     local p = drug.process
-    if not Server.IsNearCoords(source, p.coords, 4.0) then
-        return false, 'Too far from the cook'
+    if not Server.IsNearCoords(source, p.coords, 4.5) then
+        return false, 'Too far from the bench'
     end
 
     if not hasIngredients(source, drug) then
@@ -74,9 +78,13 @@ local function tryProcess(src, drugId)
         return false, 'Unknown recipe'
     end
 
+    if not Utils.CanAccessDrug(Progress.GetSold(src), drugId) then
+        return false, 'This cook is still locked'
+    end
+
     local p = drug.process
-    if not Server.IsNearCoords(src, p.coords, 4.0) then
-        return false, 'Too far from the cook'
+    if not Server.IsNearCoords(src, p.coords, 4.5) then
+        return false, 'Too far from the bench'
     end
 
     local bucket = pendingBucket()

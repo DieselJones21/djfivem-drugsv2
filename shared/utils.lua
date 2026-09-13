@@ -30,16 +30,46 @@ function Utils.RandomFloat(min, max)
     return min + (math.random() * (max - min))
 end
 
+local drugByItem
+local drugsUsingItem
+
+local function rebuildDrugIndex()
+    drugByItem = {}
+    drugsUsingItem = {}
+    if not Config or not Config.Drugs then return end
+    for id, drug in pairs(Config.Drugs) do
+        if drug.item then
+            drugByItem[drug.item] = { id = id, drug = drug }
+        end
+        local ings = drug.ingredients or {}
+        for i = 1, #ings do
+            local item = ings[i].item
+            if item then
+                local bucket = drugsUsingItem[item]
+                if not bucket then
+                    bucket = {}
+                    drugsUsingItem[item] = bucket
+                end
+                bucket[#bucket + 1] = id
+            end
+        end
+    end
+end
+
 function Utils.GetDrug(drugId)
     return Config.Drugs[drugId]
 end
 
 function Utils.GetDrugByItem(itemName)
-    for id, drug in pairs(Config.Drugs) do
-        if drug.item == itemName then
-            return id, drug
-        end
-    end
+    if not drugByItem then rebuildDrugIndex() end
+    local row = drugByItem and drugByItem[itemName]
+    if not row then return nil end
+    return row.id, row.drug
+end
+
+function Utils.GetDrugsUsingItem(itemName)
+    if not drugsUsingItem then rebuildDrugIndex() end
+    return (drugsUsingItem and drugsUsingItem[itemName]) or {}
 end
 
 function Utils.GetSellableDrugs()
@@ -51,6 +81,53 @@ function Utils.GetSellableDrugs()
     end
     table.sort(list)
     return list
+end
+
+function Utils.GetDrugMinLevel(drug)
+    if type(drug) == 'string' then
+        drug = Utils.GetDrug(drug)
+    end
+    return math.max(1, math.floor(tonumber(drug and drug.minLevel) or 1))
+end
+
+function Utils.CanAccessDrug(sold, drugOrId)
+    local drug = type(drugOrId) == 'string' and Utils.GetDrug(drugOrId) or drugOrId
+    if not drug then return false end
+    local rank = Utils.GetRankForSold(sold)
+    return (rank.level or 1) >= Utils.GetDrugMinLevel(drug)
+end
+
+function Utils.CanAccessHarvestItem(sold, itemName)
+    if not itemName then return false end
+    local lace = Config.Lace and Config.Lace.item
+    if lace and itemName == lace then
+        return true
+    end
+    local users = Utils.GetDrugsUsingItem(itemName)
+    if #users == 0 then
+        return true
+    end
+    for i = 1, #users do
+        if Utils.CanAccessDrug(sold, users[i]) then
+            return true
+        end
+    end
+    return false
+end
+
+function Utils.IsWeedHarvest(spot)
+    return spot and (spot.weed == true or spot.plant == true)
+end
+
+function Utils.RecipeSignature(drug)
+    if not drug or not drug.ingredients then return '' end
+    local parts = {}
+    for i = 1, #drug.ingredients do
+        local ing = drug.ingredients[i]
+        parts[#parts + 1] = ('%s:%s'):format(ing.item or '?', tonumber(ing.amount) or 0)
+    end
+    table.sort(parts)
+    return table.concat(parts, '|')
 end
 
 function Utils.Distance(a, b)
