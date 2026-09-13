@@ -37,7 +37,7 @@ ensure djfivem-drugsv2
 3. **15 minute warning** before it ends (if the duration is longer than 15 minutes)
 4. Ended announce
 
-Paste the webhook in `Config.Boost.discordWebhook` or use the convar above. Empty webhook = in-game only.
+Boost Discord is already set in `Config.Boost.discordWebhook`. A non-empty `djdrugsv2_boost_webhook` convar still overrides it.
 
 Leave `Config.Boost.warningSeconds = 0` if you want an instant start with no lead-in.
 
