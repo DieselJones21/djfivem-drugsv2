@@ -30,6 +30,14 @@ local function enabled()
     return Config.Progression and Config.Progression.enabled ~= false
 end
 
+function Progress.GetSold(src)
+    if not enabled() then return 0 end
+    local char = Bridge.GetCharacter(src)
+    if not char then return 0 end
+    local row = Progress.stats[char.citizenid]
+    return row and row.sold or 0
+end
+
 function Progress.GetPayoutMultiplier(src)
     if not enabled() then return 1 end
     local char = Bridge.GetCharacter(src)
@@ -65,7 +73,24 @@ function Progress.RecordSale(src, quantity, earned)
 
     local after = Utils.GetRankForSold(row.sold)
     local leveled = (after.level or 1) > (before.level or 1)
+    if leveled then
+        TriggerClientEvent('djdrugsv2:client:rankUpdated', src, {
+            sold = row.sold,
+            level = after.level,
+            label = after.label,
+        })
+    end
     return leveled, after, row
+end
+
+lib.callback.register('djdrugsv2:server:getMyRank', function(source)
+    local sold = Progress.GetSold(source)
+    local rank = Utils.GetRankForSold(sold)
+    return {
+        sold = sold,
+        level = rank.level,
+        label = rank.label,
+    }
 end
 
 function Progress.GetBoard(src, limit)

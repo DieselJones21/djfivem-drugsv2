@@ -11,6 +11,11 @@ lib.callback.register('djdrugsv2:server:harvestStart', function(source, spotId, 
     local spot = Server.FindHarvest(spotId)
     if not spot then return false end
 
+    if not Utils.CanAccessHarvestItem(Progress.GetSold(source), spot.item) then
+        Server.Notify(source, 'You have not unlocked this yet', 'error')
+        return false
+    end
+
     if not Server.IsNearHarvestSpot(source, spot, entityKey) then
         Server.Notify(source, 'Too far away', 'error')
         return false
@@ -39,6 +44,11 @@ end)
 local function tryHarvest(src, spotId, entityKey)
     local spot = Server.FindHarvest(spotId)
     if not spot then return false end
+
+    if not Utils.CanAccessHarvestItem(Progress.GetSold(src), spot.item) then
+        Server.Notify(src, 'You have not unlocked this yet', 'error')
+        return false
+    end
 
     if not Server.IsNearHarvestSpot(src, spot, entityKey) then
         Server.Notify(src, 'Too far away', 'error')

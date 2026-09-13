@@ -1,102 +1,197 @@
-# Rebel Roleplay — Outlaw Drug Locations
+# Rebel Roleplay — Locations and Recipes
 
-This is the **Rebel** branch. Harvest fields and process NPCs are **not** the Envy farms — they were moved so both versions can run without sharing spots.
+Nothing is blipped except **Street Intel**. Pay that ped for GPS marks. Weed plants spawn and despawn. Every other ingredient is one sidewalk ped (E). Cooks are benches (E).
 
-Harvest fields are **client-sided**. Each player sees a subset of the position pool; after a successful harvest that prop despawns and another grows in a free slot. Props snap to the ground at each pool point.
+Ranks hide drugs until you unlock them. `/drughelp` shows only what your rank can see.
 
-One ingredient per recipe is a **dealer ped** (3rd eye). The rest of that recipe stays a harvest field. Every process location is a cook NPC (3rd eye), not a bench.
+## Ranks
 
-## Harvest fields
+| Rank | Units sold | Unlocks |
+|------|------------|---------|
+| 1 Prospect | 0 | Longhorn Kush, Dirt Road Haze, Swamp Lean |
+| 2 Outlaw | 250 | Gravel Dust, Chrome Snow, Sandlot Ice |
+| 3 Road Captain | 800 | Outlaw Brick, Honkytonk Rolls, Honda Pills |
+| 4 Shot Caller | 2,000 | Truck Juice, Stab Juice, Black Lotus |
+| 5 Rebel Kingpin | 4,500 | Cayo Crown |
 
-| Item | Coords | Prop |
-|------|--------|------|
-| Horn Nugs | 2447.12, 4975.88, 46.81 | `prop_weed_01` |
-| Zip Bags | 1703.44, 3596.21, 35.47 | ped `g_m_y_ballasout_01` |
-| Road Nugs | -1888.40, 2045.10, 140.98 | `prop_weed_01` |
-| Bush Leaves | 1142.55, -1486.22, 34.69 | `prop_plant_01a` |
-| Lab Solvent | 2763.18, 1675.44, 24.53 | `prop_barrel_exp_01a` |
-| Lithium Rocks | 2954.22, 2788.10, 41.50 | ped `s_m_y_construct_01` |
-| Camp Fuel | 724.80, 4191.40, 40.71 | `prop_jerrycan_01a` |
-| Raw Tar | 38.22, -2678.55, 6.01 | `prop_barrel_02b` |
-| Wrap Tape | 808.40, -2158.90, 29.62 | `prop_box_wood05a` |
-| Club Crystals | 239.10, -34.80, 69.90 | ped `a_m_y_hipster_02` |
-| Press Capsules | -1154.20, -2005.40, 13.18 | `prop_box_wood05a` |
-| Stamp Dies | 1240.60, -3179.20, 7.13 | `prop_box_wood05a` |
-| Purple Syrup | 243.40, -1785.20, 28.70 | ped `g_m_y_famdnf_01` |
-| Crushed Ice | 29.80, -1340.10, 29.50 | `prop_coolbox_01` |
-| Foam Cups | 1126.40, -645.80, 56.82 | `prop_food_bs_cups01` |
-| Spark Soda | -2972.10, 390.40, 15.04 | `prop_crate_11e` |
-| Hard Candy | -822.50, -1083.20, 11.13 | `prop_candy_pqs` |
-| Oil Sludge | 2735.80, 1551.20, 24.50 | ped `s_m_y_construct_02` |
-| Spark Caps | 1543.20, 2185.40, 78.80 | `prop_battery_01` |
-| Desert Dust | 2354.10, 3125.40, 48.21 | `prop_rock_4_c` |
-| Baking Soda | 1963.40, 3744.10, 32.34 | `prop_feed_sack_01` |
-| Cayo Palm Leaf | 4890.20, -4921.40, 3.37 | `prop_plant_01a` |
-| Reef Coral | 5132.80, -5115.60, 2.20 | `prop_rock_4_c` |
-| Perico Resin | 5136.40, -5524.10, 54.19 | `prop_barrel_01a` |
-| Gold Capsules | 4991.10, -5716.40, 19.88 | ped `u_m_y_party_01` |
-| Civic Bolts | -1461.35, 183.97, 55.92 (h 255.12) | ped `s_m_m_autoshop_02` |
-| Shift Powder | -1240.56, 370.68, 79.98 | `prop_feed_sack_01` |
-| Red Keycaps | -2210.24, 200.28, 174.59 | `prop_cs_pills` |
-| Rust Needles | -1167.72, 4926.44, 223.26 | `prop_ld_health_pack` |
-| Iodine Swabs | 3808.15, 4478.62, 4.15 | ped `s_m_m_doctor_01` |
-| Alley Tonic | -3192.48, 1296.22, 14.43 | `prop_drug_bottle` |
-| Black Petals | 760.19, -2233.98, 20.73 (h 178.86) | `prop_plant_01a` |
-| Temple Ash | -1999.00, 1881.05, 205.39 | `prop_rock_4_c` |
-| Ink Resin | -909.14, -191.47, 19.04 | ped `a_m_m_eastsa_02` |
-| Diesel Nugs | 2354.18, 1835.62, 102.10 | `prop_weed_01` |
-| Grease Wrap | 454.23, -1151.39, 29.29 | ped `s_m_m_autoshop_01` |
-| Iron Filters | 267.45, 2885.92, 43.61 | `prop_oilcan_01a` |
-| Street Lace | -468.55, -1718.10, 18.69 | `prop_cs_pills` |
+Personal recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) are **not** on this ladder. Any rank can cook them.
 
-## Process NPCs
+Street Lace is always available. It is not a finished drug.
 
-Every cook is a ped. Use **3rd eye**. Heading is the fourth `vector4` value.
+## Street Intel
 
-| Product | Coords (x, y, z) | Heading | Ped |
-|---------|------------------|---------|-----|
-| Longhorn Kush | 1960.85, 5174.22, 47.94 | 140.00 | `a_m_m_farmer_01` |
-| Dirt Road Haze | -2194.40, 4290.10, 49.17 | 235.00 | `a_m_o_salton_01` |
-| Chrome Snow | 968.20, -1828.40, 31.24 | 85.00 | `g_m_y_mexgoon_01` |
-| Sandlot Ice | 1391.55, 3606.80, 38.94 | 200.00 | `a_m_m_rurmeth_01` |
-| Outlaw Brick | 154.40, -3078.20, 5.98 | 270.00 | `g_m_y_lost_01` |
-| Honkytonk Rolls | 372.80, -1267.40, 32.51 | 50.00 | `a_m_y_hipster_01` |
-| Swamp Lean | 113.20, -1966.80, 21.33 | 15.00 | `g_m_y_famca_01` |
-| Truck Juice | 2748.10, 1454.60, 24.50 | 75.00 | `s_m_y_construct_01` |
-| Gravel Dust | 1980.40, 3049.70, 47.22 | 145.00 | `a_m_m_hillbilly_01` |
-| Cayo Crown | 4904.80, -5743.20, 26.35 | 330.00 | `u_m_y_party_01` |
-| Honda Pills | -1345.90, 55.78, 55.25 | 277.80 | `s_m_m_autoshop_02` |
-| Stab Juice | 3328.86, 5169.42, 18.31 | 290.00 | `g_m_y_mexgoon_02` |
-| Black Lotus | 1087.81, -212.98, 59.07 | 351.50 | `a_f_y_hippie_01` |
-| Diesels Pack | 2137.42, 4795.88, 41.14 | 25.00 | `s_m_y_construct_02` |
+| What | Coords | Heading | Ped |
+|------|--------|---------|-----|
+| Informant | `455.18, -1530.55, 29.28` | 50.0 | `g_m_m_chiboss_01` |
 
-## Bulk drop locations (`/drugbulksell`)
+- One mark: **$75,000 cash**
+- Full book (after you buy every mark once): **$75,000 x remaining marks**
+- **1 hour** cooldown between buys
+- Civ clean-money spots are already on the map and are **not** sold here: horn nugs, road nugs, zip bags, Longhorn bench, Dirt Road bench
 
-Orders are **100–200** units of one finished drug you already hold. Payout is **55% of that drug's street min price** (rank can still apply, but it stays below street min). The server picks a random drop from this list; canceling or finishing starts a cooldown so you cannot shop locations.
+## Benches
 
-| Drop | Coords |
-|------|--------|
-| Elysian crate yard | 164.12, -3312.55, 5.96 |
-| La Mesa loading bay | 837.21, -1936.40, 28.97 |
-| Cypress flats depot | 913.55, -1561.22, 30.74 |
-| Sandy Shores hangar | 1731.88, 3310.52, 41.22 |
-| Paleto lumber shed | -84.22, 6496.10, 31.49 |
-| Harmony motel lot | 1142.40, 2663.90, 38.16 |
-| Del Perro garage alley | -1393.55, -588.10, 30.32 |
-| Port terminal stack | 1181.40, -3113.80, 6.03 |
-| LSIA cargo fence | -941.50, -2954.80, 13.95 |
-| East LS backlot | 970.40, -126.55, 74.36 |
+| Kind | Prop | Used by |
+|------|------|---------|
+| Weed | `bkr_prop_weed_table_01a` | Longhorn Kush, Dirt Road Haze |
+| Hard | `bkr_prop_coke_table01a` | Chrome Snow, Sandlot Ice, Outlaw Brick, Honkytonk Rolls, Swamp Lean, Truck Juice, Gravel Dust, Cayo Crown |
+| Personal | `v_ret_ml_tableb` | Honda Pills, Stab Juice, Black Lotus, Diesels Pack |
 
-Walk up and press **E** on the crate (darktrovx `interact`).
+## Recipes and spots
 
-Copy `install/images/*.png` into `ox_inventory/web/images/` after updating.
+### Longhorn Kush — Prospect — cash $92–$161 (blipped)
+**3 horn nugs + 1 zip bag → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Horn Nugs | weed field | `2447.12, 4975.88, 46.81` Grapeseed |
+| Zip Bags | ped | `1703.44, 3596.21, 35.47` Sandy |
+| Bench | weed table | `1960.85, 5174.22, 47.94` |
+
+### Dirt Road Haze — Prospect — cash $109–$184 (blipped)
+**4 road nugs + 1 zip bag → 5**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Road Nugs | weed field | `-1888.40, 2045.10, 140.98` Chaparral |
+| Zip Bags | ped | same Sandy zip ped |
+| Bench | weed table | `-2194.40, 4290.10, 49.17` |
+
+### Swamp Lean — Prospect — dirty $138–$230
+**1 purple syrup + 1 crushed ice + 1 foam cup + 1 spark soda + 1 hard candy → 8**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Purple Syrup | ped | `243.40, -1785.20, 28.70` Davis |
+| Crushed Ice | ped | `29.80, -1340.10, 29.50` |
+| Foam Cups | ped | `1147.55, -776.82, 57.60` Mirror Park street |
+| Spark Soda | ped | `-2972.10, 390.40, 15.04` |
+| Hard Candy | ped | `-822.50, -1083.20, 11.13` |
+| Bench | coke table | `113.20, -1966.80, 21.33` |
+
+### Gravel Dust — Outlaw — dirty $184–$299
+**4 desert dust + 1 baking soda → 5**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Desert Dust | ped | `2354.10, 3125.40, 48.21` |
+| Baking Soda | ped | `1963.40, 3744.10, 32.34` Sandy |
+| Bench | coke table | `1980.40, 3049.70, 47.22` |
+
+### Chrome Snow — Outlaw — dirty $253–$426
+**2 bush leaves + 3 lab solvent + 1 zip bag → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Bush Leaves | ped | `1142.55, -1486.22, 34.69` La Mesa |
+| Lab Solvent | ped | `2763.18, 1675.44, 24.53` |
+| Zip Bags | ped | Sandy zip ped |
+| Bench | coke table | `968.20, -1828.40, 31.24` |
+
+### Sandlot Ice — Outlaw — dirty $230–$380
+**4 lithium rocks + 1 camp fuel → 5**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Lithium Rocks | ped | `2954.22, 2788.10, 41.50` quarry |
+| Camp Fuel | ped | `724.80, 4191.40, 40.71` Alamo |
+| Bench | coke table | `1391.55, 3606.80, 38.94` |
+
+### Outlaw Brick — Road Captain — dirty $280–$450
+**2 raw tar + 3 wrap tape + 1 zip bag → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Raw Tar | ped | `38.22, -2678.55, 6.01` docks |
+| Wrap Tape | ped | `808.40, -2158.90, 29.62` |
+| Zip Bags | ped | Sandy zip ped |
+| Bench | coke table | `154.40, -3078.20, 5.98` |
+
+### Honkytonk Rolls — Road Captain — dirty $400–$680
+**3 club crystals + 1 press capsule + 2 stamp dies → 7**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Club Crystals | ped | `239.10, -34.80, 69.90` Alta |
+| Press Capsules | ped | `-1154.20, -2005.40, 13.18` |
+| Stamp Dies | ped | `1240.60, -3179.20, 7.13` port |
+| Bench | coke table | `372.80, -1267.40, 32.51` |
+
+### Honda Pills — Personal (any rank) — dirty $350–$580
+**1 civic bolt + 3 shift powder + 2 red keycaps → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Civic Bolts | ped | `-1461.35, 183.97, 55.92` |
+| Shift Powder | ped | `-1177.85, 269.40, 68.50` |
+| Red Keycaps | ped | `-1527.15, 143.82, 55.65` |
+| Bench | personal table | `-1345.90, 55.78, 55.25` |
+
+### Truck Juice — Shot Caller — dirty $480–$780
+**2 oil sludge + 3 spark caps + 1 camp fuel → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Oil Sludge | ped | `2735.80, 1551.20, 24.50` |
+| Spark Caps | ped | `1692.18, 3585.55, 35.62` Sandy sidewalk |
+| Camp Fuel | ped | Alamo fuel ped |
+| Bench | coke table | `2748.10, 1454.60, 24.50` |
+
+### Stab Juice — Personal (any rank) — dirty $450–$720
+**3 rust needles + 1 iodine swab + 2 alley tonic → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Rust Needles | ped | `1689.55, 4817.20, 42.01` Grapeseed sidewalk |
+| Iodine Swabs | ped | `3808.15, 4478.62, 4.15` Cape Catfish |
+| Alley Tonic | ped | `-3173.20, 1088.40, 20.84` Chumash plaza |
+| Bench | personal table | `3328.86, 5169.42, 18.31` |
+
+### Black Lotus — Personal (any rank) — dirty $500–$820
+**4 black petals + 1 temple ash + 1 ink resin → 6**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Black Petals | ped | `760.19, -2233.98, 20.73` heading 178.86 |
+| Temple Ash | ped | `1842.20, 3779.40, 33.16` Sandy street |
+| Ink Resin | ped | `-909.14, -191.47, 19.04` |
+| Bench | personal table | `1087.81, -212.98, 59.07` |
+
+### Diesels Pack — Personal (any rank) — dirty $850–$1400
+**2 diesel nugs + 3 grease wrap + 2 iron filters → 8**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Diesel Nugs | weed field | `2354.18, 1835.62, 102.10` wind farm |
+| Grease Wrap | ped | `454.23, -1151.39, 29.29` |
+| Iron Filters | ped | `267.45, 2885.92, 43.61` |
+| Bench | personal table | `2137.42, 4795.88, 41.14` |
+
+### Cayo Crown — Kingpin — dirty $1600–$2500
+**2 cayo palm + 3 reef coral + 1 perico resin + 2 gold capsules → 8**
+
+| Step | Type | Coords |
+|------|------|--------|
+| Cayo Palm | ped | `4890.20, -4921.40, 3.37` beach |
+| Reef Coral | ped | `5132.80, -5115.60, 2.20` beach |
+| Perico Resin | ped | `4968.40, -5108.20, 2.98` beach |
+| Gold Capsules | ped | `4991.10, -5716.40, 19.88` |
+| Bench | coke table | `4904.80, -5743.20, 26.35` |
+
+### Street Lace — any rank — +35% on `/trap` and bulk
+| Step | Type | Coords |
+|------|------|--------|
+| Street Lace | ped | `-468.55, -1718.10, 18.69` La Puerta scrap |
+
+1 lace per unit sold.
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `/trap` | Street selling (3rd eye on the buyer — they talk on good/bad deals) |
-| `/drugbulksell` | Bulk warehouse drop |
-| `/drugbulkcancel` | Cancel bulk drop |
-| `/drugboard` | County leaderboard |
-| `/drugboost` | Admin boost panel |
+| Command | Who | What |
+|---------|-----|------|
+| `/drughelp` | players | In-game operator book |
+| `/trap` | players | Street sell (3rd eye the buyer) |
+| `/drugbulksell` | players | 100–200 unit warehouse drop |
+| `/drugbulkcancel` | players | Cancel the drop |
+| `/drugboard` | players | Rank + leaderboard |
+| `/drugboost` | admin ACE `djdrugsv2.boost` | Start/stop city boosts |

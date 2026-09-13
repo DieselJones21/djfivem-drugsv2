@@ -42,10 +42,13 @@ local function processDrug(drugId)
     end
 end
 
+local startedLabs = {}
+
 function Process.Init()
     for drugId, drug in pairs(Config.Drugs) do
         local p = drug.process
-        if p and p.coords then
+        if p and p.coords and not startedLabs[drugId] and Client.CanAccessDrug(drugId) then
+            startedLabs[drugId] = true
             Client.AddBlip(p.coords, p.blip)
 
             local groundCoords = Client.GetGroundCoords(p.coords)

@@ -1,6 +1,6 @@
 # djfivem-drugsv2 — Rebel Roleplay
 
-Outlaw drug economy for FiveM (QBX + ox_inventory) branded for **Rebel Roleplay**. Harvest ingredients from client-side props and one dealer ped per recipe, process with a cook NPC, and sell via `/trap`.
+Outlaw drug economy for FiveM (QBX + ox_inventory) branded for **Rebel Roleplay**. Weed plants still grow and die in the field. Every other ingredient is one sidewalk ped. Cooks happen on benches. Sell via `/trap`. `/drughelp` is the in-game book. Full coords and recipes: `install/LOCATIONS.md`. Operator runbook: `install/OPERATOR_GUIDE.md`.
 
 This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / Envy PRs. Rebel uses new item IDs, harvest fields, cook NPCs, and NUI so both can exist without overwriting each other.
 
@@ -8,50 +8,53 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 
 - **10 Rebel county drugs** plus a Cayo Perico exclusive
 - **Custom NUI** for leaderboard (`/drugboard`), boost admin (`/drugboost`), street deals, and bulk-drop HUD
-- **Client-sided harvest fields** — each player sees their own plants/props; harvest deletes that one immediately and another grows 3–6 seconds later in a different spot in the same field
-- **[darktrovx/interact](https://github.com/darktrovx/interact)** on harvest props and bulk crates (E prompt). Process NPCs, ingredient dealers, and street buyers stay on **ox_target** (3rd eye)
-- **Cook NPCs at every process location** — 3rd eye the ped, not a bench
-- **One ingredient dealer per recipe** — 3rd eye; the other ingredients stay harvest fields
-- **Varied recipes** — some cooks are efficient (Swamp Lean, Diesels Pack, Longhorn), some are expensive (Cayo Crown, Truck Juice, Black Lotus)
-- **Street Lace** — one map-wide cut. Sweep it at La Puerta scrap and lace any finished drug on `/trap` or bulk for **+35%**
+- **Weed fields still grow** — pick a plant, it despawns, another grows in 45–90s
+- **Every other ingredient is one sidewalk ped** (E / interact), snapped to the floor — no missing-prop dead spots
+- **Process benches** — weed table, coke table, or personal table (`v_ret_ml_tableb`)
+- **Hidden rank gates** — Prospect → Kingpin for street drugs. Personal recipes are open to every rank and are not on the ladder
+- **Street Intel ped** — $75k per hidden GPS mark, 1 hour cooldown. Civ weed / zip / weed benches are already blipped and are not sold.
+- **Unique recipes** and rebalanced street pay
+- **`/drughelp`** in-game operator book
+- **Boost Discord** — 15 minute warning, LIVE announce, 15 minute ending warning
+- **Street Lace** — La Puerta ped. 1 lace per unit sold on `/trap` or bulk for **+35%**
 - **`/drugbulksell`** — 100–200 unit warehouse drops at ~55% of street min price, random location from a pool of 10
 - **35% bad-sale snitch** on street traps (15% on bulk drops) that creates a Wasabi MDT / dispatch call (`10-66 Drug Sale`). Falls back to ps-dispatch if Wasabi is not started
 - **Ground-snapped props** on harvest spots
-- **Sell ranks & leaderboard** with KVP persistence (Prospect → Outlaw → Road Captain → Shot Caller → Rebel Kingpin)
-- **Admin boost events** (2x/3x/4x sell + harvest)
+- **Sell ranks & leaderboard** (Prospect → Outlaw → Road Captain → Shot Caller → Rebel Kingpin)
+- **Admin boost events** (2x/3x/4x sell + harvest) with Discord + city warnings
 - **Anti-exploit** server validation (proximity to the configured pool, cooldowns, token-based sales)
 - **Crazier use effects** — sprint capped at 1.49, heavier armor, screen FX on the full set
 
 ## Drugs
 
-| Drug | Pay | Effects |
-|------|-----|---------|
-| Longhorn Kush | cash | Run + drunk haze / screen FX |
-| Dirt Road Haze | cash | 1.40x sprint / screen FX |
-| Chrome Snow | black_money | 45% armor + 1.38x run / alien screen |
-| Sandlot Ice | black_money | 1.49x run / clown screen |
-| Outlaw Brick | black_money | 55% armor + health / drunk wreck |
-| Honkytonk Rolls | black_money | 1.49x sprint / alien screen |
-| Swamp Lean | black_money | Heavy drunk wreck / stress dump |
-| Truck Juice | black_money | 45% armor + 1.49x run / screen FX |
-| Gravel Dust | black_money | 1.49x run / clown screen |
-| Cayo Crown | black_money | 65% armor + run / alien screen |
-| Honda Pills | black_money | Player-owned — 1.49x run + armor |
-| Stab Juice | black_money | Player-owned — 45% armor + 50 HP |
-| Black Lotus | black_money | Player-owned — 50% armor + screen FX |
-| Diesels Pack | black_money | Player-owned — 60% armor + 1.49x run |
+| Drug | Rank | Pay | Effects |
+|------|------|-----|---------|
+| Longhorn Kush | Prospect | cash $92–161 | Run + drunk haze |
+| Dirt Road Haze | Prospect | cash $109–184 | 1.40x sprint |
+| Swamp Lean | Prospect | dirty $138–230 | Drunk wreck / stress dump |
+| Gravel Dust | Outlaw | dirty $184–299 | 1.49x run |
+| Chrome Snow | Outlaw | dirty $253–426 | 45% armor + run |
+| Sandlot Ice | Outlaw | dirty $230–380 | 1.49x run |
+| Outlaw Brick | Road Captain | dirty $280–450 | 55% armor + drunk |
+| Honkytonk Rolls | Road Captain | dirty $400–680 | 1.49x sprint |
+| Truck Juice | Shot Caller | dirty $480–780 | 45% armor + 1.49x |
+| Cayo Crown | Kingpin | dirty $1600–2500 | 65% armor + run |
+| Honda Pills | Personal (any rank) | dirty $350–580 | 1.49x run + armor |
+| Stab Juice | Personal (any rank) | dirty $450–720 | 45% armor + 50 HP |
+| Black Lotus | Personal (any rank) | dirty $500–820 | 50% armor + screen |
+| Diesels Pack | Personal (any rank) | dirty $850–1400 | 60% armor + 1.49x |
 
 Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
 
-The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) each use **3 ingredients**. One ingredient per recipe is a dealer ped (3rd eye); the rest stay harvest fields. Zip bags is the shared bagman for the cooks that use it.
+Personal drugs cook on `v_ret_ml_tableb`. Weed bags cook on `bkr_prop_weed_table_01a`. Everything else cooks on `bkr_prop_coke_table01a`. Zip bags is the shared bagman.
 
 ## Dependencies
 
 - [ox_lib](https://github.com/overextended/ox_lib)
 - [ox_inventory](https://github.com/overextended/ox_inventory)
 - [qbx_core](https://github.com/Qbox-Project/qbx_core)
-- [interact](https://github.com/darktrovx/interact) — E prompt on harvest props and bulk crates
-- [ox_target](https://github.com/overextended/ox_target) — 3rd eye on process NPCs, ingredient dealers, and street buyers
+- [interact](https://github.com/darktrovx/interact) — E on weed plants, benches, ingredient peds, informant, bulk crates
+- [ox_target](https://github.com/overextended/ox_target) — 3rd eye on street buyers only
 - [wasabi_mdt](https://docs.wasabiscripts.com/advanced-series/wasabi-mdt/) — preferred snitch alerts (server `CreateDispatch` into MDT + dispatch). Folder must be named `wasabi_mdt`
 - [ps-dispatch](https://github.com/Project-Sloth/ps-dispatch) — fallback if Wasabi is not started
 
@@ -61,11 +64,12 @@ The four **player-owned** recipes (Honda Pills, Stab Juice, Black Lotus, Diesels
 2. Merge `install/ox_inventory_items.lua` into `ox_inventory/data/items.lua`
 3. Copy `install/images/*.png` into `ox_inventory/web/images/` (photorealistic product stills)
 
-Process NPC coordinates are listed in `install/LOCATIONS.md`.
+Coords, recipes, and ranks: `install/LOCATIONS.md`. How to run the city: `install/OPERATOR_GUIDE.md`.
 4. Add to `server.cfg`:
 
 ```cfg
 add_ace group.admin djdrugsv2.boost allow
+setr djdrugsv2_boost_webhook "https://discord.com/api/webhooks/...."
 ensure ox_target
 ensure interact
 ensure wasabi_mdt
@@ -84,31 +88,32 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 | `/trap` | Start/stop street selling (use **3rd eye** on the buyer) |
 | `/drugbulksell` | Take a 100–200 unit drop at a random warehouse (pays less than `/trap`) |
 | `/drugbulkcancel` | Cancel the current bulk drop (starts a shorter cooldown) |
+| `/drughelp` | In-game book: ranks, how it works, unlocked recipes |
 | `/drugboard` | Open the sell leaderboard |
-| `/drugboost` | Admin boost event panel |
+| `/drugboost` | Admin boost event panel (15 min Discord + city warning, then LIVE) |
 
 ## Crafting
 
-| Drug | Recipe | Output | Notes |
-|------|--------|--------|-------|
-| Longhorn Kush | 2 horn nugs + 1 zip bag | **8** | Best weed yield |
-| Dirt Road Haze | 3 road nugs + 2 zip bags | 6 | Solid cook |
-| Chrome Snow | 3 bush + 2 solvent + 2 zip | 8 | City brick |
-| Sandlot Ice | 3 lithium + 2 fuel + 2 solvent | 7 | Even cook |
-| Outlaw Brick | 3 tar + 2 tape + 2 zip | 7 | Even cook |
-| Honkytonk Rolls | 2 crystals + 2 capsules + 1 die | **8** | Efficient press |
-| Swamp Lean | 2+2+1+1+1 mixers | **10** | Easy pour |
-| Truck Juice | 3 sludge + 2 caps + 2 fuel | 7 | Even cook |
-| Gravel Dust | 2 dust + 2 soda + 1 zip | 6 | Decent |
-| Cayo Crown | 3 palm + 2 coral + 2 resin + 2 gold | **10** | Island fat cook |
-| Honda Pills | 2 bolts + 2 powder + 1 keycap | 7 | Mid |
-| Stab Juice | 2 needles + 2 swabs + 2 tonic | 6 | Combat tonic |
-| Black Lotus | 2 petals + 2 ash + 2 resin | 6 | Ritual cook |
-| Diesels Pack | 3 nugs + 2 wrap + 2 filters | **10** | Best player-owned yield |
+| Drug | Recipe | Output | Rank |
+|------|--------|--------|------|
+| Longhorn Kush | 3 horn nugs + 1 zip | **6** | Prospect (blipped) |
+| Dirt Road Haze | 4 road nugs + 1 zip | 5 | Prospect (blipped) |
+| Swamp Lean | 1+1+1+1+1 mixers | **8** | Prospect |
+| Gravel Dust | 4 dust + 1 soda | 5 | Outlaw |
+| Chrome Snow | 2 bush + 3 solvent + 1 zip | 6 | Outlaw |
+| Sandlot Ice | 4 lithium + 1 fuel | 5 | Outlaw |
+| Outlaw Brick | 2 tar + 3 tape + 1 zip | 6 | Road Captain |
+| Honkytonk Rolls | 3 crystals + 1 capsule + 2 dies | **7** | Road Captain |
+| Truck Juice | 2 sludge + 3 caps + 1 fuel | 6 | Shot Caller |
+| Cayo Crown | 2 palm + 3 coral + 1 resin + 2 gold | **8** | Kingpin |
+| Honda Pills | 1 bolt + 3 powder + 2 keycaps | 6 | Personal |
+| Stab Juice | 3 needles + 1 swab + 2 tonic | 6 | Personal |
+| Black Lotus | 4 petals + 1 ash + 1 resin | 6 | Personal |
+| Diesels Pack | 2 nugs + 3 wrap + 2 filters | **8** | Personal |
 
-Every recipe returns **at least as much product as it eats**. Sweep **Street Lace** and the buyer pays **+35%** if you have 1 lace per unit sold.
+Every recipe is unique and returns **at least as much product as it eats**. Street Lace +35% if you have 1 lace per unit sold.
 
-Flow: Harvest scattered props or talk to a dealer ped → 3rd eye a cook NPC → `/trap` for street prices, or stockpile 100–200 and `/drugbulksell` for a cheaper warehouse drop.
+Flow: `/drughelp` → pay Street Intel for a mark → E a weed plant or supply ped → E the bench → `/trap` or `/drugbulksell`.
 
 ## Tests
 

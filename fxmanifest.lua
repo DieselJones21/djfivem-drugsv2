@@ -26,6 +26,8 @@ client_scripts {
     'client/progress.lua',
     'client/effects.lua',
     'client/boost.lua',
+    'client/informant.lua',
+    'client/help.lua',
 }
 
 server_scripts {
@@ -38,6 +40,7 @@ server_scripts {
     'server/bulk.lua',
     'server/effects.lua',
     'server/boost.lua',
+    'server/informant.lua',
 }
 
 ui_page 'html/index.html'
@@ -57,8 +60,7 @@ dependencies {
     'ox_target',
 }
 
--- Preferred: ensure `interact` (darktrovx) before this resource so harvest props and bulk crates use E.
--- Process NPCs, one ingredient dealer per recipe, and street buyers stay on ox_target (3rd eye).
+-- Preferred: ensure `interact` before this resource so weed plants, benches,
+-- ingredient peds, informant, and bulk crates use E. Street buyers stay ox_target.
 -- Optional: start wasabi_mdt (preferred) and/or ps-dispatch for snitch sale alerts.
--- Wasabi must be created from the SERVER CreateDispatch export — civilian
--- client CreateDispatch is rejected. ps-dispatch is the fallback only.
+-- Optional: set convar djdrugsv2_boost_webhook for Discord boost warnings.
