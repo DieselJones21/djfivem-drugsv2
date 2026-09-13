@@ -91,7 +91,7 @@ lib.callback.register('djdrugsv2:server:getMyRank', function(source)
         level = rank.level,
         label = rank.label,
     }
-end
+end)
 
 function Progress.GetBoard(src, limit)
     limit = limit or (Config.Progression and Config.Progression.leaderboardSize) or 10
