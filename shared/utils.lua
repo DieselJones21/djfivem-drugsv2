@@ -83,9 +83,19 @@ function Utils.GetSellableDrugs()
     return list
 end
 
+function Utils.IsPersonalDrug(drug)
+    if type(drug) == 'string' then
+        drug = Utils.GetDrug(drug)
+    end
+    return drug and drug.playerOwned == true
+end
+
 function Utils.GetDrugMinLevel(drug)
     if type(drug) == 'string' then
         drug = Utils.GetDrug(drug)
+    end
+    if Utils.IsPersonalDrug(drug) then
+        return 0
     end
     return math.max(1, math.floor(tonumber(drug and drug.minLevel) or 1))
 end
@@ -93,8 +103,29 @@ end
 function Utils.CanAccessDrug(sold, drugOrId)
     local drug = type(drugOrId) == 'string' and Utils.GetDrug(drugOrId) or drugOrId
     if not drug then return false end
+    if Utils.IsPersonalDrug(drug) then
+        return true
+    end
     local rank = Utils.GetRankForSold(sold)
     return (rank.level or 1) >= Utils.GetDrugMinLevel(drug)
+end
+
+function Utils.IsPublicLocation(entry)
+    if not entry then return false end
+    if entry.public == true then return true end
+    if entry.kind == 'harvest' and entry.item then
+        for i = 1, #(Config.Harvest or {}) do
+            local spot = Config.Harvest[i]
+            if spot.item == entry.item and spot.public then
+                return true
+            end
+        end
+    end
+    if entry.kind == 'process' and entry.drugId then
+        local drug = Utils.GetDrug(entry.drugId)
+        return drug and (drug.kind == 'weed' or (drug.process and drug.process.public))
+    end
+    return false
 end
 
 function Utils.CanAccessHarvestItem(sold, itemName)

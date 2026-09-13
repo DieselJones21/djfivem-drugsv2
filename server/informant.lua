@@ -29,17 +29,19 @@ local function catalog()
     local list = {}
     for i = 1, #Config.Harvest do
         local spot = Config.Harvest[i]
-        list[#list + 1] = {
-            id = 'harvest:' .. spot.id,
-            kind = 'harvest',
-            item = spot.item,
-            label = spot.label,
-            coords = spot.coords,
-        }
+        if not spot.public then
+            list[#list + 1] = {
+                id = 'harvest:' .. spot.id,
+                kind = 'harvest',
+                item = spot.item,
+                label = spot.label,
+                coords = spot.coords,
+            }
+        end
     end
     for drugId, drug in pairs(Config.Drugs) do
         local p = drug.process
-        if p and p.coords then
+        if p and p.coords and not p.public and drug.kind ~= 'weed' then
             list[#list + 1] = {
                 id = 'process:' .. drugId,
                 kind = 'process',
@@ -50,6 +52,11 @@ local function catalog()
         end
     end
     return list
+end
+
+local function markPrice(count)
+    local each = tonumber(cfg().singlePrice) or 75000
+    return math.max(each, each * math.max(1, tonumber(count) or 1))
 end
 
 local function unlockedFor(sold, entry)
@@ -121,8 +128,8 @@ lib.callback.register('djdrugsv2:server:getIntel', function(source)
         total = #snap.available,
         tourDone = snap.row.tourDone == true or #snap.unrevealed == 0,
         cooldown = cooldownLeft(snap.row),
-        singlePrice = cfg().singlePrice or 25000,
-        allPrice = cfg().allPrice or 175000,
+        singlePrice = cfg().singlePrice or 75000,
+        allPrice = markPrice(math.max(#snap.unrevealed, 1)),
         moneyType = cfg().moneyType or 'cash',
     }
 end)
@@ -152,7 +159,7 @@ lib.callback.register('djdrugsv2:server:buyIntel', function(source, mode)
         if not canPack then
             return false, 'Buy each mark first, then I sell the full book'
         end
-        local price = cfg().allPrice or 175000
+        local price = cfg().allPrice or markPrice(#snap.unrevealed > 0 and #snap.unrevealed or #snap.available)
         if not takeMoney(source, price, moneyType) then
             return false, ('Need %s %s'):format(Utils.FormatMoney(price), moneyType)
         end
@@ -169,7 +176,7 @@ lib.callback.register('djdrugsv2:server:buyIntel', function(source, mode)
         return false, 'You already bought every mark you can use'
     end
 
-    local price = cfg().singlePrice or 25000
+    local price = cfg().singlePrice or 75000
     if not takeMoney(source, price, moneyType) then
         return false, ('Need %s %s'):format(Utils.FormatMoney(price), moneyType)
     end

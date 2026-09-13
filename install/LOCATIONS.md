@@ -12,7 +12,9 @@ Ranks hide drugs until you unlock them. `/drughelp` shows only what your rank ca
 | 2 Outlaw | 250 | Gravel Dust, Chrome Snow, Sandlot Ice |
 | 3 Road Captain | 800 | Outlaw Brick, Honkytonk Rolls, Honda Pills |
 | 4 Shot Caller | 2,000 | Truck Juice, Stab Juice, Black Lotus |
-| 5 Rebel Kingpin | 4,500 | Diesels Pack, Cayo Crown |
+| 5 Rebel Kingpin | 4,500 | Cayo Crown |
+
+Personal recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) are **not** on this ladder. Any rank can cook them.
 
 Street Lace is always available. It is not a finished drug.
 
@@ -22,9 +24,10 @@ Street Lace is always available. It is not a finished drug.
 |------|--------|---------|-----|
 | Informant | `455.18, -1530.55, 29.28` | 50.0 | `g_m_m_chiboss_01` |
 
-- One mark: **$25,000 cash**
-- Full book (after you buy every mark once): **$175,000 cash**
+- One mark: **$75,000 cash**
+- Full book (after you buy every mark once): **$75,000 x remaining marks**
 - **1 hour** cooldown between buys
+- Civ clean-money spots are already on the map and are **not** sold here: horn nugs, road nugs, zip bags, Longhorn bench, Dirt Road bench
 
 ## Benches
 
@@ -36,7 +39,7 @@ Street Lace is always available. It is not a finished drug.
 
 ## Recipes and spots
 
-### Longhorn Kush — Prospect — cash $80–$140
+### Longhorn Kush — Prospect — cash $92–$161 (blipped)
 **3 horn nugs + 1 zip bag → 6**
 
 | Step | Type | Coords |
@@ -45,7 +48,7 @@ Street Lace is always available. It is not a finished drug.
 | Zip Bags | ped | `1703.44, 3596.21, 35.47` Sandy |
 | Bench | weed table | `1960.85, 5174.22, 47.94` |
 
-### Dirt Road Haze — Prospect — cash $95–$160
+### Dirt Road Haze — Prospect — cash $109–$184 (blipped)
 **4 road nugs + 1 zip bag → 5**
 
 | Step | Type | Coords |
@@ -54,7 +57,7 @@ Street Lace is always available. It is not a finished drug.
 | Zip Bags | ped | same Sandy zip ped |
 | Bench | weed table | `-2194.40, 4290.10, 49.17` |
 
-### Swamp Lean — Prospect — dirty $120–$200
+### Swamp Lean — Prospect — dirty $138–$230
 **1 purple syrup + 1 crushed ice + 1 foam cup + 1 spark soda + 1 hard candy → 8**
 
 | Step | Type | Coords |
@@ -66,7 +69,7 @@ Street Lace is always available. It is not a finished drug.
 | Hard Candy | ped | `-822.50, -1083.20, 11.13` |
 | Bench | coke table | `113.20, -1966.80, 21.33` |
 
-### Gravel Dust — Outlaw — dirty $160–$260
+### Gravel Dust — Outlaw — dirty $184–$299
 **4 desert dust + 1 baking soda → 5**
 
 | Step | Type | Coords |
@@ -75,7 +78,7 @@ Street Lace is always available. It is not a finished drug.
 | Baking Soda | ped | `1963.40, 3744.10, 32.34` Sandy |
 | Bench | coke table | `1980.40, 3049.70, 47.22` |
 
-### Chrome Snow — Outlaw — dirty $220–$370
+### Chrome Snow — Outlaw — dirty $253–$426
 **2 bush leaves + 3 lab solvent + 1 zip bag → 6**
 
 | Step | Type | Coords |
@@ -85,7 +88,7 @@ Street Lace is always available. It is not a finished drug.
 | Zip Bags | ped | Sandy zip ped |
 | Bench | coke table | `968.20, -1828.40, 31.24` |
 
-### Sandlot Ice — Outlaw — dirty $200–$330
+### Sandlot Ice — Outlaw — dirty $230–$380
 **4 lithium rocks + 1 camp fuel → 5**
 
 | Step | Type | Coords |
@@ -114,7 +117,7 @@ Street Lace is always available. It is not a finished drug.
 | Stamp Dies | ped | `1240.60, -3179.20, 7.13` port |
 | Bench | coke table | `372.80, -1267.40, 32.51` |
 
-### Honda Pills — Road Captain — dirty $350–$580
+### Honda Pills — Personal (any rank) — dirty $350–$580
 **1 civic bolt + 3 shift powder + 2 red keycaps → 6**
 
 | Step | Type | Coords |
@@ -134,7 +137,7 @@ Street Lace is always available. It is not a finished drug.
 | Camp Fuel | ped | Alamo fuel ped |
 | Bench | coke table | `2748.10, 1454.60, 24.50` |
 
-### Stab Juice — Shot Caller — dirty $450–$720
+### Stab Juice — Personal (any rank) — dirty $450–$720
 **3 rust needles + 1 iodine swab + 2 alley tonic → 6**
 
 | Step | Type | Coords |
@@ -144,7 +147,7 @@ Street Lace is always available. It is not a finished drug.
 | Alley Tonic | ped | `-3173.20, 1088.40, 20.84` Chumash plaza |
 | Bench | personal table | `3328.86, 5169.42, 18.31` |
 
-### Black Lotus — Shot Caller — dirty $500–$820
+### Black Lotus — Personal (any rank) — dirty $500–$820
 **4 black petals + 1 temple ash + 1 ink resin → 6**
 
 | Step | Type | Coords |
@@ -154,7 +157,7 @@ Street Lace is always available. It is not a finished drug.
 | Ink Resin | ped | `-909.14, -191.47, 19.04` |
 | Bench | personal table | `1087.81, -212.98, 59.07` |
 
-### Diesels Pack — Kingpin — dirty $850–$1400
+### Diesels Pack — Personal (any rank) — dirty $850–$1400
 **2 diesel nugs + 3 grease wrap + 2 iron filters → 8**
 
 | Step | Type | Coords |

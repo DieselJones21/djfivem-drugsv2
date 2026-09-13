@@ -65,7 +65,7 @@ local function openMenu()
         {
             title = 'Buy one location',
             description = ('%s  ·  %s left  ·  1 hour cooldown'):format(
-                Utils.FormatMoney(data.singlePrice or 25000),
+                Utils.FormatMoney(data.singlePrice or 75000),
                 data.remaining or 0
             ),
             icon = 'map-pin',
@@ -79,7 +79,7 @@ local function openMenu()
     if data.tourDone then
         options[#options + 1] = {
             title = 'Buy all unlocked locations',
-            description = ('%s  ·  every mark your rank can use'):format(Utils.FormatMoney(data.allPrice or 175000)),
+            description = ('%s  ·  $75k each remaining mark'):format(Utils.FormatMoney(data.allPrice or 75000)),
             icon = 'map',
             disabled = (data.cooldown or 0) > 0,
             onSelect = function()

@@ -29,7 +29,18 @@ local function openRecipes()
         local id = ids[i]
         local drug = Utils.GetDrug(id)
         local unlocked = Utils.CanAccessDrug(sold, id)
-        if unlocked then
+        if Utils.IsPersonalDrug(drug) then
+            options[#options + 1] = {
+                title = ('%s  ·  Personal'):format(drug.label),
+                description = ('Any rank  ·  %s  →  %sx  ·  %s–%s'):format(
+                    recipeLine(drug),
+                    drug.process.output.amount,
+                    Utils.FormatMoney(drug.sell.minPrice),
+                    Utils.FormatMoney(drug.sell.maxPrice)
+                ),
+                icon = 'user',
+            }
+        elseif unlocked then
             options[#options + 1] = {
                 title = ('%s  ·  Rank %s'):format(drug.label, Utils.GetDrugMinLevel(drug)),
                 description = ('%s  →  %sx  ·  %s–%s'):format(
@@ -67,7 +78,7 @@ local function openHelp()
             {
                 title = rankLine(),
                 icon = 'user',
-                description = 'Sell finished product to rank up. New drugs stay hidden until that rank.',
+                description = 'Sell to rank up and unlock hidden street drugs. Personal recipes are always open.',
             },
             {
                 title = 'How it works',
@@ -79,8 +90,8 @@ local function openHelp()
                         title = 'How it works',
                         menu = 'djdrugsv2_help',
                         options = {
-                            { title = '1. Rank', description = 'Prospect starts weed + lean. Each rank unlocks hidden drugs.', icon = '1' },
-                            { title = '2. Find marks', description = 'Pay the Street Intel ped for one GPS mark. 1 hour cooldown. After every mark, buy the full book.', icon = '2' },
+                            { title = '1. Rank', description = 'Prospect starts clean weed. Each rank unlocks hidden street drugs. Personal recipes are never ranked.', icon = '1' },
+                            { title = '2. Find marks', description = 'Civ weed, zip bags, and weed benches are already on the map. Pay Street Intel $75k per other mark. 1 hour cooldown.', icon = '2' },
                             { title = '3. Collect', description = 'E on weed plants (they die and grow back). E on ingredient peds for supplies.', icon = '3' },
                             { title = '4. Cook', description = 'Weed table, personal table, or coke table. Must have the recipe items and the rank.', icon = '4' },
                             { title = '5. Sell', description = '/trap 3rd-eyes a buyer. /drugbulksell for 100–200 unit drops. Street Lace +35%.', icon = '5' },

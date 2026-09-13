@@ -5,8 +5,8 @@ This is how to run the live economy. Player-facing help is `/drughelp`. Coordina
 ## What players do
 
 1. Sell product with `/trap` to rank up. Locked drugs stay hidden.
-2. Pay **Street Intel** (`455.18, -1530.55, 29.28`) for one GPS mark. $25k cash. 1 hour cooldown.
-3. After they buy every mark their rank can use, they can pay $175k for the full book.
+2. Civ weed fields, the zip-bag ped, and both weed benches are already blipped. Pay **Street Intel** (`455.18, -1530.55, 29.28`) **$75k cash per other mark**. 1 hour cooldown.
+3. After they buy every hidden mark their rank can use, they can buy the rest of the book at $75k each.
 4. Collect: **E** on weed plants (they die, another grows in 45–90s). **E** on sidewalk peds for every other ingredient.
 5. Cook: **E** on the bench. Weed table / coke table / personal table.
 6. Sell: `/trap` or `/drugbulksell`. Street Lace +35%. 35% chance a buyer snitches (Wasabi MDT, ps-dispatch fallback).
@@ -53,7 +53,7 @@ Edit `minLevel` on each drug in `config/drugs.lua`. Harvest peds and benches for
 | Recipes | `config/drugs.lua` `ingredients` + `process.output` | Output must stay ≥ ingredient total |
 | Ped / field coords | `config/config.lua` `Config.Harvest` | One ped per non-weed item |
 | Bench coords | `config/drugs.lua` `process.coords` | Client snaps to floor |
-| Informant price / cooldown | `Config.Informant` | Default $25k / $175k / 3600s |
+| Informant price / cooldown | `Config.Informant` | $75k per mark / 3600s |
 | Weed grow-back | `Config.WeedRespawn` | 45–90 seconds |
 | Snitch chance | `Config.Dispatch.chance` | 35% street, 15% bulk |
 | Boost lead-in | `Config.Boost.warningSeconds` | 15 minutes |

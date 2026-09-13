@@ -217,7 +217,8 @@ Config.Boost = {
     -- Also warn Discord / city 15 minutes before a live boost ends.
     endingWarningSeconds = 15 * 60,
     -- Paste a Discord webhook URL, or set convar djdrugsv2_boost_webhook
-    discordWebhook = GetConvar and GetConvar('djdrugsv2_boost_webhook', '') or '',
+    discordWebhook = (GetConvar and GetConvar('djdrugsv2_boost_webhook', '') ~= '' and GetConvar('djdrugsv2_boost_webhook', ''))
+        or 'https://discord.com/api/webhooks/1548557503992696832/DKk722nRUAH_lhTQHi-hAFChx0BwNWdcdRjxYLBDFXfjurTWY4bSMrxxHnPeF4TeTYlx',
     discordUsername = 'Rebel Boost Desk',
 }
 
@@ -236,8 +237,8 @@ Config.Informant = {
     model = `g_m_m_chiboss_01`,
     scenario = 'WORLD_HUMAN_SMOKING',
     moneyType = 'cash',
-    singlePrice = 25000,
-    allPrice = 175000,
+    singlePrice = 75000, -- each GPS mark
+    allPrice = nil, -- charged as singlePrice x remaining marks
     cooldown = 60 * 60,
     blip = { enabled = true, sprite = 280, color = 5, scale = 0.75, label = 'Street Intel' },
 }
@@ -361,21 +362,25 @@ Config.Harvest = {
         id = 'horn_nugs_field',
         item = 'horn_nugs',
         label = 'Harvest Horn Nugs',
+        public = true,
         coords = vec3(2447.12, 4975.88, 46.81),
         radius = 12.0,
         pool = 20,
         model = `prop_weed_01`,
         duration = 6500,
+        blip = { enabled = true, sprite = 469, color = 2, scale = 0.75, label = 'Horn Nugs' },
     }),
     field({
         id = 'road_nugs_field',
         item = 'road_nugs',
         label = 'Harvest Road Nugs',
+        public = true,
         coords = vec3(-1888.40, 2045.10, 140.98),
         radius = 10.0,
         pool = 16,
         model = `prop_weed_01`,
         duration = 6500,
+        blip = { enabled = true, sprite = 469, color = 2, scale = 0.75, label = 'Road Nugs' },
     }),
     field({
         id = 'diesel_nugs',
@@ -395,10 +400,12 @@ Config.Harvest = {
         id = 'zip_bags_supply',
         item = 'zip_bags',
         label = 'Buy Zip Bags',
+        public = true,
         coords = vec3(1703.44, 3596.21, 35.47),
         heading = 90.0,
         model = `g_m_y_ballasout_01`,
         duration = 5000,
+        blip = { enabled = true, sprite = 478, color = 2, scale = 0.75, label = 'Zip Bags' },
     }),
     pedSpot({
         id = 'bush_leaves',

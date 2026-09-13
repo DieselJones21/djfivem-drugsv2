@@ -11,8 +11,8 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 - **Weed fields still grow** — pick a plant, it despawns, another grows in 45–90s
 - **Every other ingredient is one sidewalk ped** (E / interact), snapped to the floor — no missing-prop dead spots
 - **Process benches** — weed table, coke table, or personal table (`v_ret_ml_tableb`)
-- **Hidden rank gates** — Prospect → Kingpin. Next rank unlocks more drugs; locked ones stay hidden
-- **Street Intel ped** — $25k for one GPS mark, 1 hour cooldown, then $175k for the full book
+- **Hidden rank gates** — Prospect → Kingpin for street drugs. Personal recipes are open to every rank and are not on the ladder
+- **Street Intel ped** — $75k per hidden GPS mark, 1 hour cooldown. Civ weed / zip / weed benches are already blipped and are not sold.
 - **Unique recipes** and rebalanced street pay
 - **`/drughelp`** in-game operator book
 - **Boost Discord** — 15 minute warning, LIVE announce, 15 minute ending warning
@@ -29,20 +29,20 @@ This is a **branched version** of the Envy Roleplay set. Envy stays on `main` / 
 
 | Drug | Rank | Pay | Effects |
 |------|------|-----|---------|
-| Longhorn Kush | Prospect | cash $80–140 | Run + drunk haze |
-| Dirt Road Haze | Prospect | cash $95–160 | 1.40x sprint |
-| Swamp Lean | Prospect | dirty $120–200 | Drunk wreck / stress dump |
-| Gravel Dust | Outlaw | dirty $160–260 | 1.49x run |
-| Chrome Snow | Outlaw | dirty $220–370 | 45% armor + run |
-| Sandlot Ice | Outlaw | dirty $200–330 | 1.49x run |
+| Longhorn Kush | Prospect | cash $92–161 | Run + drunk haze |
+| Dirt Road Haze | Prospect | cash $109–184 | 1.40x sprint |
+| Swamp Lean | Prospect | dirty $138–230 | Drunk wreck / stress dump |
+| Gravel Dust | Outlaw | dirty $184–299 | 1.49x run |
+| Chrome Snow | Outlaw | dirty $253–426 | 45% armor + run |
+| Sandlot Ice | Outlaw | dirty $230–380 | 1.49x run |
 | Outlaw Brick | Road Captain | dirty $280–450 | 55% armor + drunk |
 | Honkytonk Rolls | Road Captain | dirty $400–680 | 1.49x sprint |
-| Honda Pills | Road Captain | dirty $350–580 | 1.49x run + armor |
 | Truck Juice | Shot Caller | dirty $480–780 | 45% armor + 1.49x |
-| Stab Juice | Shot Caller | dirty $450–720 | 45% armor + 50 HP |
-| Black Lotus | Shot Caller | dirty $500–820 | 50% armor + screen |
-| Diesels Pack | Kingpin | dirty $850–1400 | 60% armor + 1.49x |
 | Cayo Crown | Kingpin | dirty $1600–2500 | 65% armor + run |
+| Honda Pills | Personal (any rank) | dirty $350–580 | 1.49x run + armor |
+| Stab Juice | Personal (any rank) | dirty $450–720 | 45% armor + 50 HP |
+| Black Lotus | Personal (any rank) | dirty $500–820 | 50% armor + screen |
+| Diesels Pack | Personal (any rank) | dirty $850–1400 | 60% armor + 1.49x |
 
 Weed strains pay clean cash. Everything else pays dirty money. Rank and boost multipliers apply on top of each drug's min/max price.
 
@@ -96,20 +96,20 @@ If you already run the Envy version, do **not** overwrite Envy items or images. 
 
 | Drug | Recipe | Output | Rank |
 |------|--------|--------|------|
-| Longhorn Kush | 3 horn nugs + 1 zip | **6** | Prospect |
-| Dirt Road Haze | 4 road nugs + 1 zip | 5 | Prospect |
+| Longhorn Kush | 3 horn nugs + 1 zip | **6** | Prospect (blipped) |
+| Dirt Road Haze | 4 road nugs + 1 zip | 5 | Prospect (blipped) |
 | Swamp Lean | 1+1+1+1+1 mixers | **8** | Prospect |
 | Gravel Dust | 4 dust + 1 soda | 5 | Outlaw |
 | Chrome Snow | 2 bush + 3 solvent + 1 zip | 6 | Outlaw |
 | Sandlot Ice | 4 lithium + 1 fuel | 5 | Outlaw |
 | Outlaw Brick | 2 tar + 3 tape + 1 zip | 6 | Road Captain |
 | Honkytonk Rolls | 3 crystals + 1 capsule + 2 dies | **7** | Road Captain |
-| Honda Pills | 1 bolt + 3 powder + 2 keycaps | 6 | Road Captain |
 | Truck Juice | 2 sludge + 3 caps + 1 fuel | 6 | Shot Caller |
-| Stab Juice | 3 needles + 1 swab + 2 tonic | 6 | Shot Caller |
-| Black Lotus | 4 petals + 1 ash + 1 resin | 6 | Shot Caller |
-| Diesels Pack | 2 nugs + 3 wrap + 2 filters | **8** | Kingpin |
 | Cayo Crown | 2 palm + 3 coral + 1 resin + 2 gold | **8** | Kingpin |
+| Honda Pills | 1 bolt + 3 powder + 2 keycaps | 6 | Personal |
+| Stab Juice | 3 needles + 1 swab + 2 tonic | 6 | Personal |
+| Black Lotus | 4 petals + 1 ash + 1 resin | 6 | Personal |
+| Diesels Pack | 2 nugs + 3 wrap + 2 filters | **8** | Personal |
 
 Every recipe is unique and returns **at least as much product as it eats**. Street Lace +35% if you have 1 lace per unit sold.
 
