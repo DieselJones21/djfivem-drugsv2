@@ -10,7 +10,7 @@ Client = {
 
 function Client.Notify(description, nType)
     lib.notify({
-        title = Config.Brand or 'Rebel Roleplay',
+        title = Config.Brand or 'The 305',
         description = description,
         type = nType or 'inform',
     })
@@ -371,5 +371,5 @@ CreateThread(function()
     if Bulk and Bulk.Init then
         Bulk.Init()
     end
-    Utils.Debug('client ready (qbx) — Rebel Roleplay theme')
+    Utils.Debug('client ready (qbx) — The 305 Miami theme')
 end)

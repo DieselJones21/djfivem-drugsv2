@@ -1,13 +1,11 @@
 --[[
-    Rebel Roleplay outlaw set — 10 county drugs + 4 player-owned customs
+    The 305 — Miami street set (10 drugs, no player-owned customs)
 
-    Branched from Envy. Item IDs are new so both versions can exist on one inventory if needed.
-
-    Each recipe is unique and returns at least as much product as it eats.
-    Weed bags use bkr_prop_weed_table_01a, personal drugs use v_ret_ml_tableb,
-    everything else uses bkr_prop_coke_table01a. minLevel hides a drug until
-    that sell rank. Weed strains pay clean cash; everything else pays black_money.
-    Effects are cranked (sprint cap 1.49).
+    Weed bags use bkr_prop_weed_table_01a. Everything else uses
+    bkr_prop_coke_table01a. minLevel hides a drug until that sell rank.
+    Two beach weeds pay clean cash; all others pay black_money.
+    Effects stay loud (sprint cap 1.49). Each recipe is unique and
+    returns at least as much product as it eats.
 ]]
 
 local function processAnim()
@@ -28,8 +26,6 @@ local function processBench(kind, heading)
     local model = `bkr_prop_coke_table01a`
     if kind == 'weed' then
         model = `bkr_prop_weed_table_01a`
-    elseif kind == 'personal' then
-        model = `v_ret_ml_tableb`
     end
     return {
         model = model,
@@ -39,29 +35,29 @@ end
 
 Config.Drugs = {
     --------------------------------------------------
-    -- Longhorn Kush — ranch weed — cash, run + drunk haze
+    -- South Beach Kush — Vespucci Beach — cash
     --------------------------------------------------
-    longhorn_kush = {
-        label = 'Longhorn Kush',
-        item = 'longhorn_kush',
+    south_beach_kush = {
+        label = 'South Beach Kush',
+        item = 'south_beach_kush',
         kind = 'weed',
         minLevel = 1,
-        description = 'Outlaw ranch kush that hits harder than it looks',
-        theme = 'Grapeseed',
+        description = 'Boardwalk kush bagged for the strip',
+        theme = 'South Beach',
         ingredients = {
-            { item = 'horn_nugs', amount = 3 },
+            { item = 'beach_bud', amount = 3 },
             { item = 'zip_bags', amount = 1 },
         },
         process = {
-            label = 'Bag Longhorn Kush',
-            coords = vec3(1960.85, 5174.22, 47.94),
-            heading = 140.0,
+            label = 'Bag South Beach Kush',
+            coords = vec3(-1198.70, -1548.40, 4.33),
+            heading = 210.0,
             duration = 9000,
-            prop = processBench('weed', 140.0),
+            prop = processBench('weed', 210.0),
             anim = bagAnim(),
-            output = { item = 'longhorn_kush', amount = 6 },
+            output = { item = 'south_beach_kush', amount = 6 },
             public = true,
-            blip = { enabled = true, sprite = 469, color = 2, scale = 0.8, label = 'Longhorn Kush Cook' },
+            blip = { enabled = true, sprite = 469, color = 8, scale = 0.8, label = 'South Beach Kush Cook' },
         },
         sell = {
             enabled = true,
@@ -74,7 +70,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Smoking Longhorn Kush',
+            label = 'Smoking South Beach Kush',
             useTime = 4500,
             duration = 70000,
             anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
@@ -89,29 +85,29 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Dirt Road Haze — country sativa — cash, fast run + screen
+    -- Calle Ocho Haze — Vespucci Canals / Little Havana
     --------------------------------------------------
-    dirt_road_haze = {
-        label = 'Dirt Road Haze',
-        item = 'dirt_road_haze',
+    calle_ocho_haze = {
+        label = 'Calle Ocho Haze',
+        item = 'calle_ocho_haze',
         kind = 'weed',
         minLevel = 1,
-        description = 'Chaparral haze that lights up the legs',
-        theme = 'Great Chaparral',
+        description = 'Canal-grown haze that lights up the legs',
+        theme = 'Little Havana',
         ingredients = {
-            { item = 'road_nugs', amount = 4 },
+            { item = 'canal_nugs', amount = 4 },
             { item = 'zip_bags', amount = 1 },
         },
         process = {
-            label = 'Bag Dirt Road Haze',
-            coords = vec3(-2194.40, 4290.10, 49.17),
-            heading = 235.0,
+            label = 'Bag Calle Ocho Haze',
+            coords = vec3(-1062.40, -1443.20, 5.42),
+            heading = 125.0,
             duration = 9000,
-            prop = processBench('weed', 235.0),
+            prop = processBench('weed', 125.0),
             anim = bagAnim(),
-            output = { item = 'dirt_road_haze', amount = 5 },
+            output = { item = 'calle_ocho_haze', amount = 5 },
             public = true,
-            blip = { enabled = true, sprite = 469, color = 2, scale = 0.8, label = 'Dirt Road Haze Cook' },
+            blip = { enabled = true, sprite = 469, color = 8, scale = 0.8, label = 'Calle Ocho Haze Cook' },
         },
         sell = {
             enabled = true,
@@ -124,7 +120,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Smoking Dirt Road Haze',
+            label = 'Smoking Calle Ocho Haze',
             useTime = 4000,
             duration = 65000,
             anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
@@ -138,29 +134,128 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Chrome Snow — industrial coke — heavy armor + run + screen
+    -- Vice Purple — Davis / Little Haiti analogue
     --------------------------------------------------
-    chrome_snow = {
-        label = 'Chrome Snow',
-        item = 'chrome_snow',
+    vice_purple = {
+        label = 'Vice Purple',
+        item = 'vice_purple',
+        kind = 'hard',
+        minLevel = 1,
+        description = 'South-side lean that turns the world magenta',
+        theme = 'Little Haiti',
+        ingredients = {
+            { item = 'purple_syrup', amount = 1 },
+            { item = 'crushed_ice', amount = 1 },
+            { item = 'foam_cups', amount = 1 },
+            { item = 'spark_soda', amount = 1 },
+            { item = 'hard_candy', amount = 1 },
+        },
+        process = {
+            label = 'Pour Vice Purple',
+            coords = vec3(113.20, -1966.80, 21.33),
+            heading = 15.0,
+            duration = 10000,
+            prop = processBench('hard', 15.0),
+            anim = bagAnim(),
+            output = { item = 'vice_purple', amount = 8 },
+            blip = { enabled = false, sprite = 499, color = 27, label = 'Vice Purple Cook' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 138,
+            maxPrice = 230,
+            minQty = 1,
+            maxQty = 5,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Sipping Vice Purple',
+            useTime = 4000,
+            duration = 80000,
+            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
+            stress = -70,
+            walk = 'move_m@drunk@verydrunk',
+            drunkCamera = true,
+            timecycle = 'Drunk',
+            timecycleStrength = 0.8,
+            shake = { intensity = 0.5, duration = 14000 },
+        },
+    },
+
+    --------------------------------------------------
+    -- 305 Heat — Little Havana stim
+    --------------------------------------------------
+    heat_305 = {
+        label = '305 Heat',
+        item = 'heat_305',
         kind = 'hard',
         minLevel = 2,
-        description = 'City brick cut until it shines',
-        theme = 'La Mesa',
+        description = 'Calle stim that rips the horizon pink',
+        theme = 'Little Havana',
         ingredients = {
-            { item = 'bush_leaves', amount = 2 },
+            { item = 'neon_dust', amount = 4 },
+            { item = 'baking_soda', amount = 1 },
+        },
+        process = {
+            label = 'Cut 305 Heat',
+            coords = vec3(-1087.60, -1674.80, 4.49),
+            heading = 305.0,
+            duration = 10000,
+            prop = processBench('hard', 305.0),
+            anim = bagAnim(),
+            output = { item = 'heat_305', amount = 5 },
+            blip = { enabled = false, sprite = 51, color = 8, label = '305 Heat Cook' },
+        },
+        sell = {
+            enabled = true,
+            moneyType = 'black_money',
+            minPrice = 184,
+            maxPrice = 299,
+            minQty = 1,
+            maxQty = 6,
+        },
+        effects = {
+            enabled = true,
+            noScreenFx = false,
+            label = 'Railing 305 Heat',
+            useTime = 2500,
+            duration = 65000,
+            anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
+            stamina = true,
+            sprintMultiplier = 1.49,
+            shake = { intensity = 0.42, duration = 9000 },
+            timecycle = 'drug_flying_01',
+            timecycleStrength = 0.75,
+            screenEffect = 'DrugsTrevorClownsFight',
+        },
+    },
+
+    --------------------------------------------------
+    -- Brickell Snow — downtown high-rise coke
+    --------------------------------------------------
+    brickell_snow = {
+        label = 'Brickell Snow',
+        item = 'brickell_snow',
+        kind = 'hard',
+        minLevel = 2,
+        description = 'Tower brick cut until it shines',
+        theme = 'Brickell',
+        ingredients = {
+            { item = 'tropical_leaves', amount = 2 },
             { item = 'lab_solvent', amount = 3 },
             { item = 'zip_bags', amount = 1 },
         },
         process = {
-            label = 'Cut Chrome Snow',
-            coords = vec3(968.20, -1828.40, 31.24),
-            heading = 85.0,
+            label = 'Cut Brickell Snow',
+            coords = vec3(289.40, -1163.80, 29.29),
+            heading = 90.0,
             duration = 12000,
-            prop = processBench('hard', 85.0),
+            prop = processBench('hard', 90.0),
             anim = processAnim(),
-            output = { item = 'chrome_snow', amount = 6 },
-            blip = { enabled = false, sprite = 501, color = 0, label = 'Chrome Snow Cook' },
+            output = { item = 'brickell_snow', amount = 6 },
+            blip = { enabled = false, sprite = 501, color = 0, label = 'Brickell Snow Cook' },
         },
         sell = {
             enabled = true,
@@ -173,7 +268,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Snorting Chrome Snow',
+            label = 'Snorting Brickell Snow',
             useTime = 3200,
             duration = 70000,
             anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
@@ -188,28 +283,28 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Sandlot Ice — desert meth — max run + wild screen
+    -- Biscayne Ice — Del Perro marina meth
     --------------------------------------------------
-    sandlot_ice = {
-        label = 'Sandlot Ice',
-        item = 'sandlot_ice',
+    biscayne_ice = {
+        label = 'Biscayne Ice',
+        item = 'biscayne_ice',
         kind = 'hard',
         minLevel = 2,
-        description = 'Sandy-cooked ice that redlines the legs',
-        theme = 'Sandy Shores',
+        description = 'Marina-cooked ice that redlines the legs',
+        theme = 'Biscayne',
         ingredients = {
-            { item = 'lithium_rocks', amount = 4 },
-            { item = 'camp_fuel', amount = 1 },
+            { item = 'tide_rocks', amount = 4 },
+            { item = 'boat_fuel', amount = 1 },
         },
         process = {
-            label = 'Cook Sandlot Ice',
-            coords = vec3(1391.55, 3606.80, 38.94),
-            heading = 200.0,
+            label = 'Cook Biscayne Ice',
+            coords = vec3(-806.40, -1349.60, 5.17),
+            heading = 140.0,
             duration = 13000,
-            prop = processBench('hard', 200.0),
+            prop = processBench('hard', 140.0),
             anim = processAnim(),
-            output = { item = 'sandlot_ice', amount = 5 },
-            blip = { enabled = false, sprite = 499, color = 17, label = 'Sandlot Ice Cook' },
+            output = { item = 'biscayne_ice', amount = 5 },
+            blip = { enabled = false, sprite = 499, color = 3, label = 'Biscayne Ice Cook' },
         },
         sell = {
             enabled = true,
@@ -222,7 +317,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Hitting Sandlot Ice',
+            label = 'Hitting Biscayne Ice',
             useTime = 2800,
             duration = 75000,
             anim = { dict = 'switch@trevor@trev_smoking_meth', clip = 'trev_smoking_meth_loop', flag = 49 },
@@ -237,29 +332,29 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Outlaw Brick — tar brick — heavy armor + drunk wreck
+    -- Port Brick — Port of Miami analogue
     --------------------------------------------------
-    outlaw_brick = {
-        label = 'Outlaw Brick',
-        item = 'outlaw_brick',
+    port_brick = {
+        label = 'Port Brick',
+        item = 'port_brick',
         kind = 'hard',
         minLevel = 3,
-        description = 'Dock-wrapped brick that drops you in the mud',
-        theme = 'Elysian Island',
+        description = 'Dock-wrapped brick that drops you in the tide',
+        theme = 'Port of Miami',
         ingredients = {
-            { item = 'raw_tar', amount = 2 },
+            { item = 'port_tar', amount = 2 },
             { item = 'wrap_tape', amount = 3 },
             { item = 'zip_bags', amount = 1 },
         },
         process = {
-            label = 'Wrap Outlaw Brick',
+            label = 'Wrap Port Brick',
             coords = vec3(154.40, -3078.20, 5.98),
             heading = 270.0,
             duration = 12000,
             prop = processBench('hard', 270.0),
             anim = bagAnim(),
-            output = { item = 'outlaw_brick', amount = 6 },
-            blip = { enabled = false, sprite = 501, color = 1, label = 'Outlaw Brick Cook' },
+            output = { item = 'port_brick', amount = 6 },
+            blip = { enabled = false, sprite = 501, color = 1, label = 'Port Brick Cook' },
         },
         sell = {
             enabled = true,
@@ -272,7 +367,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Using Outlaw Brick',
+            label = 'Using Port Brick',
             useTime = 4000,
             duration = 80000,
             anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
@@ -287,29 +382,29 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Honkytonk Rolls — molly — max run + wild screen
+    -- Ocean Drive Rolls — Del Perro strip molly
     --------------------------------------------------
-    honkytonk_rolls = {
-        label = 'Honkytonk Rolls',
-        item = 'honkytonk_rolls',
+    ocean_drive_rolls = {
+        label = 'Ocean Drive Rolls',
+        item = 'ocean_drive_rolls',
         kind = 'hard',
         minLevel = 3,
-        description = 'Pressed club rolls that blow the roof off',
-        theme = 'Alta',
+        description = 'Pressed strip rolls that blow the roof off',
+        theme = 'Ocean Drive',
         ingredients = {
-            { item = 'club_crystals', amount = 3 },
+            { item = 'drive_crystals', amount = 3 },
             { item = 'press_capsules', amount = 1 },
-            { item = 'stamp_dies', amount = 2 },
+            { item = 'vice_stamps', amount = 2 },
         },
         process = {
-            label = 'Press Honkytonk Rolls',
-            coords = vec3(372.80, -1267.40, 32.51),
+            label = 'Press Ocean Drive Rolls',
+            coords = vec3(-1535.20, -454.80, 35.89),
             heading = 50.0,
             duration = 11000,
             prop = processBench('hard', 50.0),
             anim = bagAnim(),
-            output = { item = 'honkytonk_rolls', amount = 7 },
-            blip = { enabled = false, sprite = 51, color = 1, label = 'Honkytonk Press' },
+            output = { item = 'ocean_drive_rolls', amount = 7 },
+            blip = { enabled = false, sprite = 51, color = 8, label = 'Ocean Drive Press' },
         },
         sell = {
             enabled = true,
@@ -322,7 +417,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Popping Honkytonk Rolls',
+            label = 'Popping Ocean Drive Rolls',
             useTime = 2500,
             duration = 70000,
             anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
@@ -338,80 +433,29 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Swamp Lean — drunk wreck + heavy stress dump
+    -- Neon Rush — port stim juice
     --------------------------------------------------
-    swamp_lean = {
-        label = 'Swamp Lean',
-        item = 'swamp_lean',
-        kind = 'hard',
-        minLevel = 1,
-        description = 'South-side lean that turns the world purple',
-        theme = 'Davis',
-        ingredients = {
-            { item = 'purple_syrup', amount = 1 },
-            { item = 'crushed_ice', amount = 1 },
-            { item = 'foam_cups', amount = 1 },
-            { item = 'spark_soda', amount = 1 },
-            { item = 'hard_candy', amount = 1 },
-        },
-        process = {
-            label = 'Pour Swamp Lean',
-            coords = vec3(113.20, -1966.80, 21.33),
-            heading = 15.0,
-            duration = 10000,
-            prop = processBench('hard', 15.0),
-            anim = bagAnim(),
-            output = { item = 'swamp_lean', amount = 8 },
-            blip = { enabled = false, sprite = 499, color = 27, label = 'Swamp Lean Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 138,
-            maxPrice = 230,
-            minQty = 1,
-            maxQty = 5,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Sipping Swamp Lean',
-            useTime = 4000,
-            duration = 80000,
-            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
-            stress = -70,
-            walk = 'move_m@drunk@verydrunk',
-            drunkCamera = true,
-            timecycle = 'Drunk',
-            timecycleStrength = 0.8,
-            shake = { intensity = 0.5, duration = 14000 },
-        },
-    },
-
-    --------------------------------------------------
-    -- Truck Juice — oilfield stim — max run + armor + screen
-    --------------------------------------------------
-    truck_juice = {
-        label = 'Truck Juice',
-        item = 'truck_juice',
+    neon_rush = {
+        label = 'Neon Rush',
+        item = 'neon_rush',
         kind = 'hard',
         minLevel = 4,
-        description = 'Diesel stim that keeps crews redlined',
-        theme = 'Power station oil',
+        description = 'Port-side neon juice that keeps crews redlined',
+        theme = 'Port of Miami',
         ingredients = {
-            { item = 'oil_sludge', amount = 2 },
-            { item = 'spark_caps', amount = 3 },
-            { item = 'camp_fuel', amount = 1 },
+            { item = 'rush_sludge', amount = 2 },
+            { item = 'neon_caps', amount = 3 },
+            { item = 'boat_fuel', amount = 1 },
         },
         process = {
-            label = 'Mix Truck Juice',
-            coords = vec3(2748.10, 1454.60, 24.50),
-            heading = 75.0,
+            label = 'Mix Neon Rush',
+            coords = vec3(1048.50, -3095.80, 5.90),
+            heading = 90.0,
             duration = 11000,
-            prop = processBench('hard', 75.0),
+            prop = processBench('hard', 90.0),
             anim = processAnim(),
-            output = { item = 'truck_juice', amount = 6 },
-            blip = { enabled = false, sprite = 499, color = 17, label = 'Truck Juice Cook' },
+            output = { item = 'neon_rush', amount = 6 },
+            blip = { enabled = false, sprite = 499, color = 8, label = 'Neon Rush Cook' },
         },
         sell = {
             enabled = true,
@@ -424,7 +468,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Drinking Truck Juice',
+            label = 'Drinking Neon Rush',
             useTime = 2800,
             duration = 70000,
             anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
@@ -438,59 +482,11 @@ Config.Drugs = {
     },
 
     --------------------------------------------------
-    -- Gravel Dust — desert speed — max run + flying screen
+    -- Perico Gold — Cayo exclusive
     --------------------------------------------------
-    gravel_dust = {
-        label = 'Gravel Dust',
-        item = 'gravel_dust',
-        kind = 'hard',
-        minLevel = 2,
-        description = 'Desert speed that rips the horizon',
-        theme = 'Grand Senora Desert',
-        ingredients = {
-            { item = 'desert_dust', amount = 4 },
-            { item = 'baking_soda', amount = 1 },
-        },
-        process = {
-            label = 'Cut Gravel Dust',
-            coords = vec3(1980.40, 3049.70, 47.22),
-            heading = 145.0,
-            duration = 10000,
-            prop = processBench('hard', 145.0),
-            anim = bagAnim(),
-            output = { item = 'gravel_dust', amount = 5 },
-            blip = { enabled = false, sprite = 51, color = 5, label = 'Gravel Dust Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 184,
-            maxPrice = 299,
-            minQty = 1,
-            maxQty = 6,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Railing Gravel Dust',
-            useTime = 2500,
-            duration = 65000,
-            anim = { dict = 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', clip = 'machinic_loop_mechandplayer', flag = 49 },
-            stamina = true,
-            sprintMultiplier = 1.49,
-            shake = { intensity = 0.42, duration = 9000 },
-            timecycle = 'drug_flying_01',
-            timecycleStrength = 0.75,
-            screenEffect = 'DrugsTrevorClownsFight',
-        },
-    },
-
-    --------------------------------------------------
-    -- Cayo Crown — island exclusive — heavy armor + run + screen
-    --------------------------------------------------
-    cayo_crown = {
-        label = 'Cayo Crown',
-        item = 'cayo_crown',
+    perico_gold = {
+        label = 'Perico Gold',
+        item = 'perico_gold',
         kind = 'hard',
         minLevel = 5,
         description = 'Island gold that makes you feel untouchable',
@@ -502,14 +498,14 @@ Config.Drugs = {
             { item = 'gold_capsules', amount = 2 },
         },
         process = {
-            label = 'Press Cayo Crown',
+            label = 'Press Perico Gold',
             coords = vec3(4904.80, -5743.20, 26.35),
             heading = 330.0,
             duration = 15000,
             prop = processBench('hard', 330.0),
             anim = bagAnim(),
-            output = { item = 'cayo_crown', amount = 8 },
-            blip = { enabled = false, sprite = 51, color = 5, label = 'Cayo Crown Cook' },
+            output = { item = 'perico_gold', amount = 8 },
+            blip = { enabled = false, sprite = 51, color = 5, label = 'Perico Gold Cook' },
         },
         sell = {
             enabled = true,
@@ -522,7 +518,7 @@ Config.Drugs = {
         effects = {
             enabled = true,
             noScreenFx = false,
-            label = 'Popping Cayo Crown',
+            label = 'Popping Perico Gold',
             useTime = 2800,
             duration = 90000,
             anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
@@ -534,205 +530,6 @@ Config.Drugs = {
             timecycleStrength = 0.55,
             screenEffect = 'DrugsMichaelAliensFight',
             shake = { intensity = 0.25, duration = 6000 },
-        },
-    },
-
-    --------------------------------------------------
-    -- PLAYER-OWNED CUSTOM SET
-    -- Signature recipes. Yields are not equal — Diesels Pack cooks fat,
-    -- Black Lotus is expensive, Honda is in the middle.
-    --------------------------------------------------
-
-    honda_pills = {
-        label = 'Honda Pills',
-        item = 'honda_pills',
-        kind = 'personal',
-        minLevel = 0,
-        playerOwned = true,
-        description = 'Player-owned racing pills — Civic bolts, shift powder, red keycaps',
-        theme = 'Rockford Hills garage',
-        ingredients = {
-            { item = 'civic_bolts', amount = 1 },
-            { item = 'shift_powder', amount = 3 },
-            { item = 'red_keycaps', amount = 2 },
-        },
-        process = {
-            label = 'Press Honda Pills',
-            coords = vec3(-1345.90, 55.78, 55.25),
-            heading = 277.80,
-            duration = 11000,
-            prop = processBench('personal', 277.80),
-            anim = bagAnim(),
-            output = { item = 'honda_pills', amount = 6 },
-            blip = { enabled = false, sprite = 51, color = 1, label = 'Honda Pills Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 350,
-            maxPrice = 580,
-            minQty = 1,
-            maxQty = 5,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Popping Honda Pills',
-            useTime = 2800,
-            duration = 55000,
-            anim = { dict = 'mp_player_inteat@burger', clip = 'mp_player_int_eat_burger', flag = 49 },
-            armorPercent = 30,
-            stamina = true,
-            sprintMultiplier = 1.49,
-            timecycle = 'drug_flying_01',
-            timecycleStrength = 0.55,
-            shake = { intensity = 0.32, duration = 7000 },
-        },
-    },
-
-    stab_juice = {
-        label = 'Stab Juice',
-        item = 'stab_juice',
-        kind = 'personal',
-        minLevel = 0,
-        playerOwned = true,
-        description = 'Player-owned combat tonic — rust needles, iodine swabs, alley tonic',
-        theme = 'Chiliad cult / Cape Catfish',
-        ingredients = {
-            { item = 'rust_needles', amount = 3 },
-            { item = 'iodine_swabs', amount = 1 },
-            { item = 'alley_tonic', amount = 2 },
-        },
-        process = {
-            label = 'Brew Stab Juice',
-            coords = vec3(3328.86, 5169.42, 18.31),
-            heading = 290.0,
-            duration = 12000,
-            prop = processBench('personal', 290.0),
-            anim = processAnim(),
-            output = { item = 'stab_juice', amount = 6 },
-            blip = { enabled = false, sprite = 499, color = 1, label = 'Stab Juice Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 450,
-            maxPrice = 720,
-            minQty = 1,
-            maxQty = 5,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Drinking Stab Juice',
-            useTime = 3200,
-            duration = 60000,
-            anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle', flag = 49 },
-            armorPercent = 45,
-            health = 50,
-            stamina = true,
-            sprintMultiplier = 1.40,
-            shake = { intensity = 0.42, duration = 8000 },
-            walk = 'move_m@drunk@moderatedrunk',
-            drunkCamera = true,
-        },
-    },
-
-    black_lotus = {
-        label = 'Black Lotus',
-        item = 'black_lotus',
-        kind = 'personal',
-        minLevel = 0,
-        playerOwned = true,
-        description = 'Player-owned night bloom — black petals, temple ash, ink resin',
-        theme = 'Cypress Flats / Lake Vinewood / Rockford',
-        ingredients = {
-            { item = 'black_petals', amount = 4 },
-            { item = 'temple_ash', amount = 1 },
-            { item = 'ink_resin', amount = 1 },
-        },
-        process = {
-            label = 'Bind Black Lotus',
-            coords = vec3(1087.81, -212.98, 59.07),
-            heading = 351.50,
-            duration = 14000,
-            prop = processBench('personal', 351.50),
-            anim = bagAnim(),
-            output = { item = 'black_lotus', amount = 6 },
-            blip = { enabled = false, sprite = 51, color = 27, label = 'Black Lotus Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 500,
-            maxPrice = 820,
-            minQty = 1,
-            maxQty = 4,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Smoking Black Lotus',
-            useTime = 4500,
-            duration = 75000,
-            anim = { dict = 'amb@world_human_smoking@male@male_a@idle_a', clip = 'idle_b', flag = 49 },
-            armorPercent = 50,
-            stress = -60,
-            walk = 'move_m@drunk@verydrunk',
-            drunkCamera = true,
-            timecycle = 'drug_wobbly',
-            timecycleStrength = 0.7,
-            shake = { intensity = 0.28, duration = 10000 },
-            screenEffect = 'DrugsMichaelAliensFight',
-        },
-    },
-
-    diesels_pack = {
-        label = 'Diesels Pack',
-        item = 'diesels_pack',
-        kind = 'personal',
-        minLevel = 0,
-        playerOwned = true,
-        description = 'Player-owned house pack — diesel nugs, grease wrap, iron filters',
-        theme = 'Wind farm / McKenzie Field',
-        ingredients = {
-            { item = 'diesel_nugs', amount = 2 },
-            { item = 'grease_wrap', amount = 3 },
-            { item = 'iron_filters', amount = 2 },
-        },
-        process = {
-            label = 'Bag Diesels Pack',
-            coords = vec3(2137.42, 4795.88, 41.14),
-            heading = 25.0,
-            duration = 13000,
-            prop = processBench('personal', 25.0),
-            anim = bagAnim(),
-            output = { item = 'diesels_pack', amount = 8 },
-            blip = { enabled = false, sprite = 469, color = 5, label = 'Diesels Pack Cook' },
-        },
-        sell = {
-            enabled = true,
-            moneyType = 'black_money',
-            minPrice = 850,
-            maxPrice = 1400,
-            minQty = 1,
-            maxQty = 4,
-        },
-        effects = {
-            enabled = true,
-            noScreenFx = false,
-            label = 'Hitting Diesels Pack',
-            useTime = 3500,
-            duration = 70000,
-            anim = { dict = 'switch@trevor@trev_smoking_meth', clip = 'trev_smoking_meth_loop', flag = 49 },
-            armorPercent = 60,
-            health = 50,
-            stamina = true,
-            sprintMultiplier = 1.49,
-            timecycle = 'spectator5',
-            timecycleStrength = 0.6,
-            screenEffect = 'DrugsTrevorClownsFight',
-            shake = { intensity = 0.38, duration = 9000 },
         },
     },
 }

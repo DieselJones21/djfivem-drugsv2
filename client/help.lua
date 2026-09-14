@@ -29,18 +29,7 @@ local function openRecipes()
         local id = ids[i]
         local drug = Utils.GetDrug(id)
         local unlocked = Utils.CanAccessDrug(sold, id)
-        if Utils.IsPersonalDrug(drug) then
-            options[#options + 1] = {
-                title = ('%s  ·  Personal'):format(drug.label),
-                description = ('Any rank  ·  %s  →  %sx  ·  %s–%s'):format(
-                    recipeLine(drug),
-                    drug.process.output.amount,
-                    Utils.FormatMoney(drug.sell.minPrice),
-                    Utils.FormatMoney(drug.sell.maxPrice)
-                ),
-                icon = 'user',
-            }
-        elseif unlocked then
+        if unlocked then
             options[#options + 1] = {
                 title = ('%s  ·  Rank %s'):format(drug.label, Utils.GetDrugMinLevel(drug)),
                 description = ('%s  →  %sx  ·  %s–%s'):format(
@@ -73,12 +62,12 @@ local function openHelp()
     Client.SyncRank()
     lib.registerContext({
         id = 'djdrugsv2_help',
-        title = 'Rebel Drug Desk',
+        title = '305 Drug Desk',
         options = {
             {
                 title = rankLine(),
                 icon = 'user',
-                description = 'Sell to rank up and unlock hidden street drugs. Personal recipes are always open.',
+                description = 'Sell to rank up and unlock hidden Miami street drugs.',
             },
             {
                 title = 'How it works',
@@ -90,11 +79,11 @@ local function openHelp()
                         title = 'How it works',
                         menu = 'djdrugsv2_help',
                         options = {
-                            { title = '1. Rank', description = 'Prospect starts clean weed. Each rank unlocks hidden street drugs. Personal recipes are never ranked.', icon = '1' },
+                            { title = '1. Rank', description = 'Beach Runner starts clean weed. Each rank unlocks hidden street drugs. No personal recipes.', icon = '1' },
                             { title = '2. Find marks', description = 'Civ weed, zip bags, and weed benches are already on the map. Pay Street Intel $75k per other mark. 1 hour cooldown.', icon = '2' },
                             { title = '3. Collect', description = 'E on weed plants (they die and grow back). E on ingredient peds for supplies.', icon = '3' },
-                            { title = '4. Cook', description = 'Weed table, personal table, or coke table. Must have the recipe items and the rank.', icon = '4' },
-                            { title = '5. Sell', description = '/trap 3rd-eyes a buyer. /drugbulksell for 100–200 unit drops. Street Lace +35%.', icon = '5' },
+                            { title = '4. Cook', description = 'Weed table or coke table. Must have the recipe items and the rank.', icon = '4' },
+                            { title = '5. Sell', description = '/trap 3rd-eyes a buyer. /drugbulksell for 100–200 unit drops. Vice Lace +35%.', icon = '5' },
                             { title = '6. Boosts', description = 'Admins run /drugboost. City + Discord get a 15 minute warning, then LIVE.', icon = '6' },
                         },
                     })

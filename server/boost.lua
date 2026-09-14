@@ -82,7 +82,7 @@ end
 local function announce(message, nType)
     if Config.Boost.announce == false then return end
     TriggerClientEvent('ox_lib:notify', -1, {
-        title = (Config.Brand or 'Rebel Roleplay') .. ' Boost Event',
+        title = (Config.Brand or 'The 305') .. ' Boost Event',
         description = message,
         type = nType or 'inform',
         duration = 8000,
@@ -99,12 +99,12 @@ local function discordPost(title, description, color)
         return
     end
     PerformHttpRequest(url, function() end, 'POST', json.encode({
-        username = cfg.discordUsername or 'Rebel Boost Desk',
+        username = cfg.discordUsername or '305 Boost Desk',
         embeds = {{
             title = title,
             description = description,
             color = color or 15105570,
-            footer = { text = Config.Brand or 'Rebel Roleplay' },
+            footer = { text = Config.Brand or 'The 305' },
         }},
     }), { ['Content-Type'] = 'application/json' })
 end
