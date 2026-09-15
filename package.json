@@ -1,7 +1,7 @@
 {
   "name": "workspace",
   "version": "1.0.0",
-    "description": "Rebel Roleplay outlaw drug economy for FiveM (QBX + ox_inventory). Branched from the Envy version.",
+    "description": "The 305 Miami street drug economy for FiveM (QBX + ox_inventory).",
   "main": "index.js",
   "directories": {
     "test": "tests"
