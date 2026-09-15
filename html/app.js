@@ -86,14 +86,14 @@ function renderLeaderboard(data) {
     const me = data.mine || {};
     const name = me.name || 'Player';
     $('#lb-player-name').textContent = name;
-    $('#lb-player-rank').textContent = me.label || 'Prospect';
+    $('#lb-player-rank').textContent = me.label || 'Beach Runner';
     $('#lb-avatar').textContent = initials(name);
     $('#lb-rank').textContent = me.place ? `#${me.place}` : '—';
     $('#lb-sold').textContent = (me.sold || 0).toLocaleString();
     $('#lb-earned').textContent = formatMoney(me.earned);
 
     if (me.maxed) {
-        $('#lb-progress-label').textContent = 'Max rank — Rebel Kingpin';
+        $('#lb-progress-label').textContent = 'Max rank — 305 Kingpin';
         $('#lb-progress-fill').style.width = '100%';
     } else if (me.nextSold != null && me.sold != null) {
         const prev = me.currentSold != null ? me.currentSold : 0;
@@ -107,7 +107,7 @@ function renderLeaderboard(data) {
     list.innerHTML = '';
 
     if (!data.top || data.top.length === 0) {
-        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first Rebel outlaw on the board.</div>';
+        list.innerHTML = '<div class="empty-state">No sales recorded yet — be the first 305 trapper on the board.</div>';
         return;
     }
 

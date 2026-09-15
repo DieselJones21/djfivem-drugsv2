@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Resize and compress photorealistic inventory stills in install/images/.
+"""Verify photoreal transparent inventory icons in install/images/.
 
-Icons are studio product photos (not generated outlines). This script only
-recompresses existing PNGs — it will not invent placeholder cards.
+Product stills are isolated studio photos with the backdrop knocked out.
+This script does not invent placeholder cards.
 """
 
 import os
@@ -11,47 +11,41 @@ import sys
 from PIL import Image
 
 OUT_DIR = os.path.join(os.path.dirname(__file__), 'images')
-SIZE = 512
 
 REQUIRED = [
-    'horn_nugs', 'road_nugs', 'zip_bags', 'bush_leaves', 'lab_solvent',
-    'lithium_rocks', 'camp_fuel', 'raw_tar', 'wrap_tape', 'club_crystals',
-    'press_capsules', 'stamp_dies', 'purple_syrup', 'crushed_ice', 'foam_cups',
-    'spark_soda', 'hard_candy', 'oil_sludge', 'spark_caps', 'desert_dust',
+    'beach_bud', 'canal_nugs', 'zip_bags', 'tropical_leaves', 'lab_solvent',
+    'tide_rocks', 'boat_fuel', 'port_tar', 'wrap_tape', 'drive_crystals',
+    'press_capsules', 'vice_stamps', 'purple_syrup', 'crushed_ice', 'foam_cups',
+    'spark_soda', 'hard_candy', 'rush_sludge', 'neon_caps', 'neon_dust',
     'baking_soda', 'cayo_palm_leaf', 'reef_coral', 'perico_resin', 'gold_capsules',
-    'longhorn_kush', 'dirt_road_haze', 'chrome_snow', 'sandlot_ice',
-    'outlaw_brick', 'honkytonk_rolls', 'swamp_lean', 'truck_juice',
-    'gravel_dust', 'cayo_crown', 'black_money',
-    'honda_pills', 'stab_juice', 'black_lotus', 'diesels_pack',
-    'civic_bolts', 'shift_powder', 'red_keycaps',
-    'rust_needles', 'iodine_swabs', 'alley_tonic',
-    'black_petals', 'temple_ash', 'ink_resin',
-    'diesel_nugs', 'grease_wrap', 'iron_filters',
-    'street_lace',
+    'south_beach_kush', 'calle_ocho_haze', 'vice_purple', 'heat_305',
+    'brickell_snow', 'biscayne_ice', 'port_brick', 'ocean_drive_rolls',
+    'neon_rush', 'perico_gold', 'black_money', 'street_lace',
 ]
-
-
-def compress(path):
-    img = Image.open(path).convert('RGB')
-    img = img.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
-    img.save(path, 'PNG', optimize=True)
 
 
 def main():
     missing = []
+    opaque = []
     for name in REQUIRED:
         path = os.path.join(OUT_DIR, f'{name}.png')
         if not os.path.exists(path):
             missing.append(name)
             continue
-        if '--check' in sys.argv:
+        img = Image.open(path)
+        if img.mode != 'RGBA':
+            opaque.append(name)
             continue
-        compress(path)
-        print(f'  {name}.png ({os.path.getsize(path) // 1024} kb)')
+        extrema = img.getextrema()
+        if extrema[3][0] >= 250:
+            opaque.append(name)
     if missing:
         print('Missing icons:', ', '.join(missing))
         sys.exit(1)
-    print(f'\n{len(REQUIRED)} inventory icons ready in {OUT_DIR}')
+    if opaque:
+        print('Icons without transparency:', ', '.join(opaque))
+        sys.exit(1)
+    print(f'{len(REQUIRED)} transparent inventory icons ready in {OUT_DIR}')
 
 
 if __name__ == '__main__':

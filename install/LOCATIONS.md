@@ -1,6 +1,6 @@
-# Rebel Roleplay — Locations and Recipes
+# The 305 — Locations and Recipes
 
-Nothing is blipped except **Street Intel**. Pay that ped for GPS marks. Weed plants spawn and despawn. Every other ingredient is one sidewalk ped (E). Cooks are benches (E).
+Civ weed, zip bags, and both weed benches are blipped. Pay **Street Intel** for every other GPS mark. Weed plants spawn and despawn. Every other ingredient is one sidewalk ped (E). Cooks are benches (E).
 
 Ranks hide drugs until you unlock them. `/drughelp` shows only what your rank can see.
 
@@ -8,190 +8,152 @@ Ranks hide drugs until you unlock them. `/drughelp` shows only what your rank ca
 
 | Rank | Units sold | Unlocks |
 |------|------------|---------|
-| 1 Prospect | 0 | Longhorn Kush, Dirt Road Haze, Swamp Lean |
-| 2 Outlaw | 250 | Gravel Dust, Chrome Snow, Sandlot Ice |
-| 3 Road Captain | 800 | Outlaw Brick, Honkytonk Rolls, Honda Pills |
-| 4 Shot Caller | 2,000 | Truck Juice, Stab Juice, Black Lotus |
-| 5 Rebel Kingpin | 4,500 | Cayo Crown |
+| 1 Beach Runner | 0 | South Beach Kush, Calle Ocho Haze, Vice Purple |
+| 2 Vice Hustler | 250 | 305 Heat, Brickell Snow, Biscayne Ice |
+| 3 Ocean Plug | 800 | Port Brick, Ocean Drive Rolls |
+| 4 Port Boss | 2,000 | Neon Rush |
+| 5 305 Kingpin | 4,500 | Perico Gold |
 
-Personal recipes (Honda Pills, Stab Juice, Black Lotus, Diesels Pack) are **not** on this ladder. Any rank can cook them.
+There are **no personal / player-owned recipes**.
 
-Street Lace is always available. It is not a finished drug.
+Vice Lace is always available. It is not a finished drug.
 
 ## Street Intel
 
 | What | Coords | Heading | Ped |
 |------|--------|---------|-----|
-| Informant | `455.18, -1530.55, 29.28` | 50.0 | `g_m_m_chiboss_01` |
+| Informant | `-1234.80, -1476.40, 4.32` | 215.0 | `g_m_m_chiboss_01` |
 
 - One mark: **$75,000 cash**
 - Full book (after you buy every mark once): **$75,000 x remaining marks**
 - **1 hour** cooldown between buys
-- Civ clean-money spots are already on the map and are **not** sold here: horn nugs, road nugs, zip bags, Longhorn bench, Dirt Road bench
+- Civ spots already on the map and **not** sold here: beach bud, canal nugs, zip bags, South Beach bench, Calle Ocho bench
 
 ## Benches
 
 | Kind | Prop | Used by |
 |------|------|---------|
-| Weed | `bkr_prop_weed_table_01a` | Longhorn Kush, Dirt Road Haze |
-| Hard | `bkr_prop_coke_table01a` | Chrome Snow, Sandlot Ice, Outlaw Brick, Honkytonk Rolls, Swamp Lean, Truck Juice, Gravel Dust, Cayo Crown |
-| Personal | `v_ret_ml_tableb` | Honda Pills, Stab Juice, Black Lotus, Diesels Pack |
+| Weed | `bkr_prop_weed_table_01a` | South Beach Kush, Calle Ocho Haze |
+| Hard | `bkr_prop_coke_table01a` | Vice Purple, 305 Heat, Brickell Snow, Biscayne Ice, Port Brick, Ocean Drive Rolls, Neon Rush, Perico Gold |
 
 ## Recipes and spots
 
-### Longhorn Kush — Prospect — cash $92–$161 (blipped)
-**3 horn nugs + 1 zip bag → 6**
+### South Beach Kush — Beach Runner — cash $92–$161 (blipped)
 
-| Step | Type | Coords |
+| What | Item / prop | Coords |
+|------|-------------|--------|
+| Field | beach_bud | `-1172.40, -1570.80, 4.35` |
+| Ped | zip_bags | `-1221.40, -1488.60, 4.35` |
+| Bench | weed table | `-1198.70, -1548.40, 4.33` |
+| Cook | 3 beach bud + 1 zip → **6** | |
+
+### Calle Ocho Haze — Beach Runner — cash $109–$184 (blipped)
+
+| What | Item / prop | Coords |
+|------|-------------|--------|
+| Field | canal_nugs | `-1075.20, -1255.40, 5.42` |
+| Ped | zip_bags | shared |
+| Bench | weed table | `-1062.40, -1443.20, 5.42` |
+| Cook | 4 canal nugs + 1 zip → 5 | |
+
+### Vice Purple — Beach Runner — dirty $138–$230
+
+| What | Item | Coords |
 |------|------|--------|
-| Horn Nugs | weed field | `2447.12, 4975.88, 46.81` Grapeseed |
-| Zip Bags | ped | `1703.44, 3596.21, 35.47` Sandy |
-| Bench | weed table | `1960.85, 5174.22, 47.94` |
-
-### Dirt Road Haze — Prospect — cash $109–$184 (blipped)
-**4 road nugs + 1 zip bag → 5**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Road Nugs | weed field | `-1888.40, 2045.10, 140.98` Chaparral |
-| Zip Bags | ped | same Sandy zip ped |
-| Bench | weed table | `-2194.40, 4290.10, 49.17` |
-
-### Swamp Lean — Prospect — dirty $138–$230
-**1 purple syrup + 1 crushed ice + 1 foam cup + 1 spark soda + 1 hard candy → 8**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Purple Syrup | ped | `243.40, -1785.20, 28.70` Davis |
-| Crushed Ice | ped | `29.80, -1340.10, 29.50` |
-| Foam Cups | ped | `1147.55, -776.82, 57.60` Mirror Park street |
-| Spark Soda | ped | `-2972.10, 390.40, 15.04` |
-| Hard Candy | ped | `-822.50, -1083.20, 11.13` |
+| Ped | purple_syrup | `243.40, -1785.20, 28.70` |
+| Ped | crushed_ice | `29.80, -1340.10, 29.50` |
+| Ped | foam_cups | `75.50, -1391.80, 29.38` |
+| Ped | spark_soda | `99.80, -1922.40, 20.80` |
+| Ped | hard_candy | `132.40, -1712.10, 29.29` |
 | Bench | coke table | `113.20, -1966.80, 21.33` |
+| Cook | 1 of each mixer → **8** | |
 
-### Gravel Dust — Outlaw — dirty $184–$299
-**4 desert dust + 1 baking soda → 5**
+### 305 Heat — Vice Hustler — dirty $184–$299
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Desert Dust | ped | `2354.10, 3125.40, 48.21` |
-| Baking Soda | ped | `1963.40, 3744.10, 32.34` Sandy |
-| Bench | coke table | `1980.40, 3049.70, 47.22` |
+| Ped | neon_dust | `-1082.40, -1650.20, 4.45` |
+| Ped | baking_soda | `-1185.20, -1510.40, 4.65` |
+| Bench | coke table | `-1087.60, -1674.80, 4.49` |
+| Cook | 4 neon dust + 1 soda → 5 | |
 
-### Chrome Snow — Outlaw — dirty $253–$426
-**2 bush leaves + 3 lab solvent + 1 zip bag → 6**
+### Brickell Snow — Vice Hustler — dirty $253–$426
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Bush Leaves | ped | `1142.55, -1486.22, 34.69` La Mesa |
-| Lab Solvent | ped | `2763.18, 1675.44, 24.53` |
-| Zip Bags | ped | Sandy zip ped |
-| Bench | coke table | `968.20, -1828.40, 31.24` |
+| Ped | tropical_leaves | `250.50, -800.20, 29.30` |
+| Ped | lab_solvent | `127.80, -1297.40, 29.27` |
+| Ped | zip_bags | shared |
+| Bench | coke table | `289.40, -1163.80, 29.29` |
+| Cook | 2 leaves + 3 solvent + 1 zip → **6** | |
 
-### Sandlot Ice — Outlaw — dirty $230–$380
-**4 lithium rocks + 1 camp fuel → 5**
+### Biscayne Ice — Vice Hustler — dirty $230–$380
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Lithium Rocks | ped | `2954.22, 2788.10, 41.50` quarry |
-| Camp Fuel | ped | `724.80, 4191.40, 40.71` Alamo |
-| Bench | coke table | `1391.55, 3606.80, 38.94` |
+| Ped | tide_rocks | `-1850.20, -1232.40, 13.02` |
+| Ped | boat_fuel | `-820.40, -1342.20, 5.15` |
+| Bench | coke table | `-806.40, -1349.60, 5.17` |
+| Cook | 4 tide rocks + 1 fuel → 5 | |
 
-### Outlaw Brick — Road Captain — dirty $280–$450
-**2 raw tar + 3 wrap tape + 1 zip bag → 6**
+### Port Brick — Ocean Plug — dirty $280–$450
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Raw Tar | ped | `38.22, -2678.55, 6.01` docks |
-| Wrap Tape | ped | `808.40, -2158.90, 29.62` |
-| Zip Bags | ped | Sandy zip ped |
+| Ped | port_tar | `38.22, -2678.55, 6.01` |
+| Ped | wrap_tape | `164.12, -3312.55, 5.96` |
+| Ped | zip_bags | shared |
 | Bench | coke table | `154.40, -3078.20, 5.98` |
+| Cook | 2 tar + 3 tape + 1 zip → **6** | |
 
-### Honkytonk Rolls — Road Captain — dirty $400–$680
-**3 club crystals + 1 press capsule + 2 stamp dies → 7**
+### Ocean Drive Rolls — Ocean Plug — dirty $400–$680
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Club Crystals | ped | `239.10, -34.80, 69.90` Alta |
-| Press Capsules | ped | `-1154.20, -2005.40, 13.18` |
-| Stamp Dies | ped | `1240.60, -3179.20, 7.13` port |
-| Bench | coke table | `372.80, -1267.40, 32.51` |
+| Ped | drive_crystals | `-1478.20, -674.40, 28.94` |
+| Ped | press_capsules | `-1393.55, -588.10, 30.32` |
+| Ped | vice_stamps | `-1289.55, -1115.80, 6.99` |
+| Bench | coke table | `-1535.20, -454.80, 35.89` |
+| Cook | 3 crystals + 1 cap + 2 stamps → **7** | |
 
-### Honda Pills — Personal (any rank) — dirty $350–$580
-**1 civic bolt + 3 shift powder + 2 red keycaps → 6**
+### Neon Rush — Port Boss — dirty $480–$780
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Civic Bolts | ped | `-1461.35, 183.97, 55.92` |
-| Shift Powder | ped | `-1177.85, 269.40, 68.50` |
-| Red Keycaps | ped | `-1527.15, 143.82, 55.65` |
-| Bench | personal table | `-1345.90, 55.78, 55.25` |
+| Ped | rush_sludge | `1200.40, -3100.80, 5.80` |
+| Ped | neon_caps | `1181.40, -3113.80, 6.03` |
+| Ped | boat_fuel | shared |
+| Bench | coke table | `1048.50, -3095.80, 5.90` |
+| Cook | 2 sludge + 3 caps + 1 fuel → **6** | |
 
-### Truck Juice — Shot Caller — dirty $480–$780
-**2 oil sludge + 3 spark caps + 1 camp fuel → 6**
+### Perico Gold — 305 Kingpin — dirty $1600–$2500
 
-| Step | Type | Coords |
+| What | Item | Coords |
 |------|------|--------|
-| Oil Sludge | ped | `2735.80, 1551.20, 24.50` |
-| Spark Caps | ped | `1692.18, 3585.55, 35.62` Sandy sidewalk |
-| Camp Fuel | ped | Alamo fuel ped |
-| Bench | coke table | `2748.10, 1454.60, 24.50` |
-
-### Stab Juice — Personal (any rank) — dirty $450–$720
-**3 rust needles + 1 iodine swab + 2 alley tonic → 6**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Rust Needles | ped | `1689.55, 4817.20, 42.01` Grapeseed sidewalk |
-| Iodine Swabs | ped | `3808.15, 4478.62, 4.15` Cape Catfish |
-| Alley Tonic | ped | `-3173.20, 1088.40, 20.84` Chumash plaza |
-| Bench | personal table | `3328.86, 5169.42, 18.31` |
-
-### Black Lotus — Personal (any rank) — dirty $500–$820
-**4 black petals + 1 temple ash + 1 ink resin → 6**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Black Petals | ped | `760.19, -2233.98, 20.73` heading 178.86 |
-| Temple Ash | ped | `1842.20, 3779.40, 33.16` Sandy street |
-| Ink Resin | ped | `-909.14, -191.47, 19.04` |
-| Bench | personal table | `1087.81, -212.98, 59.07` |
-
-### Diesels Pack — Personal (any rank) — dirty $850–$1400
-**2 diesel nugs + 3 grease wrap + 2 iron filters → 8**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Diesel Nugs | weed field | `2354.18, 1835.62, 102.10` wind farm |
-| Grease Wrap | ped | `454.23, -1151.39, 29.29` |
-| Iron Filters | ped | `267.45, 2885.92, 43.61` |
-| Bench | personal table | `2137.42, 4795.88, 41.14` |
-
-### Cayo Crown — Kingpin — dirty $1600–$2500
-**2 cayo palm + 3 reef coral + 1 perico resin + 2 gold capsules → 8**
-
-| Step | Type | Coords |
-|------|------|--------|
-| Cayo Palm | ped | `4890.20, -4921.40, 3.37` beach |
-| Reef Coral | ped | `5132.80, -5115.60, 2.20` beach |
-| Perico Resin | ped | `4968.40, -5108.20, 2.98` beach |
-| Gold Capsules | ped | `4991.10, -5716.40, 19.88` |
+| Ped | cayo_palm_leaf | `4890.20, -4921.40, 3.37` |
+| Ped | reef_coral | `5132.80, -5115.60, 2.20` |
+| Ped | perico_resin | `4968.40, -5108.20, 2.98` |
+| Ped | gold_capsules | `4991.10, -5716.40, 19.88` |
 | Bench | coke table | `4904.80, -5743.20, 26.35` |
+| Cook | 2 palm + 3 coral + 1 resin + 2 gold → **8** | |
 
-### Street Lace — any rank — +35% on `/trap` and bulk
-| Step | Type | Coords |
+### Vice Lace — any rank — +35% on a sale
+
+| What | Item | Coords |
 |------|------|--------|
-| Street Lace | ped | `-468.55, -1718.10, 18.69` La Puerta scrap |
+| Ped | street_lace | `-468.55, -1718.10, 18.69` |
 
-1 lace per unit sold.
+## Bulk drops (`/drugbulksell`)
 
-## Commands
-
-| Command | Who | What |
-|---------|-----|------|
-| `/drughelp` | players | In-game operator book |
-| `/trap` | players | Street sell (3rd eye the buyer) |
-| `/drugbulksell` | players | 100–200 unit warehouse drop |
-| `/drugbulkcancel` | players | Cancel the drop |
-| `/drugboard` | players | Rank + leaderboard |
-| `/drugboost` | admin ACE `djdrugsv2.boost` | Start/stop city boosts |
+| Id | Label | Coords |
+|----|-------|--------|
+| port_crates | Port of Miami crate yard | `164.12, -3312.55, 5.96` |
+| wynwood_yard | Wynwood loading bay | `837.21, -1936.40, 28.97` |
+| design_depot | Design District depot | `913.55, -1561.22, 30.74` |
+| brickell_garage | Brickell garage alley | `-139.80, -631.40, 32.42` |
+| little_havana_lot | Little Havana backlot | `-1078.40, -1652.20, 4.45` |
+| south_beach_marina | South Beach marina | `-802.50, -1351.80, 5.17` |
+| ocean_drive_alley | Ocean Drive garage alley | `-1393.55, -588.10, 30.32` |
+| terminal_stack | Port terminal stack | `1181.40, -3113.80, 6.03` |
+| lsia_cargo | Airport cargo fence | `-941.50, -2954.80, 13.95` |
+| downtown_backlot | Downtown backlot | `970.40, -126.55, 74.36` |

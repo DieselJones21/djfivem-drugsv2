@@ -1,14 +1,14 @@
 Config = {}
 
 --[[
-    djfivem-drugsv2 — Rebel Roleplay outlaw drug economy
+    djfivem-drugsv2 — The 305 Miami street economy
 
-    Branched from the Envy Roleplay Texas set. Keep Envy on main / Envy PRs.
+    Harvest → process → /trap. No player-owned personal drugs.
 ]]
 
 Config.Debug = false
 Config.Locale = 'en'
-Config.Brand = 'Rebel Roleplay'
+Config.Brand = 'The 305'
 
 Config.MoneyType = 'cash'
 Config.DirtyMoneyType = 'black_money'
@@ -80,7 +80,7 @@ Config.HarvestRespawn = {
 -- Universal cut. 1 lace per unit sold on /trap (and bulk) pays extra.
 Config.Lace = {
     item = 'street_lace',
-    label = 'Street Lace',
+    label = 'Vice Lace',
     pricePercent = 0.35,
     perUnit = 1,
     applyToBulk = true,
@@ -114,7 +114,7 @@ Config.Trap = {
     blip = {
         enabled = true,
         sprite = 514,
-        color = 3,
+        color = 8,
         scale = 0.7,
         label = 'Trap Mode',
     },
@@ -219,12 +219,12 @@ Config.Boost = {
     -- Paste a Discord webhook URL, or set convar djdrugsv2_boost_webhook
     discordWebhook = (GetConvar and GetConvar('djdrugsv2_boost_webhook', '') ~= '' and GetConvar('djdrugsv2_boost_webhook', ''))
         or 'https://discord.com/api/webhooks/1548557503992696832/DKk722nRUAH_lhTQHi-hAFChx0BwNWdcdRjxYLBDFXfjurTWY4bSMrxxHnPeF4TeTYlx',
-    discordUsername = 'Rebel Boost Desk',
+    discordUsername = '305 Boost Desk',
 }
 
 Config.Help = {
     command = 'drughelp',
-    description = 'How the Rebel drug system works',
+    description = 'How the 305 drug system works',
 }
 
 -- Hidden locations. Pay for one GPS mark at a time; after the tour you can
@@ -232,15 +232,15 @@ Config.Help = {
 Config.Informant = {
     enabled = true,
     label = 'Ask about a stash',
-    coords = vec3(455.18, -1530.55, 29.28),
-    heading = 50.0,
+    coords = vec3(-1234.80, -1476.40, 4.32),
+    heading = 215.0,
     model = `g_m_m_chiboss_01`,
     scenario = 'WORLD_HUMAN_SMOKING',
     moneyType = 'cash',
     singlePrice = 75000, -- each GPS mark
     allPrice = nil, -- charged as singlePrice x remaining marks
     cooldown = 60 * 60,
-    blip = { enabled = true, sprite = 280, color = 5, scale = 0.75, label = 'Street Intel' },
+    blip = { enabled = true, sprite = 280, color = 8, scale = 0.75, label = 'Street Intel' },
 }
 
 Config.Progression = {
@@ -249,11 +249,11 @@ Config.Progression = {
     description = 'Open drug sell leaderboard and your rank',
     leaderboardSize = 10,
     levels = {
-        { level = 1, sold = 0,    label = 'Prospect',       payoutMultiplier = 1.00 },
-        { level = 2, sold = 250,  label = 'Outlaw',         payoutMultiplier = 1.04 },
-        { level = 3, sold = 800,  label = 'Road Captain',   payoutMultiplier = 1.08 },
-        { level = 4, sold = 2000, label = 'Shot Caller',    payoutMultiplier = 1.12 },
-        { level = 5, sold = 4500, label = 'Rebel Kingpin',  payoutMultiplier = 1.18 },
+        { level = 1, sold = 0,    label = 'Beach Runner',   payoutMultiplier = 1.00 },
+        { level = 2, sold = 250,  label = 'Vice Hustler',   payoutMultiplier = 1.04 },
+        { level = 3, sold = 800,  label = 'Ocean Plug',     payoutMultiplier = 1.08 },
+        { level = 4, sold = 2000, label = 'Port Boss',      payoutMultiplier = 1.12 },
+        { level = 5, sold = 4500, label = '305 Kingpin',    payoutMultiplier = 1.18 },
     },
 }
 
@@ -295,16 +295,16 @@ Config.BulkSell = {
         label = 'Bulk Drop',
     },
     locations = {
-        { id = 'elysian_crates', label = 'Elysian crate yard', coords = vec3(164.12, -3312.55, 5.96) },
-        { id = 'la_mesa_yard', label = 'La Mesa loading bay', coords = vec3(837.21, -1936.40, 28.97) },
-        { id = 'cypress_depot', label = 'Cypress flats depot', coords = vec3(913.55, -1561.22, 30.74) },
-        { id = 'sandy_hangar', label = 'Sandy Shores hangar', coords = vec3(1731.88, 3310.52, 41.22) },
-        { id = 'paleto_shed', label = 'Paleto lumber shed', coords = vec3(-84.22, 6496.10, 31.49) },
-        { id = 'harmony_motel', label = 'Harmony motel lot', coords = vec3(1142.40, 2663.90, 38.16) },
-        { id = 'del_perro_alley', label = 'Del Perro garage alley', coords = vec3(-1393.55, -588.10, 30.32) },
+        { id = 'port_crates', label = 'Port of Miami crate yard', coords = vec3(164.12, -3312.55, 5.96) },
+        { id = 'wynwood_yard', label = 'Wynwood loading bay', coords = vec3(837.21, -1936.40, 28.97) },
+        { id = 'design_depot', label = 'Design District depot', coords = vec3(913.55, -1561.22, 30.74) },
+        { id = 'brickell_garage', label = 'Brickell garage alley', coords = vec3(-139.80, -631.40, 32.42) },
+        { id = 'little_havana_lot', label = 'Little Havana backlot', coords = vec3(-1078.40, -1652.20, 4.45) },
+        { id = 'south_beach_marina', label = 'South Beach marina', coords = vec3(-802.50, -1351.80, 5.17) },
+        { id = 'ocean_drive_alley', label = 'Ocean Drive garage alley', coords = vec3(-1393.55, -588.10, 30.32) },
         { id = 'terminal_stack', label = 'Port terminal stack', coords = vec3(1181.40, -3113.80, 6.03) },
-        { id = 'lsia_cargo', label = 'LSIA cargo fence', coords = vec3(-941.50, -2954.80, 13.95) },
-        { id = 'mirror_backlot', label = 'East LS backlot', coords = vec3(970.40, -126.55, 74.36) },
+        { id = 'lsia_cargo', label = 'Airport cargo fence', coords = vec3(-941.50, -2954.80, 13.95) },
+        { id = 'downtown_backlot', label = 'Downtown backlot', coords = vec3(970.40, -126.55, 74.36) },
     },
 }
 
@@ -356,63 +356,76 @@ end
 
 Config.Harvest = {
     --------------------------------------------------
-    -- WEED PLANTS — stay as spawn/despawn fields
+    -- WEED PLANTS — South Beach + Calle Ocho
     --------------------------------------------------
     field({
-        id = 'horn_nugs_field',
-        item = 'horn_nugs',
-        label = 'Harvest Horn Nugs',
+        id = 'beach_bud_field',
+        item = 'beach_bud',
+        label = 'Harvest Beach Bud',
         public = true,
-        coords = vec3(2447.12, 4975.88, 46.81),
-        radius = 12.0,
+        coords = vec3(-1172.40, -1570.80, 4.35),
+        radius = 10.0,
         pool = 20,
         model = `prop_weed_01`,
         duration = 6500,
-        blip = { enabled = true, sprite = 469, color = 2, scale = 0.75, label = 'Horn Nugs' },
+        blip = { enabled = true, sprite = 469, color = 8, scale = 0.75, label = 'Beach Bud' },
     }),
     field({
-        id = 'road_nugs_field',
-        item = 'road_nugs',
-        label = 'Harvest Road Nugs',
+        id = 'canal_nugs_field',
+        item = 'canal_nugs',
+        label = 'Harvest Canal Nugs',
         public = true,
-        coords = vec3(-1888.40, 2045.10, 140.98),
+        coords = vec3(-1075.20, -1255.40, 5.42),
         radius = 10.0,
         pool = 16,
         model = `prop_weed_01`,
         duration = 6500,
-        blip = { enabled = true, sprite = 469, color = 2, scale = 0.75, label = 'Road Nugs' },
-    }),
-    field({
-        id = 'diesel_nugs',
-        item = 'diesel_nugs',
-        label = 'Harvest Diesel Nugs',
-        coords = vec3(2354.18, 1835.62, 102.10),
-        radius = 9.0,
-        pool = 14,
-        model = `prop_weed_01`,
-        duration = 6500,
+        blip = { enabled = true, sprite = 469, color = 8, scale = 0.75, label = 'Canal Nugs' },
     }),
 
     --------------------------------------------------
-    -- SUPPLY PEDS — one sidewalk contact per ingredient
+    -- SOUTH BEACH / LITTLE HAVANA supplies
     --------------------------------------------------
     pedSpot({
         id = 'zip_bags_supply',
         item = 'zip_bags',
         label = 'Buy Zip Bags',
         public = true,
-        coords = vec3(1703.44, 3596.21, 35.47),
-        heading = 90.0,
-        model = `g_m_y_ballasout_01`,
+        coords = vec3(-1221.40, -1488.60, 4.35),
+        heading = 125.0,
+        model = `a_m_y_beach_01`,
         duration = 5000,
-        blip = { enabled = true, sprite = 478, color = 2, scale = 0.75, label = 'Zip Bags' },
+        blip = { enabled = true, sprite = 478, color = 8, scale = 0.75, label = 'Zip Bags' },
     }),
     pedSpot({
-        id = 'bush_leaves',
-        item = 'bush_leaves',
-        label = 'Buy Bush Leaves',
-        coords = vec3(1142.55, -1486.22, 34.69),
-        heading = 180.0,
+        id = 'neon_dust',
+        item = 'neon_dust',
+        label = 'Buy Neon Dust',
+        coords = vec3(-1082.40, -1650.20, 4.45),
+        heading = 305.0,
+        model = `g_m_y_mexgoon_01`,
+        duration = 6500,
+    }),
+    pedSpot({
+        id = 'baking_soda',
+        item = 'baking_soda',
+        label = 'Buy Baking Soda',
+        coords = vec3(-1185.20, -1510.40, 4.65),
+        heading = 210.0,
+        model = `s_m_m_strvend_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
+        duration = 5000,
+    }),
+
+    --------------------------------------------------
+    -- BRICKELL / DOWNTOWN
+    --------------------------------------------------
+    pedSpot({
+        id = 'tropical_leaves',
+        item = 'tropical_leaves',
+        label = 'Buy Tropical Leaves',
+        coords = vec3(250.50, -800.20, 29.30),
+        heading = 160.0,
         model = `a_m_m_farmer_01`,
         scenario = 'WORLD_HUMAN_SMOKING',
         duration = 6000,
@@ -421,36 +434,44 @@ Config.Harvest = {
         id = 'lab_solvent',
         item = 'lab_solvent',
         label = 'Buy Lab Solvent',
-        coords = vec3(2763.18, 1675.44, 24.53),
+        coords = vec3(127.80, -1297.40, 29.27),
         heading = 270.0,
         model = `s_m_m_chemsec_01`,
         scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6000,
     }),
+
+    --------------------------------------------------
+    -- BISCAYNE / DEL PERRO MARINA
+    --------------------------------------------------
     pedSpot({
-        id = 'lithium_rocks',
-        item = 'lithium_rocks',
-        label = 'Buy Lithium Rocks',
-        coords = vec3(2954.22, 2788.10, 41.50),
-        heading = 200.0,
-        model = `s_m_y_construct_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
+        id = 'tide_rocks',
+        item = 'tide_rocks',
+        label = 'Buy Tide Rocks',
+        coords = vec3(-1850.20, -1232.40, 13.02),
+        heading = 140.0,
+        model = `a_m_y_surfer_01`,
+        scenario = 'WORLD_HUMAN_STAND_IMPATIENT',
         duration = 7000,
     }),
     pedSpot({
-        id = 'camp_fuel',
-        item = 'camp_fuel',
-        label = 'Buy Camp Fuel',
-        coords = vec3(724.80, 4191.40, 40.71),
-        heading = 90.0,
-        model = `a_m_m_hillbilly_01`,
-        scenario = 'WORLD_HUMAN_LEANING',
+        id = 'boat_fuel',
+        item = 'boat_fuel',
+        label = 'Buy Boat Fuel',
+        coords = vec3(-820.40, -1342.20, 5.15),
+        heading = 50.0,
+        model = `s_m_y_construct_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6500,
     }),
+
+    --------------------------------------------------
+    -- PORT OF MIAMI
+    --------------------------------------------------
     pedSpot({
-        id = 'raw_tar',
-        item = 'raw_tar',
-        label = 'Buy Raw Tar',
+        id = 'port_tar',
+        item = 'port_tar',
+        label = 'Buy Port Tar',
         coords = vec3(38.22, -2678.55, 6.01),
         heading = 0.0,
         model = `g_m_y_lost_01`,
@@ -461,17 +482,41 @@ Config.Harvest = {
         id = 'wrap_tape',
         item = 'wrap_tape',
         label = 'Buy Wrap Tape',
-        coords = vec3(808.40, -2158.90, 29.62),
+        coords = vec3(164.12, -3312.55, 5.96),
         heading = 180.0,
         model = `s_m_m_autoshop_01`,
         scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 5000,
     }),
     pedSpot({
-        id = 'club_crystals',
-        item = 'club_crystals',
-        label = 'Buy Club Crystals',
-        coords = vec3(239.10, -34.80, 69.90),
+        id = 'rush_sludge',
+        item = 'rush_sludge',
+        label = 'Buy Rush Sludge',
+        coords = vec3(1200.40, -3100.80, 5.80),
+        heading = 90.0,
+        model = `s_m_y_construct_02`,
+        scenario = 'WORLD_HUMAN_SMOKING',
+        duration = 7000,
+    }),
+    pedSpot({
+        id = 'neon_caps',
+        item = 'neon_caps',
+        label = 'Buy Neon Caps',
+        coords = vec3(1181.40, -3113.80, 6.03),
+        heading = 270.0,
+        model = `s_m_y_construct_01`,
+        scenario = 'WORLD_HUMAN_CLIPBOARD',
+        duration = 6000,
+    }),
+
+    --------------------------------------------------
+    -- OCEAN DRIVE / DEL PERRO STRIP
+    --------------------------------------------------
+    pedSpot({
+        id = 'drive_crystals',
+        item = 'drive_crystals',
+        label = 'Buy Drive Crystals',
+        coords = vec3(-1478.20, -674.40, 28.94),
         heading = 50.0,
         model = `a_m_y_hipster_02`,
         duration = 7000,
@@ -480,22 +525,26 @@ Config.Harvest = {
         id = 'press_capsules',
         item = 'press_capsules',
         label = 'Buy Press Capsules',
-        coords = vec3(-1154.20, -2005.40, 13.18),
+        coords = vec3(-1393.55, -588.10, 30.32),
         heading = 310.0,
         model = `s_m_m_autoshop_02`,
         scenario = 'WORLD_HUMAN_CLIPBOARD',
         duration = 6000,
     }),
     pedSpot({
-        id = 'stamp_dies',
-        item = 'stamp_dies',
-        label = 'Buy Stamp Dies',
-        coords = vec3(1240.60, -3179.20, 7.13),
-        heading = 90.0,
-        model = `s_m_y_construct_02`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
+        id = 'vice_stamps',
+        item = 'vice_stamps',
+        label = 'Buy Vice Stamps',
+        coords = vec3(-1289.55, -1115.80, 6.99),
+        heading = 215.0,
+        model = `u_m_y_party_01`,
+        scenario = 'WORLD_HUMAN_STAND_IMPATIENT',
         duration = 5500,
     }),
+
+    --------------------------------------------------
+    -- VICE PURPLE — Davis / Little Haiti analogue
+    --------------------------------------------------
     pedSpot({
         id = 'purple_syrup_stash',
         item = 'purple_syrup',
@@ -519,7 +568,7 @@ Config.Harvest = {
         id = 'foam_cups',
         item = 'foam_cups',
         label = 'Buy Foam Cups',
-        coords = vec3(1147.55, -776.82, 57.60),
+        coords = vec3(75.50, -1391.80, 29.38),
         heading = 90.0,
         model = `s_m_y_shop_mask`,
         scenario = 'WORLD_HUMAN_STAND_IMPATIENT',
@@ -529,9 +578,9 @@ Config.Harvest = {
         id = 'spark_soda',
         item = 'spark_soda',
         label = 'Buy Spark Soda',
-        coords = vec3(-2972.10, 390.40, 15.04),
+        coords = vec3(99.80, -1922.40, 20.80),
         heading = 80.0,
-        model = `a_m_y_beach_01`,
+        model = `a_m_y_hipster_01`,
         scenario = 'WORLD_HUMAN_SMOKING',
         duration = 5500,
     }),
@@ -539,51 +588,24 @@ Config.Harvest = {
         id = 'hard_candy',
         item = 'hard_candy',
         label = 'Buy Hard Candy',
-        coords = vec3(-822.50, -1083.20, 11.13),
+        coords = vec3(132.40, -1712.10, 29.29),
         heading = 220.0,
         model = `a_m_y_hipster_01`,
         duration = 5500,
     }),
     pedSpot({
-        id = 'oil_sludge',
-        item = 'oil_sludge',
-        label = 'Buy Oil Sludge',
-        coords = vec3(2735.80, 1551.20, 24.50),
-        heading = 75.0,
-        model = `s_m_y_construct_02`,
-        scenario = 'WORLD_HUMAN_SMOKING',
-        duration = 7000,
-    }),
-    pedSpot({
-        id = 'spark_caps',
-        item = 'spark_caps',
-        label = 'Buy Spark Caps',
-        coords = vec3(1692.18, 3585.55, 35.62),
-        heading = 210.0,
-        model = `s_m_y_construct_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 6000,
-    }),
-    pedSpot({
-        id = 'desert_dust',
-        item = 'desert_dust',
-        label = 'Buy Desert Dust',
-        coords = vec3(2354.10, 3125.40, 48.21),
-        heading = 20.0,
-        model = `a_m_m_salton_02`,
-        scenario = 'WORLD_HUMAN_LEANING',
-        duration = 6500,
-    }),
-    pedSpot({
-        id = 'baking_soda',
-        item = 'baking_soda',
-        label = 'Buy Baking Soda',
-        coords = vec3(1963.40, 3744.10, 32.34),
-        heading = 300.0,
-        model = `s_m_m_ammucountry`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
+        id = 'street_lace',
+        item = 'street_lace',
+        label = 'Buy Vice Lace',
+        coords = vec3(-468.55, -1718.10, 18.69),
+        heading = 160.0,
+        model = `g_m_y_ballasout_01`,
         duration = 5000,
     }),
+
+    --------------------------------------------------
+    -- CAYO PERICO
+    --------------------------------------------------
     pedSpot({
         id = 'cayo_palm_leaf',
         item = 'cayo_palm_leaf',
@@ -622,123 +644,6 @@ Config.Harvest = {
         model = `u_m_y_party_01`,
         scenario = 'WORLD_HUMAN_STAND_IMPATIENT',
         duration = 6500,
-    }),
-    pedSpot({
-        id = 'civic_bolts',
-        item = 'civic_bolts',
-        label = 'Buy Civic Bolts',
-        coords = vec3(-1461.35, 183.97, 55.92),
-        heading = 255.12,
-        model = `s_m_m_autoshop_02`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 6000,
-    }),
-    pedSpot({
-        id = 'shift_powder',
-        item = 'shift_powder',
-        label = 'Buy Shift Powder',
-        coords = vec3(-1177.85, 269.40, 68.50),
-        heading = 190.0,
-        model = `s_m_y_xmech_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 5500,
-    }),
-    pedSpot({
-        id = 'red_keycaps',
-        item = 'red_keycaps',
-        label = 'Buy Red Keycaps',
-        coords = vec3(-1527.15, 143.82, 55.65),
-        heading = 85.0,
-        model = `a_m_y_ktown_01`,
-        duration = 5000,
-    }),
-    pedSpot({
-        id = 'rust_needles',
-        item = 'rust_needles',
-        label = 'Buy Rust Needles',
-        coords = vec3(1689.55, 4817.20, 42.01),
-        heading = 130.0,
-        model = `s_m_m_doctor_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 6500,
-    }),
-    pedSpot({
-        id = 'iodine_swabs',
-        item = 'iodine_swabs',
-        label = 'Buy Iodine Swabs',
-        coords = vec3(3808.15, 4478.62, 4.15),
-        heading = 90.0,
-        model = `s_m_m_paramedic_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 6000,
-    }),
-    pedSpot({
-        id = 'alley_tonic',
-        item = 'alley_tonic',
-        label = 'Buy Alley Tonic',
-        coords = vec3(-3173.20, 1088.40, 20.84),
-        heading = 245.0,
-        model = `g_m_y_mexgoon_02`,
-        duration = 5500,
-    }),
-    pedSpot({
-        id = 'black_petals',
-        item = 'black_petals',
-        label = 'Buy Black Petals',
-        coords = vec3(760.19, -2233.98, 20.73),
-        heading = 178.86,
-        model = `a_f_y_hippie_01`,
-        scenario = 'WORLD_HUMAN_SMOKING',
-        duration = 6500,
-    }),
-    pedSpot({
-        id = 'temple_ash',
-        item = 'temple_ash',
-        label = 'Buy Temple Ash',
-        coords = vec3(1842.20, 3779.40, 33.16),
-        heading = 30.0,
-        model = `a_m_m_eastsa_02`,
-        scenario = 'WORLD_HUMAN_SMOKING',
-        duration = 6000,
-    }),
-    pedSpot({
-        id = 'ink_resin',
-        item = 'ink_resin',
-        label = 'Buy Ink Resin',
-        coords = vec3(-909.14, -191.47, 19.04),
-        heading = 165.0,
-        model = `g_m_y_korean_01`,
-        scenario = 'WORLD_HUMAN_SMOKING',
-        duration = 7000,
-    }),
-    pedSpot({
-        id = 'grease_wrap',
-        item = 'grease_wrap',
-        label = 'Buy Grease Wrap',
-        coords = vec3(454.23, -1151.39, 29.29),
-        heading = 180.0,
-        model = `s_m_m_autoshop_01`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 5000,
-    }),
-    pedSpot({
-        id = 'iron_filters',
-        item = 'iron_filters',
-        label = 'Buy Iron Filters',
-        coords = vec3(267.45, 2885.92, 43.61),
-        heading = 270.0,
-        model = `s_m_y_construct_02`,
-        scenario = 'WORLD_HUMAN_CLIPBOARD',
-        duration = 6000,
-    }),
-    pedSpot({
-        id = 'street_lace',
-        item = 'street_lace',
-        label = 'Buy Street Lace',
-        coords = vec3(-468.55, -1718.10, 18.69),
-        heading = 160.0,
-        model = `g_m_y_ballasout_01`,
-        duration = 5000,
     }),
 }
 
